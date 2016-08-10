@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.core.AssetsLoader;
 import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.screens.chapter1.ChapterOneIntroduction;
 
 /**
  * Created by afr on 08.08.16.
@@ -81,6 +82,13 @@ public class MainMenuScreen extends GameScreen {
 
     private void addListeners() {
 
+        newGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                startNewGame();
+            }
+        });
+
         loadSaveButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -116,5 +124,9 @@ public class MainMenuScreen extends GameScreen {
             }
         });
 
+    }
+
+    private void startNewGame() {
+        addAction(gotoScreen(new ChapterOneIntroduction(this), 0.2f, 0.2f));
     }
 }

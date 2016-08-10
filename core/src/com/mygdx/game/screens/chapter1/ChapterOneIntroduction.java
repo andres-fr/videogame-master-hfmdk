@@ -1,24 +1,27 @@
-package com.mygdx.game.screens.main_menu;
+package com.mygdx.game.screens.chapter1;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.mygdx.game.MyGame;
 import com.mygdx.game.core.AssetsLoader;
 import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.screens.main_menu.MainMenuScreen;
 
 /**
- * Created by afr on 08.08.16.
+ * Created by afr on 10.08.16.
  */
 
-public class LoadSaveMenuScreen extends GameScreen {
+public class ChapterOneIntroduction extends GameScreen {
     private GameScreen previousScreen;
-    private Label titleLabel = new Label("LOAD/SAVE GAME", AssetsLoader.uiSkin);
-    private Label subTitleLabel = new Label("subtle subtitle", AssetsLoader.uiSkin);
+    private Label titleLabel = new Label("EPISODE IV", AssetsLoader.uiSkin);
+    private Label subTitleLabel = new Label("A NEW HOPE", AssetsLoader.uiSkin);
     private TextButton continueButton = new TextButton("Continue", AssetsLoader.uiSkin);
 
-    public LoadSaveMenuScreen(GameScreen s) {
+    public ChapterOneIntroduction(GameScreen s) {
         super(s.getGame());
         previousScreen = s;
         addWidgets();

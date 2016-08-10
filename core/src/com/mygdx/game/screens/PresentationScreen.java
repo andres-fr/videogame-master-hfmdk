@@ -1,4 +1,4 @@
-package com.mygdx.game.screens.main_menu;
+package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.screens.main_menu.MainMenuScreen;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.addAction;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
