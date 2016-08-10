@@ -16,7 +16,7 @@ import com.mygdx.game.core.GameScreen;
 public class LoadSaveMenuScreen extends GameScreen {
     private GameScreen previousScreen;
     private Label titleLabel = new Label("LOAD/SAVE GAME", AssetsLoader.uiSkin);
-    private Label subTitleLabel = new Label("subtitle ", AssetsLoader.uiSkin);
+    private Label subTitleLabel = new Label("subtle subtitle", AssetsLoader.uiSkin);
     private TextButton continueButton = new TextButton("Continue", AssetsLoader.uiSkin);
 
     public LoadSaveMenuScreen(GameScreen s) {
