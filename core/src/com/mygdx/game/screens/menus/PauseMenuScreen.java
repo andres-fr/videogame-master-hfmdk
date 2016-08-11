@@ -1,33 +1,33 @@
-package com.mygdx.game.screens.main_menu;
+package com.mygdx.game.screens.menus;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.mygdx.game.MyGame;
 import com.mygdx.game.core.AssetsLoader;
 import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.core.MenuScreen;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class OptionsMenuScreen extends GameScreen {
-    private GameScreen previousScreen;
-    private Label titleLabel = new Label("OPTIONS SCREEN", AssetsLoader.uiSkin);
-    private Label subTitleLabel = new Label("subtitle", AssetsLoader.uiSkin);
-    private TextButton continueButton = new TextButton("Continue", AssetsLoader.uiSkin);
+public class PauseMenuScreen extends MenuScreen {
 
-    public OptionsMenuScreen(GameScreen s) {
-        super(s.getGame());
-        previousScreen = s;
+    private Label titleLabel = new Label("PAUSE SCREEN", AssetsLoader.uiSkin);
+    private Label subTitleLabel = new Label("subtitle ", AssetsLoader.uiSkin);
+    private TextButton exitButton = new TextButton("Exit", AssetsLoader.uiSkin);
+
+    public PauseMenuScreen(GameScreen s) {
+        super(s);
         addWidgets();
         addListeners();
     }
 
 
-    private void addWidgets() {
+    protected void addWidgets() {
 
         // subtable creation and hierarchy
         Table clusterTable = new Table();
@@ -52,15 +52,16 @@ public class OptionsMenuScreen extends GameScreen {
         titleTable.add(subTitleLabel).padBottom(150);
         // main buttons contents
         mainButtons.defaults().prefWidth(160).prefHeight(60);
-        mainButtons.add(continueButton).row();
+        mainButtons.add(exitButton).row();
     }
 
-    private void addListeners() {
-        continueButton.addListener(new ChangeListener() {
+    protected void addListeners() {
+        exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                addAction(gotoScreen(previousScreen, 0.2f, 0.2f));
+                Gdx.app.exit();
             }
         });
     }
+
 }

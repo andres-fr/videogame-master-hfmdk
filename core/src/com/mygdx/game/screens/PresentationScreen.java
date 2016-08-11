@@ -1,28 +1,20 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.core.GameScreen;
-import com.mygdx.game.screens.main_menu.MainMenuScreen;
+import com.mygdx.game.screens.menus.MainMenuScreen;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.addAction;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.removeActor;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.show;
 import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 /**
@@ -38,8 +30,8 @@ public class PresentationScreen extends GameScreen {
     Image[] logos = {new Image(new Texture(Gdx.files.internal("logos/obama.png"))),
             new Image(new Texture(Gdx.files.internal("logos/korea.jpg"))),
             new Image(new Texture(Gdx.files.internal("logos/stallman.jpeg")))};
-    GameScreen nextScreen; // typically the MainMenu
-    private int PREFERRED_WIDTH = 500; // height preserves aspect ratio
+    Sound drum = Gdx.audio.newSound(Gdx.files.internal("sounds/deep-drum.mp3"));
+    private int PREFERRED_WIDTH = (int)(MyGame.WIDTH*0.3); // height preserves aspect ratio
     private long timeStamp; // needed to keep track of when the current logo started
     private float MIN_TIME = 1f; // a logo can't be skipped until MIN_TIME in seconds passes
     private int currentLogo = 0; // iterates over the logos array
@@ -49,10 +41,8 @@ public class PresentationScreen extends GameScreen {
     public PresentationScreen(MyGame g) {
         super(g, Color.BLACK);
         //defaults().prefSize(PREFERRED_WIDTH, PREFERRED_HEIGHT);
-        nextScreen = new MainMenuScreen(g);
         timeStamp = nanoTime();
         addAction(createLogoSequence());
-
     }
 
     @Override
@@ -61,6 +51,7 @@ public class PresentationScreen extends GameScreen {
         // check if the user wants to skip the logo animation
         if ((Gdx.input.isTouched()) && (nanoTime() - timeStamp >= MIN_TIME * 1e9) && currentLogo>0) {
             clearActions();
+            drum.play();
             addAction(createLogoSequence());// the sequence will be shorter
         }
     }
@@ -96,7 +87,24 @@ public class PresentationScreen extends GameScreen {
         for (int i = currentLogo; i<totalLogos; i++) { // add logo animations
             mainSequence.addAction(showLogoAnimated(logos[i]));
         }
-        mainSequence.addAction(gotoScreen(nextScreen, 0, 0.5f)); // go to main menu once finished
+        mainSequence.addAction(gotoScreen(new MainMenuScreen(this), 0, 0.5f)); // go to main menu once finished
         return mainSequence;
     }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        batch.setColor(new Color(1, 0, 0, 0.5f));
+        super.draw(batch, parentAlpha);
+    }
+
+    @Override
+    public void gotoPauseScreen() {
+        return;
+    }
+
+    @Override
+    public void dispose() {
+        drum.dispose();
+    }
+
 }

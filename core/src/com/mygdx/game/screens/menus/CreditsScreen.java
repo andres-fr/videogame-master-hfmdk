@@ -1,4 +1,4 @@
-package com.mygdx.game.screens.main_menu;
+package com.mygdx.game.screens.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -7,26 +7,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.core.AssetsLoader;
 import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.core.MenuScreen;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class CreditsScreen extends GameScreen {
-    private GameScreen previousScreen;
+public class CreditsScreen extends MenuScreen {
     private Label titleLabel = new Label("CREDITS SCREEN", AssetsLoader.uiSkin);
     private Label subTitleLabel = new Label("subtitle ", AssetsLoader.uiSkin);
     private TextButton continueButton = new TextButton("Continue", AssetsLoader.uiSkin);
 
     public CreditsScreen(GameScreen s) {
-        super(s.getGame());
-        previousScreen = s;
+        super(s);
         addWidgets();
         addListeners();
     }
 
 
-    private void addWidgets() {
+    protected void addWidgets() {
 
         // subtable creation and hierarchy
         Table clusterTable = new Table();
@@ -54,11 +53,11 @@ public class CreditsScreen extends GameScreen {
         mainButtons.add(continueButton).row();
     }
 
-    private void addListeners() {
+    protected void addListeners() {
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                addAction(gotoScreen(previousScreen, 0.2f, 0.2f));
+                gotoBackScreen();
             }
         });
     }

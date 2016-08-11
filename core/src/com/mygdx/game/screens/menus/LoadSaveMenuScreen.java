@@ -1,33 +1,31 @@
-package com.mygdx.game.screens.main_menu;
+package com.mygdx.game.screens.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.mygdx.game.MyGame;
 import com.mygdx.game.core.AssetsLoader;
 import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.core.MenuScreen;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class GameplayMenuScreen extends GameScreen {
-    private GameScreen previousScreen;
-    private Label titleLabel = new Label("GAMEPLAY SCREEN", AssetsLoader.uiSkin);
-    private Label subTitleLabel = new Label("subtitle ", AssetsLoader.uiSkin);
+public class LoadSaveMenuScreen extends MenuScreen {
+    private Label titleLabel = new Label("LOAD/SAVE GAME", AssetsLoader.uiSkin);
+    private Label subTitleLabel = new Label("subtle subtitle", AssetsLoader.uiSkin);
     private TextButton continueButton = new TextButton("Continue", AssetsLoader.uiSkin);
 
-    public GameplayMenuScreen(GameScreen s) {
-        super(s.getGame());
-        previousScreen = s;
+    public LoadSaveMenuScreen(GameScreen s) {
+        super(s);
         addWidgets();
         addListeners();
     }
 
 
-    private void addWidgets() {
+    protected void addWidgets() {
 
         // subtable creation and hierarchy
         Table clusterTable = new Table();
@@ -55,11 +53,11 @@ public class GameplayMenuScreen extends GameScreen {
         mainButtons.add(continueButton).row();
     }
 
-    private void addListeners() {
+    protected void addListeners() {
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                addAction(gotoScreen(previousScreen, 0.2f, 0.2f));
+                gotoBackScreen();
             }
         });
     }

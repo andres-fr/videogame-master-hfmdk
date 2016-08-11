@@ -1,6 +1,7 @@
-package com.mygdx.game.screens.main_menu;
+package com.mygdx.game.screens.menus;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -9,16 +10,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.core.AssetsLoader;
 import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.core.MenuScreen;
 import com.mygdx.game.screens.chapter1.ChapterOneIntroduction;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class MainMenuScreen extends GameScreen {
+public class MainMenuScreen extends MenuScreen {
     // size config
-    public static int PREF_MENU_WIDTH = 1100;
-    public static int PREF_MENU_HEIGHT = 600;
+    public static int PREF_MENU_WIDTH = (int)(MyGame.WIDTH*0.9);
+    public static int PREF_MENU_HEIGHT = (int)(MyGame.HEIGHT*0.9);
 
     // related menu screens
     private GameScreen optionsScreen = new OptionsMenuScreen(this);
@@ -37,14 +39,19 @@ public class MainMenuScreen extends GameScreen {
     private TextButton gameplayButton = new TextButton("Gameplay", AssetsLoader.uiSkin);
     private TextButton creditsButton = new TextButton("Credits", AssetsLoader.uiSkin);
 
-    public MainMenuScreen(MyGame g) {
-        super(g);
+    public MainMenuScreen(GameScreen s) {
+        super(s);
         addWidgets();
         addListeners();
     }
 
 
-    private void addWidgets() {
+    @Override
+    public void gotoBackScreen() {
+        return;
+    }
+
+    protected void addWidgets() {
 
         // subtable creation and hierarchy
         Table clusterTable = new Table();
@@ -60,8 +67,8 @@ public class MainMenuScreen extends GameScreen {
         add(clusterTable);
         clusterTable.add(titleTable).expandX().row();
         clusterTable.add(buttonsTable).expand();
-        buttonsTable.add(mainButtons).padRight(150);
-        buttonsTable.add(helpButtons).bottom().padLeft(150);
+        buttonsTable.add(mainButtons).padRight((int)(buttonsTable.getWidth()*0.1));
+        buttonsTable.add(helpButtons).bottom().padLeft((int)(buttonsTable.getWidth()*0.1));
 
         // title contents
         titleTable.defaults().center();
@@ -80,8 +87,7 @@ public class MainMenuScreen extends GameScreen {
         helpButtons.add(creditsButton);
     }
 
-    private void addListeners() {
-
+    protected void addListeners() {
         newGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -123,7 +129,6 @@ public class MainMenuScreen extends GameScreen {
                 addAction(gotoScreen(creditsScreen, 0.2f, 0.2f));
             }
         });
-
     }
 
     private void startNewGame() {
