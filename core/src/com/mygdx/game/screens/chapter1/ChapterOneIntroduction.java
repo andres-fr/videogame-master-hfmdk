@@ -49,11 +49,15 @@ public class ChapterOneIntroduction extends GameScreen {
             tests.add(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("backgrounds/"+str)))));
         }
         setBackground(tests.get(idx));
-        Label label = new Label("PRESS ESC TO EXIT", AssetsLoader.uiSkin);
-        label.setColor(Color.BLACK);
-        label.setFontScale(2);
-        add(label).expand().bottom();
 
+        TextButton b = new TextButton("EXIT", AssetsLoader.uiSkin);
+        add(b).expand().bottom();
+        b.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
     }
 
     @Override
@@ -68,6 +72,7 @@ public class ChapterOneIntroduction extends GameScreen {
 
     @Override
     public void show() {
+        super.show();
         timer = nanoTime();
         clearActions();
         addAction(color(Color.WHITE, 0));
