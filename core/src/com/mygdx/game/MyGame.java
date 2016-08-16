@@ -1,3 +1,5 @@
+// hola que tal
+
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
@@ -15,7 +17,7 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 public class MyGame extends Game {
 	public final static int WIDTH = 1280;
 	public final static int HEIGHT = 720;
-	public final static boolean DEBUG = false;
+	public final static boolean DEBUG = true;
     public final static boolean FULLSCREEN = !DEBUG;
 	public final static String VERSION = "0.0";
     public PauseMenuScreen pauseMenu;// set by the main menu
@@ -29,8 +31,8 @@ public class MyGame extends Game {
         pauseMenu = new PauseMenuScreen(presentationScreen);
         lastNanoTime = nanoTime();
 
-        setScreen(presentationScreen);
-		//setScreen(new MainMenuScreen(presentationScreen));
+        //setScreen(presentationScreen);
+		setScreen(new MainMenuScreen(presentationScreen));
 	}
 
     public void setLastNanoTime(long lastNanoTime) {

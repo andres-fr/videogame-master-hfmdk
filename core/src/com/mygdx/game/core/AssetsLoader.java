@@ -1,6 +1,7 @@
 package com.mygdx.game.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
@@ -9,11 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class AssetsLoader {
     public static Skin uiSkin;
+    public static TextureAtlas policeman;
 
     public static void load() {
 
         uiSkin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
-
+        policeman = new TextureAtlas(Gdx.files.internal("atlases/policeman.atlas"));
 
         //atlas = new TextureAtlas(Gdx.files.internal("skins/uiskin.atlas"));
         //skin = new Skin();

@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
+import com.mygdx.game.actors.Policeman;
 import com.mygdx.game.core.AssetsLoader;
 import com.mygdx.game.core.GameScreen;
 import com.mygdx.game.core.TintedImage;
@@ -50,6 +51,12 @@ public class ChapterOneIntroduction extends GameScreen {
         }
         setBackground(tests.get(idx));
 
+        Policeman p = new Policeman();
+        p.setScale(1f, 1f);
+        add(p);
+        p.setX(0);
+
+        /*
         TextButton b = new TextButton("EXIT", AssetsLoader.uiSkin);
         add(b).expand().bottom();
         b.addListener(new ChangeListener() {
@@ -58,6 +65,7 @@ public class ChapterOneIntroduction extends GameScreen {
                 Gdx.app.exit();
             }
         });
+        */
     }
 
     @Override
