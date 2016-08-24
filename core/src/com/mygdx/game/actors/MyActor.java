@@ -1,15 +1,20 @@
 package com.mygdx.game.actors;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 /**
@@ -31,16 +36,25 @@ public class MyActor extends Actor {
 
         this.addListener(new InputListener(){
             float downX, downY;
+            Vector2 stageDown, stageDragged;
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 downX = x;
                 downY = y;
+                stageDown = localToStageCoordinates(new Vector2(x, y));
                 return true;
             }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                Vector2 globalUp = localToStageCoordinates(new Vector2(x, y));
+                getStage().getCamera().translate(stageDragged.x-stageDown.x, 0, 0);
+            }
+
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                Vector2 v = localToStageCoordinates(new Vector2(x, y));
-                setPosition(v.x-downX, v.y-downY);
+                stageDragged = localToStageCoordinates(new Vector2(x, y));
+                setPosition(stageDragged.x-downX, stageDragged.y-downY);
             }
         });
 
@@ -88,5 +102,4 @@ public class MyActor extends Actor {
         super.act(delta);
         setBounds(getX(), getY(), getWidth(), getHeight());
     }
-
 }

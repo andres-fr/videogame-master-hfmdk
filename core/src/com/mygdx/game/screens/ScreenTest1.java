@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.actors.MyActor;
+import com.mygdx.game.actors.Policeman;
 import com.mygdx.game.core.GameScreen;
 
 import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
@@ -67,6 +68,12 @@ public class ScreenTest1 extends GameScreen {
         b.setColor(1, 1, 1, 1);
         b.setPosition(200, 200);
         actors.add(b);
+        // add and configure policeman
+        Policeman p = new Policeman(true);
+        p.setName("policeman1");
+        stage.addActor(p);
+        p.setColor(1, 1, 1, 1);
+        p.setPosition(500, 0);
     }
 
     @Override

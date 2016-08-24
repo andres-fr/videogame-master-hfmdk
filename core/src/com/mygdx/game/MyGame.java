@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.screens.ScreenTest1;
+import com.mygdx.game.screens.ScreenTest2;
 
 public class MyGame extends Game {
+    // http://stackoverflow.com/questions/27560783/libgdx-translating-a-scene2d-camera
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
     public final static boolean DEBUG = false;
@@ -19,6 +21,6 @@ public class MyGame extends Game {
 	@Override
 	public void create () {
         if (FULLSCREEN) Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-        setScreen(new ScreenTest1(this));
+        setScreen(new ScreenTest2(this));
 	}
 }
