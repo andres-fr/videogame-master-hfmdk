@@ -41,6 +41,7 @@ public class ScreenTest3 extends GameScreen {
 
         // add and configure Player
         stage.addActor(game.player);
+        game.player.getName();
 
     }
 
