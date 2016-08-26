@@ -34,7 +34,7 @@ public class ScreenTest1 extends GameScreen {
 
     public ScreenTest1(MyGame g) {
 
-        super(g);
+        super(g, "street_bg", "street_shadows", "street_lights");
         /*
         initTime = nanoTime();
 

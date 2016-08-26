@@ -23,16 +23,9 @@ import com.mygdx.game.core.GameScreen;
 public class ScreenTest3 extends GameScreen {
 
     public ScreenTest3(MyGame g) {
-        super(g);
-        g.assetsManager.prepareScreenTest2();
+        super(g, "street_bg", "street_shadows", "street_lights");
 
-        // add and configure backgrounds
-        background.setBackground(g.assetsManager.getRegionDrawable("street_bg"));
-        lights.setBackground(g.assetsManager.getRegionDrawable("street_lights"));
-        shadows.setBackground(g.assetsManager.getRegionDrawable("street_shadows"));
-        background.setBounds(0, 0, g.assetsManager.getRegion("street_bg").getRegionWidth(), g.assetsManager.getRegion("street_bg").getRegionHeight());
-        lights.setBounds(0, 0, g.assetsManager.getRegion("street_lights").getRegionWidth(), g.assetsManager.getRegion("street_lights").getRegionHeight());
-        shadows.setBounds(0, 0, g.assetsManager.getRegion("street_shadows").getRegionWidth(), g.assetsManager.getRegion("street_shadows").getRegionHeight());
+
 
         float cycleTime = 6f;
         background.addAction(Actions.forever(Actions.sequence(Actions.color(Color.WHITE, cycleTime), Actions.color(Color.NAVY, cycleTime))));
@@ -41,8 +34,6 @@ public class ScreenTest3 extends GameScreen {
 
         // add and configure Player
         stage.addActor(game.player);
-        game.player.getName();
-
     }
 
     @Override

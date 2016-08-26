@@ -29,15 +29,25 @@ public class GameScreen implements Screen {
     protected Table shadows  = new Table();
     protected Table lights  = new Table();
 
-    public GameScreen(MyGame g) {
+    public GameScreen(MyGame g, String bgrnd, String shdw, String lght) {
         game = g;
         stage = new GameStage(g, new FitViewport(MyGame.WIDTH, MyGame.HEIGHT));
         timeStamp = nanoTime();
         ((OrthographicCamera)stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
         stage.setDebugAll(MyGame.DEBUG);
+
+
+        // configure and add the bg layers
+        float fitRatio = ((float)g.HEIGHT)/((float)g.assetsManager.getRegion(bgrnd).getRegionHeight());
         stage.addActor(background);
+        background.setBackground(g.assetsManager.getRegionDrawable(bgrnd));
+        background.setBounds(0, 0, g.assetsManager.getRegion(bgrnd).getRegionWidth()*fitRatio, g.assetsManager.getRegion(bgrnd).getRegionHeight()*fitRatio);
         stage.addActor(shadows);
+        shadows.setBackground(g.assetsManager.getRegionDrawable(shdw));
+        shadows.setBounds(0, 0, g.assetsManager.getRegion(lght).getRegionWidth()*fitRatio, g.assetsManager.getRegion(lght).getRegionHeight()*fitRatio);
         stage.addActor(lights);
+        lights.setBackground(g.assetsManager.getRegionDrawable(lght));
+        lights.setBounds(0, 0, g.assetsManager.getRegion(shdw).getRegionWidth()*fitRatio, g.assetsManager.getRegion(shdw).getRegionHeight()*fitRatio);
     }
 
 

@@ -64,7 +64,7 @@ public class AssetsManager {
         return currentAtlasName;
     }
 
-    public void prepareScreenTest2() {
+    public void prepareScreenTest3() {
         loadAtlas("scene1", "scene1-packed/pack.atlas");
         setCurrentAtlas("scene1");
     }
