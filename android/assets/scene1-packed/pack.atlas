@@ -1,0 +1,83 @@
+
+pack.png
+size: 8192,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+street_bg
+  rotate: false
+  xy: 2, 3022
+  size: 6701, 1050
+  orig: 6701, 1050
+  offset: 0, 0
+  index: -1
+street_lights
+  rotate: false
+  xy: 2, 1970
+  size: 6701, 1050
+  orig: 6701, 1050
+  offset: 0, 0
+  index: -1
+street_shadows
+  rotate: false
+  xy: 2, 918
+  size: 6701, 1050
+  orig: 6701, 1050
+  offset: 0, 0
+  index: -1
+walk.left
+  rotate: false
+  xy: 6705, 3616
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 1
+walk.left
+  rotate: false
+  xy: 2, 460
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 2
+walk.left
+  rotate: false
+  xy: 6705, 3158
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 3
+walk.left
+  rotate: false
+  xy: 6906, 3616
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 4
+walk.left
+  rotate: false
+  xy: 2, 2
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 5
+walk.left
+  rotate: false
+  xy: 203, 460
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 6
+walk.left
+  rotate: false
+  xy: 6705, 2700
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 7
+walk.left
+  rotate: false
+  xy: 6906, 3158
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 8
