@@ -16,7 +16,7 @@ public class MyGame extends Game {
     // http://stackoverflow.com/questions/27560783/libgdx-translating-a-scene2d-camera
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = false;
+    public final static boolean DEBUG = true;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
     // game related instances
@@ -30,7 +30,6 @@ public class MyGame extends Game {
 
         assetsManager.prepareScreenTest3();
         player = new Player(true, 0, this);
-        player.setPosition((WIDTH-player.getWidth())/2, 100);
         setScreen(new ScreenTest3(this));
 	}
 }

@@ -5,7 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MyGame;
@@ -25,16 +30,20 @@ public class GameScreen implements Screen {
     protected MyGame game;
     protected GameStage stage;
     protected long timeStamp;
+    protected float downScale, upScale;
     protected Table background = new Table();
     protected Table shadows  = new Table();
     protected Table lights  = new Table();
 
-    public GameScreen(MyGame g, String bgrnd, String shdw, String lght) {
+    public GameScreen(MyGame g, String bgrnd, String shdw, String lght, float downScale, float upScale) {
         game = g;
         stage = new GameStage(g, new FitViewport(MyGame.WIDTH, MyGame.HEIGHT));
         timeStamp = nanoTime();
         ((OrthographicCamera)stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
         stage.setDebugAll(MyGame.DEBUG);
+        // references for the dynamical scaling for 3d actors
+        this.downScale = downScale;
+        this.upScale = upScale;
 
 
         // configure and add the bg layers
@@ -48,6 +57,15 @@ public class GameScreen implements Screen {
         stage.addActor(lights);
         lights.setBackground(g.assetsManager.getRegionDrawable(lght));
         lights.setBounds(0, 0, g.assetsManager.getRegion(shdw).getRegionWidth()*fitRatio, g.assetsManager.getRegion(shdw).getRegionHeight()*fitRatio);
+        // detect touchDowns on background:
+        background.setTouchable(Touchable.enabled);
+        background.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                backgroundTouchedDown(x, y);
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
     }
 
 
@@ -63,7 +81,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        stage.getViewport().update(width, height, false);
     }
 
     @Override
@@ -84,6 +102,16 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+
+    // override this in the scenes
+    public void backgroundTouchedDown(float x, float y) {
+    }
+
+    public float getScaleFromStageY(float yPos) {
+        float yRel = (yPos/background.getHeight())*(upScale-downScale)+downScale;
+        return yRel;
     }
 
     /**

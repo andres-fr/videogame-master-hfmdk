@@ -1,0 +1,1 @@
+-> los sprites mejor que esten ajustados, SIN MARGEN. ya se maneja automaticamente
