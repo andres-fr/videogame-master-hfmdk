@@ -32,7 +32,7 @@ public class ScreenTest2 extends GameScreen {
 
 
     public ScreenTest2(MyGame g) {
-        super(g, "street_bg", "street_shadows", "street_lights", 1, 1);
+        super(g, "street_bg", "street_shadows", "street_lights", 1, 1, 0, 1234);
         g.assetsManager.prepareScreenTest3();
 
 

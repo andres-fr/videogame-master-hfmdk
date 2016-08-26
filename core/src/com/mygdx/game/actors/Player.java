@@ -52,7 +52,6 @@ public class Player extends com.mygdx.game.core.MyActor {
     }
 
     private void startWalk() {
-        changeCell(0);
         walking = true;
     }
 

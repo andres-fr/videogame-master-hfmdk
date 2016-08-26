@@ -25,7 +25,7 @@ import com.mygdx.game.core.GameScreen;
 public class ScreenTest3 extends GameScreen {
 
     public ScreenTest3(MyGame g) {
-        super(g, "street_bg", "street_shadows", "street_lights", 0.6f, 0.2f);
+        super(g, "street_bg", "street_shadows", "street_lights", 0.6f, 0.2f, 100, 900);
 
 
 
