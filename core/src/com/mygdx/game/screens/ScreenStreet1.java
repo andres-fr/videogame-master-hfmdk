@@ -1,14 +1,10 @@
 package com.mygdx.game.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.core.GameScreen;
-import com.mygdx.game.core.WalkZone;
 
 
 /**
@@ -18,7 +14,10 @@ import com.mygdx.game.core.WalkZone;
 public class ScreenStreet1 extends GameScreen {
 
     public ScreenStreet1(MyGame g) {
-        super(g, "street_bg", "street_shadows", "street_lights");
+        super(g);
+        cleanScreen();
+        setBackgroundSuite("street_bg", "street_shadows", "street_lights");
+        addBackgroundListener();
         setActorScale(0.7f, 0.2f);
         setTravellingMargin(0.33f);
         float cycleTime = 6f;
@@ -30,7 +29,7 @@ public class ScreenStreet1 extends GameScreen {
                 1186,335,1139,369,1146,453,1028,465,966,443,903,443,825,464,788,495,736,491,757,337,306,238,72,249,3,270,0,1035});
 
         // add and configure Player initial pos
-        stage.addActor(g.player);
+        game.stage.addActor(g.player);
         g.player.setScale(0.5f);
         Vector2 v2 = g.player.destinyCentered(g.WIDTH/2, g.HEIGHT/2);
         g.player.setPosition(v2.x, v2.y);

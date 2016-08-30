@@ -39,7 +39,7 @@ public class PresentationScreen extends GameScreen {
 
 
     public PresentationScreen(MyGame g) {
-        super(g, "", "", "");
+        super(g);
         //defaults().prefSize(PREFERRED_WIDTH, PREFERRED_HEIGHT);
         timeStamp = nanoTime();
         //addAction(createLogoSequence());

@@ -2,11 +2,12 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameScreen;
-import com.mygdx.game.screens.ScreenStreet1;
-import com.mygdx.game.screens.menus.PresentationScreen;
 
 public class MyGame extends Game {
     // http://stackoverflow.com/questions/27560783/libgdx-translating-a-scene2d-camera
@@ -17,6 +18,8 @@ public class MyGame extends Game {
     public final static String VERSION = "0.0";
     // game related instances
     public AssetsManager assetsManager = new AssetsManager();
+    public Stage stage;
+    public GameScreen mainScreen;
     public Player player;
 
 	@Override
@@ -24,16 +27,21 @@ public class MyGame extends Game {
         if (FULLSCREEN) Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 
         assetsManager.prepareScene1();
-        player = new Player(true, 0, this);
-        //setScreen(new ScreenStreet1(this));
+        stage = new Stage(new FitViewport(MyGame.WIDTH, MyGame.HEIGHT), new PolygonSpriteBatch());
+        player = new Player(this, true, 0);
+        mainScreen = new GameScreen(this);
 
-        GameScreen gs = new GameScreen(this, "testImg", "testImg", "testImg");
-        setScreen(gs);
+        // configure screen for test
+        mainScreen.cleanScreen();
+        mainScreen.setBackgroundSuite("testImg", "testImg", "testImg");
+        mainScreen.addBackgroundListener();
+        setScreen(mainScreen);
 	}
 
     @Override
     public void dispose() {
         super.dispose();
         assetsManager.dispose();
+        mainScreen.dispose();
     }
 }

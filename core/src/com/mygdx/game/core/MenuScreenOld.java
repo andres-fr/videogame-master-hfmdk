@@ -34,7 +34,7 @@ public abstract class MenuScreenOld extends GameScreen {
 
 
     public MenuScreenOld(GameScreen s) {
-        super(s.game, "", "", "");
+        super(s.game);
         backScreen = s;
     }
 

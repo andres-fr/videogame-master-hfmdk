@@ -2,4 +2,6 @@
 
 -> es eficiente tener tantos stages? optimizacion: una unica instancia de GameScreen,
 llamada currentScreen, y con metodos para cambiar de background, actores, assets...
-habria un unico polyspritebatch
+habria un unico polyspritebatch  DONE
+
+-> estandarizar el manejo de los assets, y el protocolo de "flusheado" del stage para cambiar entre escenas.

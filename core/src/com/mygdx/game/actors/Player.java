@@ -34,8 +34,8 @@ public class Player extends com.mygdx.game.core.MyActor {
     boolean walking = false;
     long timeStamp;
 
-    public Player(boolean touchable, int initCell, MyGame g) {
-        super(touchable, initCell, g);
+    public Player(MyGame g, boolean touchable, int initCell) {
+        super(g, touchable, initCell);
         walkCells = getRegions("walk.left");
         timeStamp = nanoTime();
 
@@ -116,6 +116,6 @@ public class Player extends com.mygdx.game.core.MyActor {
     }
 
     private Array<WalkZone> getCurrentWalkzones() {
-        return ((GameStage)getStage()).gameScreen.getWalkZones();
+        return game.mainScreen.getWalkZones();
     }
 }

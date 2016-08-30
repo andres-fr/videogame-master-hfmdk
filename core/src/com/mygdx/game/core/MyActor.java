@@ -18,13 +18,12 @@ public class MyActor extends Actor {
     Color color = Color.WHITE;
     int cell;
     Rectangle bounds = new Rectangle();
-    public MyGame game;
+    protected MyGame game;
 
 
-    public MyActor (boolean touchable, int initCell, MyGame g) {
+    public MyActor (MyGame g, boolean touchable, int initCell) {
         super();
         game = g;
-
         if (!touchable) setTouchable(Touchable.disabled);
         changeCell(initCell);
     }
