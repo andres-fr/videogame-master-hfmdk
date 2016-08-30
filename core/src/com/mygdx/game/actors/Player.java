@@ -24,7 +24,8 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
  */
 
 public class Player extends com.mygdx.game.core.MyActor {
-    Array<TextureAtlas.AtlasRegion> walkregs;
+    Array<TextureAtlas.AtlasRegion> walkCells;
+    Array<WalkZone> walkZones = null; // since there is only 1 Player obj for many screens. see getCurrentWalkzone
     float speed = 300; // in pixels per second
     boolean walking = false;
     long timeStamp;
@@ -32,7 +33,7 @@ public class Player extends com.mygdx.game.core.MyActor {
 
     public Player(boolean touchable, int initCell, MyGame g) {
         super(touchable, initCell, g);
-        walkregs = getRegions("walk.left");
+        walkCells = getRegions("walk.left");
         timeStamp = nanoTime();
 
         this.addListener(new GameActorGestureListener(0.4f) {
@@ -47,8 +48,8 @@ public class Player extends com.mygdx.game.core.MyActor {
     }
 
     private void standStill() {
-        changeCell(0);
         walking = false;
+        changeCell(0);
     }
 
     private void startWalk() {
@@ -56,15 +57,15 @@ public class Player extends com.mygdx.game.core.MyActor {
     }
 
     private void walkForwards() {
-        changeCell((getCell()+1) % walkregs.size);
+        changeCell((getCell()+1) % walkCells.size);
     }
 
     public void walkTo(float x, float y) {
-        float time = (new Vector2(x-getWidth()*getScaleX()/2, y-getHeight()*getScaleY()/2).dst(getX(), getY()))/speed;
+        Vector2 destiny = destinyStanding (x, y);
+        float time = destiny.dst(getXY())/speed;
         clearActions();
         startWalk();
-        addAction(Actions.sequence(Actions.moveTo(x-getWidth()*getScaleX()/2, y-getHeight()*getScaleY()/2, time),
-                Actions.run(new Runnable() {
+        addAction(Actions.sequence(Actions.moveTo(destiny.x, destiny.y, time), Actions.run(new Runnable() {
                     @Override
                     public void run() {
                         standStill();
@@ -78,8 +79,18 @@ public class Player extends com.mygdx.game.core.MyActor {
         if (walking && nanoTime() - timeStamp > 0.1 * 1e9) {
             timeStamp = nanoTime();
             walkForwards();
-
+            Vector2 footPos = getFoot();
+            for (WalkZone wz : getCurrentWalkzones()) {
+                if (!wz.contains(footPos.x, footPos.y)) {
+                    clearActions();
+                    standStill();
+                    break;
+                }
+            }
         }
-        //System.out.println(delta);
+    }
+
+    private Array<WalkZone> getCurrentWalkzones() {
+        return ((GameStage)getStage()).gameScreen.getWalkZones();
     }
 }

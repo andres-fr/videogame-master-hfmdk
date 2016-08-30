@@ -4,41 +4,38 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
-import com.mygdx.game.actors.BadActor;
-import com.mygdx.game.actors.Policeman;
 import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.core.WalkZone;
 
 
 /**
  * Created by afr on 23.08.16.
  */
 
-public class ScreenTest3 extends GameScreen {
+public class ScreenStreet1 extends GameScreen {
 
-    public ScreenTest3(MyGame g) {
+    public ScreenStreet1(MyGame g) {
         super(g, "street_bg", "street_shadows", "street_lights", 0.7f, 0.2f, 100, 900);
-
-
 
         float cycleTime = 6f;
         background.addAction(Actions.forever(Actions.sequence(Actions.color(Color.WHITE, cycleTime), Actions.color(Color.NAVY, cycleTime))));
         lights.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(cycleTime), Actions.fadeIn(cycleTime))));
         shadows.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(cycleTime), Actions.fadeIn(cycleTime))));
 
+        addWalkzoneScaled(new int[]{1,9,6697,4,6696,21,3887,641,3733,645,3731,320,1935,352,1917,321,1829,320,1823,362,1445,369,
+                1186,335,1139,369,1146,453,1028,465,966,443,903,443,825,464,788,495,736,491,757,337,306,238,72,249,3,270,0,1035});
+
         // add and configure Player initial pos
         stage.addActor(game.player);
-        g.player.setPosition((g.WIDTH-g.player.getWidth())/2, 100);
         g.player.setScale(0.5f);
+        Vector2 v2 = g.player.destinyCentered(g.WIDTH/2, g.HEIGHT/2);
+        g.player.setPosition(v2.x, v2.y);
+
     }
+
 
     @Override
     public void render(float delta) {
@@ -50,18 +47,11 @@ public class ScreenTest3 extends GameScreen {
         game.player.setScale(getScaleFromStageY(game.player.getY()));
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-        // player management
-        /*
-        if (actors.get(0).collidesWith(actors.get(1))) {
-            actors.get(0).setColor(1, 0, 0, 1);
-        } else actors.get(0).setColor(1, 1, 1, 1);
-        */
     }
 
 
     @Override
     public void backgroundTouchedDown(float x, float y) {
-        super.backgroundTouchedDown(x, y);
         game.player.walkTo(x, y);
     }
 }

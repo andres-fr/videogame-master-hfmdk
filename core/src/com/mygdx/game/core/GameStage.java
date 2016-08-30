@@ -1,8 +1,8 @@
 package com.mygdx.game.core;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MyGame;
 
 /**
@@ -12,19 +12,11 @@ import com.mygdx.game.MyGame;
 
 public class GameStage extends Stage {
     public MyGame game;
+    public GameScreen gameScreen;
 
-    public GameStage(MyGame g) {
-        super();
+    public GameStage(MyGame g, GameScreen gs) {
+        super(new FitViewport(MyGame.WIDTH, MyGame.HEIGHT), new PolygonSpriteBatch());
         game = g;
-    }
-
-    public GameStage(MyGame g, Viewport viewport) {
-        super(viewport);
-        game = g;
-    }
-
-    public GameStage(MyGame g, Viewport viewport, Batch batch) {
-        super(viewport, batch);
-        game = g;
+        gameScreen = gs;
     }
 }

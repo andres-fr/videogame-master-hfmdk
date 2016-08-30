@@ -1,23 +1,14 @@
 package com.mygdx.game.core;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ArrayMap;
-import com.badlogic.gdx.utils.reflect.Method;
 import com.mygdx.game.MyGame;
-import com.mygdx.game.actors.BadActor;
 
 /**
  * Created by afr on 26.08.16.
@@ -86,7 +77,31 @@ public class MyActor extends Actor {
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
-    public boolean collidesWith(BadActor a) {
+    public boolean collidesWith(MyActor a) {
         return bounds.overlaps(a.getBounds());
+    }
+
+    public Vector2 getXY() {
+        return new Vector2(getX(), getY());
+    }
+
+    public Vector2 getQuarterSize() {
+        return new Vector2(getWidth() * getScaleX() / 2, getHeight() * getScaleY() / 2);
+    }
+
+    public Vector2 getCenter() {
+        return getXY().add(getQuarterSize());
+    }
+
+    public Vector2 getFoot() {
+        return getXY().add(getQuarterSize().x, 0);
+    }
+
+    public Vector2 destinyCentered(float x, float y) {
+        return new Vector2(x, y).sub(getQuarterSize());
+    }
+
+    public Vector2 destinyStanding(float x, float y) {
+        return new Vector2(x, y).sub(getQuarterSize().x, 0);
     }
 }
