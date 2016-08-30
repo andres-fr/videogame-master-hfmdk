@@ -2,6 +2,7 @@ package com.mygdx.game.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -22,41 +23,72 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 public class GameScreen implements Screen {
     protected MyGame game;
     protected GameStage stage;
-    protected long timeStamp;
     protected float downScale, upScale;
-    protected float travellingMargin = 0.33f; // 1 means the camera stands still until the Player hits the screen border
+    protected boolean travellingEnabled = false;
+    protected Float travellingMargin = null; // 1 means the camera stands still until the Player hits the screen border
     protected float fitRatio;
     protected BackgroundTable background;
-    protected Table shadows = new Table();
-    protected Table lights = new Table();
+    protected Table shadows;
+    protected Table lights;
     //protected Table foreground = new Table();
     protected Array<WalkZone> walkZones = new Array<WalkZone>();
 
 
-    public GameScreen(MyGame g, String bgrnd, String shdw, String lght, float downScale, float upScale) {
+    public GameScreen(MyGame g, String bgrnd, String shdw, String lght) {
         game = g;
         stage = new GameStage(g, this);
-        timeStamp = nanoTime();
+        cleanStage();
+        setBackgroundSuite(bgrnd, shdw, lght);
+        addBackgroundListener();
+    }
+
+    public void setActorScale(float dwn, float up) {
+        downScale = dwn;
+        upScale = up;
+    }
+
+    public void setTravellingMargin(float margin) {
+        travellingEnabled = true;
+        travellingMargin = margin;
+    }
+
+    public void disableTravelling() {
+        travellingEnabled = false;
+        travellingMargin = null;
+    }
+
+    public void cleanStage() {
         ((OrthographicCamera) stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
         stage.setDebugAll(MyGame.DEBUG);
+        // camera travelling disabled by default
+        disableTravelling();
         // references for the dynamical scaling for 3d actors
-        this.downScale = downScale;
-        this.upScale = upScale;
-
-
-        // configure and add the bg layers
-        fitRatio = ((float) g.HEIGHT) / ((float) g.assetsManager.getRegion(bgrnd).getRegionHeight());
+        setActorScale(1, 1);
+        // remove all actors and listeners from the stage
+        stage.clear();
+        // instantiate and add containers for BG
         background = new BackgroundTable(this);
+        shadows = new Table();
+        lights = new Table();
         stage.addActor(background);
-        background.setBackground(g.assetsManager.getRegionDrawable(bgrnd));
-        background.setBounds(0, 0, g.assetsManager.getRegion(bgrnd).getRegionWidth() * fitRatio, g.assetsManager.getRegion(bgrnd).getRegionHeight() * fitRatio);
         stage.addActor(shadows);
-        shadows.setBackground(g.assetsManager.getRegionDrawable(shdw));
-        shadows.setBounds(0, 0, g.assetsManager.getRegion(lght).getRegionWidth() * fitRatio, g.assetsManager.getRegion(lght).getRegionHeight() * fitRatio);
         stage.addActor(lights);
-        lights.setBackground(g.assetsManager.getRegionDrawable(lght));
-        lights.setBounds(0, 0, g.assetsManager.getRegion(shdw).getRegionWidth() * fitRatio, g.assetsManager.getRegion(shdw).getRegionHeight() * fitRatio);
-        // detect touchDowns on walkzone:
+    }
+
+    public void setBackgroundSuite(String bgrnd, String shdw, String lght) {
+        fitRatio = ((float) MyGame.HEIGHT) / ((float) game.assetsManager.getRegion(bgrnd).getRegionHeight());
+        background.setBackground(game.assetsManager.getRegionDrawable(bgrnd));
+        background.setBounds(0, 0, game.assetsManager.getRegion(bgrnd).getRegionWidth() * fitRatio,
+                game.assetsManager.getRegion(bgrnd).getRegionHeight() * fitRatio);
+        shadows.setBackground(game.assetsManager.getRegionDrawable(shdw));
+        shadows.setBounds(0, 0, game.assetsManager.getRegion(lght).getRegionWidth() * fitRatio,
+                game.assetsManager.getRegion(lght).getRegionHeight() * fitRatio);
+        lights.setBackground(game.assetsManager.getRegionDrawable(lght));
+        lights.setBounds(0, 0, game.assetsManager.getRegion(shdw).getRegionWidth() * fitRatio,
+                game.assetsManager.getRegion(shdw).getRegionHeight() * fitRatio);
+    }
+
+    public void addBackgroundListener() {
         background.setTouchable(Touchable.enabled);
         background.addListener(new InputListener() {
             @Override
@@ -76,23 +108,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        float playerX = game.player.getCenter().x;
-        float camX = stage.getCamera().position.x;
-        float margin = MyGame.WIDTH * travellingMargin / 2;
-        //System.out.println(stage.getCamera().position);
-        //stage.getCamera().position.x = playerX;
-        if (playerX < camX-margin) {
-            stage.getCamera().translate(playerX-(camX-margin), 0, 0);
-        } else if (playerX > camX + margin) {
-            stage.getCamera().translate(playerX-(camX+margin), 0, 0);
-        }
-        if (stage.getCamera().position.x < MyGame.WIDTH / 2){
-            stage.getCamera().position.x = MyGame.WIDTH / 2;
-        }
-        if (stage.getCamera().position.x > background.getWidth() - MyGame.WIDTH / 2) {
-            stage.getCamera().position.x = background.getWidth() - MyGame.WIDTH / 2;
-        }
-
+        if (travellingEnabled) cameraFollowsPlayer();
     }
 
     @Override
@@ -120,6 +136,23 @@ public class GameScreen implements Screen {
         stage.dispose();
     }
 
+
+    private void cameraFollowsPlayer() {
+        float playerX = game.player.getCenter().x;
+        float camX = stage.getCamera().position.x;
+        float margin = MyGame.WIDTH * travellingMargin / 2;
+        if (playerX < camX-margin) {
+            stage.getCamera().translate(playerX-(camX-margin), 0, 0);
+        } else if (playerX > camX + margin) {
+            stage.getCamera().translate(playerX-(camX+margin), 0, 0);
+        }
+        if (stage.getCamera().position.x < MyGame.WIDTH / 2){
+            stage.getCamera().position.x = MyGame.WIDTH / 2;
+        }
+        if (stage.getCamera().position.x > background.getWidth() - MyGame.WIDTH / 2) {
+            stage.getCamera().position.x = background.getWidth() - MyGame.WIDTH / 2;
+        }
+    }
 
     // override this in the scenes
     public void backgroundTouchedDown(float x, float y) {

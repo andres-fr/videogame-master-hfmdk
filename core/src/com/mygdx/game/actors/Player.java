@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -24,12 +25,14 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
  * Created by afr on 26.08.16.
  */
 
+
+
+
 public class Player extends com.mygdx.game.core.MyActor {
     Array<TextureAtlas.AtlasRegion> walkCells;
     float speed = 200; // in pixels per second
     boolean walking = false;
     long timeStamp;
-
 
     public Player(boolean touchable, int initCell, MyGame g) {
         super(touchable, initCell, g);

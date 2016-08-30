@@ -1,1 +1,5 @@
 -> los sprites mejor que esten ajustados, SIN MARGEN. ya se maneja automaticamente
+
+-> es eficiente tener tantos stages? optimizacion: una unica instancia de GameScreen,
+llamada currentScreen, y con metodos para cambiar de background, actores, assets...
+habria un unico polyspritebatch

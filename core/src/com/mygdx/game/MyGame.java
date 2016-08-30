@@ -4,7 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
+import com.mygdx.game.core.GameScreen;
 import com.mygdx.game.screens.ScreenStreet1;
+import com.mygdx.game.screens.menus.PresentationScreen;
 
 public class MyGame extends Game {
     // http://stackoverflow.com/questions/27560783/libgdx-translating-a-scene2d-camera
@@ -17,13 +19,22 @@ public class MyGame extends Game {
     public AssetsManager assetsManager = new AssetsManager();
     public Player player;
 
-
 	@Override
 	public void create () {
         if (FULLSCREEN) Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 
-        assetsManager.prepareScreenTest3();
-        player = new Player(true, 0, this);
-        setScreen(new ScreenStreet1(this));
+        //assetsManager.prepareScene1();
+        //player = new Player(true, 0, this);
+        //setScreen(new ScreenStreet1(this));
+
+        assetsManager.prepareInit();
+        GameScreen gs = new GameScreen(this, "testImg", "testImg", "testImg");
+        setScreen(gs);
 	}
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        assetsManager.dispose();
+    }
 }

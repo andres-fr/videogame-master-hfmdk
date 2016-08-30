@@ -2,6 +2,7 @@ package com.mygdx.game.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 
 public class AssetsManager {
     private String currentAtlasName;
+    private ArrayMap<String, Skin> skins = new ArrayMap<String, Skin>();
     private ArrayMap<String, TextureAtlas> atlases = new ArrayMap<String, TextureAtlas>();
     private Array<TextureAtlas.AtlasRegion> regions;
 
@@ -64,11 +66,38 @@ public class AssetsManager {
         return currentAtlasName;
     }
 
-    public void prepareScreenTest3() {
+    private void loadSkin(String name, String localAddress) {
+        if (skins.get(name) == null) {
+            skins.put(name, new Skin(Gdx.files.internal("uiskin/uiskin.json")));
+        }
+    }
+    private void deleteSkin(String skinName) {
+        Skin s = skins.get(skinName);
+        skins.removeKey(skinName);
+        s.dispose();
+    }
+
+    public Skin getSkin(String skinName) {
+        return skins.get(skinName);
+    }
+
+
+    public void prepareInit() {
+        //loadSkin("uiskin", "uiskin/uiskin.json");
+        loadAtlas("menuscene", "menuscene-packed/pack.atlas");
+        setCurrentAtlas("menuscene");
+    }
+
+    public void prepareScene1() {
         loadAtlas("scene1", "scene1-packed/pack.atlas");
         setCurrentAtlas("scene1");
     }
 
+
+    public void dispose() {
+        for (Skin s : skins.values()) s.dispose();
+        for (TextureAtlas ta : atlases.values()) ta.dispose();
+    }
 
 
 
