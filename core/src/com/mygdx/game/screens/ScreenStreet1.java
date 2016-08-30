@@ -30,7 +30,7 @@ public class ScreenStreet1 extends GameScreen {
                 1186,335,1139,369,1146,453,1028,465,966,443,903,443,825,464,788,495,736,491,757,337,306,238,72,249,3,270,0,1035});
 
         // add and configure Player initial pos
-        stage.addActor(game.player);
+        stage.addActor(g.player);
         g.player.setScale(0.5f);
         Vector2 v2 = g.player.destinyCentered(g.WIDTH/2, g.HEIGHT/2);
         g.player.setPosition(v2.x, v2.y);
@@ -40,14 +40,10 @@ public class ScreenStreet1 extends GameScreen {
 
     @Override
     public void render(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
         super.render(delta);
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //resize player (maybe not the best place??)
         game.player.setScale(getScaleFromStageY(game.player.getY()));
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+
     }
 
 

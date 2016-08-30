@@ -12,7 +12,7 @@ public class MyGame extends Game {
     // http://stackoverflow.com/questions/27560783/libgdx-translating-a-scene2d-camera
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = false;
+    public final static boolean DEBUG = true;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
     // game related instances
@@ -23,11 +23,10 @@ public class MyGame extends Game {
 	public void create () {
         if (FULLSCREEN) Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 
-        //assetsManager.prepareScene1();
-        //player = new Player(true, 0, this);
+        assetsManager.prepareScene1();
+        player = new Player(true, 0, this);
         //setScreen(new ScreenStreet1(this));
 
-        assetsManager.prepareInit();
         GameScreen gs = new GameScreen(this, "testImg", "testImg", "testImg");
         setScreen(gs);
 	}

@@ -1,22 +1,20 @@
 package com.mygdx.game.screens.menus;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.core.GameScreen;
-import com.mygdx.game.core.MenuScreen;
+import com.mygdx.game.core.MenuScreenOld;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class MainMenuScreen extends MenuScreen {
+public class MainMenuScreen extends MenuScreenOld {
     // size config
     public static int PREF_MENU_WIDTH = (int)(MyGame.WIDTH*0.9);
     public static int PREF_MENU_HEIGHT = (int)(MyGame.HEIGHT*0.9);
@@ -27,6 +25,7 @@ public class MainMenuScreen extends MenuScreen {
     private CreditsScreen creditsScreen = new CreditsScreen(this);
     private LoadSaveMenuScreen loadSaveMenuScreen = new LoadSaveMenuScreen(this);
 
+    // MAIN CONTAINER for everything else
     // menu widgets
     private Label titleLabel = new Label("GAME TITLE", game.assetsManager.getSkin("uiskin"));
     private Label versionLabel = new Label("version "+ MyGame.VERSION, game.assetsManager.getSkin("uiskin"));

@@ -37,7 +37,7 @@ public class AssetsManager {
         }
     }
 
-    private void setCurrentAtlas(String name) {
+    public void setCurrentAtlas(String name) {
         currentAtlasName = name;
         regions = atlases.get(name).getRegions();
     }
@@ -89,6 +89,7 @@ public class AssetsManager {
     }
 
     public void prepareScene1() {
+        loadSkin("uiskin", "uiskin/uiskin.json");
         loadAtlas("scene1", "scene1-packed/pack.atlas");
         setCurrentAtlas("scene1");
     }

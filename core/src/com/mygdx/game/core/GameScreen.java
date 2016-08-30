@@ -1,12 +1,17 @@
 package com.mygdx.game.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
@@ -108,7 +113,37 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
         if (travellingEnabled) cameraFollowsPlayer();
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            cleanStage();
+            setBackgroundSuite("testImg","testImg","testImg");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+            cleanStage();
+            setBackgroundSuite("street_bg", "street_shadows", "street_lights");
+            addBackgroundListener();
+            setActorScale(0.7f, 0.2f);
+            setTravellingMargin(0.33f);
+            float cycleTime = 6f;
+            background.addAction(Actions.forever(Actions.sequence(Actions.color(Color.WHITE, cycleTime), Actions.color(Color.NAVY, cycleTime))));
+            lights.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(cycleTime), Actions.fadeIn(cycleTime))));
+            shadows.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(cycleTime), Actions.fadeIn(cycleTime))));
+
+            addWalkzoneScaled(new int[]{1,9,6697,4,6696,21,3887,641,3733,645,3731,320,1935,352,1917,321,1829,320,1823,362,1445,369,
+                    1186,335,1139,369,1146,453,1028,465,966,443,903,443,825,464,788,495,736,491,757,337,306,238,72,249,3,270,0,1035});
+
+            // add and configure Player initial pos
+            stage.addActor(game.player);
+            game.player.setScale(0.5f);
+            Vector2 v2 = game.player.destinyCentered(game.WIDTH/2, game.HEIGHT/2);
+            game.player.setPosition(v2.x, v2.y);
+        }
     }
 
     @Override

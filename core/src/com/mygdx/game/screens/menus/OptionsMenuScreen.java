@@ -6,13 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.core.GameScreen;
-import com.mygdx.game.core.MenuScreen;
+import com.mygdx.game.core.MenuScreenOld;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class OptionsMenuScreen extends MenuScreen {
+public class OptionsMenuScreen extends MenuScreenOld {
     private Label titleLabel = new Label("CREDITS SCREEN", game.assetsManager.getSkin("uiskin"));
     private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin("uiskin"));
     private TextButton continueButton = new TextButton("Continue", game.assetsManager.getSkin("uiskin"));
