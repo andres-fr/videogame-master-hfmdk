@@ -24,7 +24,7 @@ public class GameScreen implements Screen {
     protected GameStage stage;
     protected long timeStamp;
     protected float downScale, upScale;
-    protected float rightCamMargin, leftCamMargin;
+    protected float travellingMargin = 0.33f; // 1 means the camera stands still until the Player hits the screen border
     protected float fitRatio;
     protected BackgroundTable background;
     protected Table shadows = new Table();
@@ -33,8 +33,7 @@ public class GameScreen implements Screen {
     protected Array<WalkZone> walkZones = new Array<WalkZone>();
 
 
-    public GameScreen(MyGame g, String bgrnd, String shdw, String lght, float downScale, float upScale,
-                      float rightCamMargin, float leftCamMargin) {
+    public GameScreen(MyGame g, String bgrnd, String shdw, String lght, float downScale, float upScale) {
         game = g;
         stage = new GameStage(g, this);
         timeStamp = nanoTime();
@@ -43,9 +42,6 @@ public class GameScreen implements Screen {
         // references for the dynamical scaling for 3d actors
         this.downScale = downScale;
         this.upScale = upScale;
-        // references to limit the camera travelling
-        this.rightCamMargin = rightCamMargin;
-        this.leftCamMargin = leftCamMargin;
 
 
         // configure and add the bg layers
@@ -82,22 +78,24 @@ public class GameScreen implements Screen {
     }
 
 
-    // TODO revisar esta guarrada
     @Override
     public void render(float delta) {
+        float playerX = game.player.getCenter().x;
+        float camX = stage.getCamera().position.x;
+        float margin = MyGame.WIDTH * travellingMargin / 2;
         //System.out.println(stage.getCamera().position);
-        stage.getCamera().position.x = game.player.getX();
-        if (game.player.getX() < leftCamMargin) {
-            //stage.getCamera().translate(game.player.getX()-leftCamMargin, 0, 0);
-
-        } else if (game.player.getX() > rightCamMargin) {
-            //stage.getCamera().translate(game.player.getX()-rightCamMargin, 0, 0);
+        //stage.getCamera().position.x = playerX;
+        if (playerX < camX-margin) {
+            stage.getCamera().translate(playerX-(camX-margin), 0, 0);
+        } else if (playerX > camX + margin) {
+            stage.getCamera().translate(playerX-(camX+margin), 0, 0);
         }
-
-        if (stage.getCamera().position.x < MyGame.WIDTH / 2)
+        if (stage.getCamera().position.x < MyGame.WIDTH / 2){
             stage.getCamera().position.x = MyGame.WIDTH / 2;
-        if (stage.getCamera().position.x > background.getWidth() - MyGame.WIDTH / 2)
+        }
+        if (stage.getCamera().position.x > background.getWidth() - MyGame.WIDTH / 2) {
             stage.getCamera().position.x = background.getWidth() - MyGame.WIDTH / 2;
+        }
 
     }
 

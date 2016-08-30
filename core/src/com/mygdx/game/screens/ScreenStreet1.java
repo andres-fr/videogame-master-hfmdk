@@ -18,7 +18,7 @@ import com.mygdx.game.core.WalkZone;
 public class ScreenStreet1 extends GameScreen {
 
     public ScreenStreet1(MyGame g) {
-        super(g, "street_bg", "street_shadows", "street_lights", 0.7f, 0.2f, 100, 900);
+        super(g, "street_bg", "street_shadows", "street_lights", 0.7f, 0.2f);
 
         float cycleTime = 6f;
         background.addAction(Actions.forever(Actions.sequence(Actions.color(Color.WHITE, cycleTime), Actions.color(Color.NAVY, cycleTime))));
