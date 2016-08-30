@@ -25,7 +25,6 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 public class Player extends com.mygdx.game.core.MyActor {
     Array<TextureAtlas.AtlasRegion> walkCells;
-    Array<WalkZone> walkZones = null; // since there is only 1 Player obj for many screens. see getCurrentWalkzone
     float speed = 300; // in pixels per second
     boolean walking = false;
     long timeStamp;
@@ -37,12 +36,29 @@ public class Player extends com.mygdx.game.core.MyActor {
         timeStamp = nanoTime();
 
         this.addListener(new GameActorGestureListener(0.4f) {
+            Vector2 stageTouchDown;
+            boolean moveAfter = true;
+
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                stageTouchDown = localToStageCoordinates(new Vector2(x, y));
+                moveAfter = true;
+            }
+
             @Override
             public boolean longPress(Actor actor, float x, float y) {
                 setColor(MathUtils.random(0, 1f), MathUtils.random(0, 1f), MathUtils.random(0, 1f), 1);
+                moveAfter = false;
                 return super.longPress(actor, x, y);
             }
 
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                if (moveAfter) {
+                    walkTo(stageTouchDown.x, stageTouchDown.y);
+                    moveAfter = true;
+                }
+            }
 
         });
     }
@@ -61,16 +77,21 @@ public class Player extends com.mygdx.game.core.MyActor {
     }
 
     public void walkTo(float x, float y) {
-        Vector2 destiny = destinyStanding (x, y);
-        float time = destiny.dst(getXY())/speed;
-        clearActions();
-        startWalk();
-        addAction(Actions.sequence(Actions.moveTo(destiny.x, destiny.y, time), Actions.run(new Runnable() {
+        for (WalkZone wz : getCurrentWalkzones()) {
+            if (wz.contains(x, y)){
+                Vector2 destiny = destinyStanding (x, y);
+                float time = destiny.dst(getXY())/speed;
+                clearActions();
+                startWalk();
+                addAction(Actions.sequence(Actions.moveTo(destiny.x, destiny.y, time), Actions.run(new Runnable() {
                     @Override
                     public void run() {
                         standStill();
                     }
                 })));
+                break;
+            }
+        }
     }
 
     @Override

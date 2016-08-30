@@ -61,12 +61,8 @@ public class GameScreen implements Screen {
         background.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                for (WalkZone wz : walkZones) {
-                    if (wz.contains(x, y)){
-                        backgroundTouchedDown(x, y);
-                        break;
-                    }
-                }return super.touchDown(event, x, y, pointer, button);
+                backgroundTouchedDown(x, y);
+                return super.touchDown(event, x, y, pointer, button);
             }
         });
     }
