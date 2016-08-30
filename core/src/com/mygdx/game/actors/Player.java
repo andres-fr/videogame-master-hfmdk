@@ -2,6 +2,7 @@ package com.mygdx.game.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -25,7 +26,7 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 public class Player extends com.mygdx.game.core.MyActor {
     Array<TextureAtlas.AtlasRegion> walkCells;
-    float speed = 300; // in pixels per second
+    float speed = 200; // in pixels per second
     boolean walking = false;
     long timeStamp;
 
@@ -35,7 +36,7 @@ public class Player extends com.mygdx.game.core.MyActor {
         walkCells = getRegions("walk.left");
         timeStamp = nanoTime();
 
-        this.addListener(new GameActorGestureListener(0.4f) {
+        this.addListener(new GameActorGestureListener(0.32f) {
             Vector2 stageTouchDown;
             boolean moveAfter = true;
 
@@ -83,7 +84,7 @@ public class Player extends com.mygdx.game.core.MyActor {
                 float time = destiny.dst(getXY())/speed;
                 clearActions();
                 startWalk();
-                addAction(Actions.sequence(Actions.moveTo(destiny.x, destiny.y, time), Actions.run(new Runnable() {
+                addAction(Actions.sequence(Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out), Actions.run(new Runnable() {
                     @Override
                     public void run() {
                         standStill();
