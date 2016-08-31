@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -24,10 +25,23 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
  */
 
 public class GameScreen implements Screen {
+
+
+    int counter = 0;
+
+
+
+
+
+
+
+
+
+    public enum STATES {UI, GAMEPLAY}
+    private STATES currentState;
+
     protected MyGame game;
     protected float downScale, upScale;
-    protected boolean clickAndPointEnabled = false;
-    protected boolean travellingEnabled = false;
     protected Float travellingMargin = null; // 1 means the camera stands still until the Player hits the screen border
     protected float fitRatio;
     protected BackgroundTable background;
@@ -46,24 +60,14 @@ public class GameScreen implements Screen {
         upScale = up;
     }
 
-    public void setTravellingMargin(float margin) {
-        travellingEnabled = true;
-        travellingMargin = margin;
-    }
-
-    public void disableTravelling() {
-        travellingEnabled = false;
-        travellingMargin = null;
-    }
-
     public void cleanScreen() {
         ((OrthographicCamera) game.stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
         game.stage.setDebugAll(MyGame.DEBUG);
         // camera travelling disabled by default
-        disableTravelling();
         // references for the dynamical scaling for 3d actors
         setActorScale(1, 1);
         // remove all actors and listeners from the stage
+        for (Actor a : game.stage.getActors()) a.clearActions();
         game.stage.clear();
         // instantiate and add containers for BG
         background = new BackgroundTable(this);
@@ -109,41 +113,41 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        counter++;
+
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
-        if (travellingEnabled) cameraFollowsPlayer();
+        if (currentState == STATES.GAMEPLAY) cameraFollowsPlayer(delta);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.stage.act(Gdx.graphics.getDeltaTime());
         game.stage.draw();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             cleanScreen();
-            clickAndPointEnabled = false;
-            setBackgroundSuite("testImg","testImg","testImg");
+            currentState = STATES.UI;
+            setBackgroundSuite("testImg", "testImg", "testImg");
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            currentState = STATES.GAMEPLAY;
             cleanScreen();
-            clickAndPointEnabled = true;
             setBackgroundSuite("street_bg", "street_shadows", "street_lights");
             addBackgroundListener();
             setActorScale(0.7f, 0.2f);
-            setTravellingMargin(0.33f);
+            travellingMargin = 0.33f;
             float cycleTime = 6f;
             background.addAction(Actions.forever(Actions.sequence(Actions.color(Color.WHITE, cycleTime), Actions.color(Color.NAVY, cycleTime))));
             lights.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(cycleTime), Actions.fadeIn(cycleTime))));
             shadows.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(cycleTime), Actions.fadeIn(cycleTime))));
-            addWalkzoneScaled(new int[]{1,9,6697,4,6696,21,3887,641,3733,645,3731,320,1935,352,1917,321,1829,320,1823,362,1445,369,
-                    1186,335,1139,369,1146,453,1028,465,966,443,903,443,825,464,788,495,736,491,757,337,306,238,72,249,3,270,0,1035});
+            addWalkzoneScaled(new int[]{1, 9, 6697, 4, 6696, 21, 3887, 641, 3733, 645, 3731, 320, 1935, 352, 1917, 321, 1829, 320, 1823, 362, 1445, 369,
+                    1186, 335, 1139, 369, 1146, 453, 1028, 465, 966, 443, 903, 443, 825, 464, 788, 495, 736, 491, 757, 337, 306, 238, 72, 249, 3, 270, 0, 1035});
 
             // add and configure Player initial pos
             game.stage.addActor(game.player);
             game.player.setScale(0.5f);
-            Vector2 v2 = game.player.destinyCentered(game.WIDTH/2, game.HEIGHT/2);
+            Vector2 v2 = game.player.destinyCentered(game.WIDTH / 2, game.HEIGHT / 2);
             game.player.setPosition(v2.x, v2.y);
         }
-
         // taken from the screenstreet class
-        if (clickAndPointEnabled) game.player.setScale(getScaleFromStageY(game.player.getY()));
+        if (currentState == STATES.GAMEPLAY) game.player.setScale(getScaleFromStageY(game.player.getY()));
     }
 
     @Override
@@ -168,18 +172,20 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        game.stage.dispose();
+        // do not dispose stage here, since it belongs to MyGame
     }
 
 
-    private void cameraFollowsPlayer() {
+    private void cameraFollowsPlayer(float delta) {
         float playerX = game.player.getCenter().x;
         float camX = game.stage.getCamera().position.x;
         float margin = MyGame.WIDTH * travellingMargin / 2;
         if (playerX < camX-margin) {
-            game.stage.getCamera().translate(playerX-(camX-margin), 0, 0);
+            game.stage.getCamera().position.x += playerX-(camX-margin);
+            //game.stage.getCamera().translate(playerX-(camX-margin-20), 0, 0);
         } else if (playerX > camX + margin) {
-            game.stage.getCamera().translate(playerX-(camX+margin), 0, 0);
+            game.stage.getCamera().position.x += playerX-(camX+margin);
+            //game.stage.getCamera().translate(playerX-(camX+margin+20), 0, 0);
         }
         if (game.stage.getCamera().position.x < MyGame.WIDTH / 2){
             game.stage.getCamera().position.x = MyGame.WIDTH / 2;
@@ -191,7 +197,7 @@ public class GameScreen implements Screen {
 
 
     public void backgroundTouchedDown(float x, float y) {
-        if (clickAndPointEnabled) game.player.walkTo(x, y);
+        if (currentState==STATES.GAMEPLAY) game.player.walkTo(x, y);
     }
 
     public float getScaleFromStageY(float yPos) {

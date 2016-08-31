@@ -115,6 +115,12 @@ public class Player extends com.mygdx.game.core.MyActor {
         }
     }
 
+    @Override
+    public void clearActions() {
+        super.clearActions();
+        standStill();
+    }
+
     private Array<WalkZone> getCurrentWalkzones() {
         return game.mainScreen.getWalkZones();
     }

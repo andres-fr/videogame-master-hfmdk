@@ -5,3 +5,4 @@ llamada currentScreen, y con metodos para cambiar de background, actores, assets
 habria un unico polyspritebatch  DONE
 
 -> estandarizar el manejo de los assets, y el protocolo de "flusheado" del stage para cambiar entre escenas.
+-> IMPORTANTE: COMPROBAR SI EL GLITCH DEL DRAWER ES CONSISTENTE EN OTRAS PLATAFORMAS
