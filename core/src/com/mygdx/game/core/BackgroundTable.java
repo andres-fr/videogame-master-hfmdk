@@ -1,13 +1,7 @@
 package com.mygdx.game.core;
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.EarClippingTriangulator;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.MyGame;
 
@@ -16,9 +10,9 @@ import com.mygdx.game.MyGame;
  */
 
 public class BackgroundTable extends Table {
-    GameScreen gameScreen;
+    GameScreenRaw gameScreen;
 
-    public BackgroundTable(GameScreen gs) {
+    public BackgroundTable(GameScreenRaw gs) {
         super();
         gameScreen = gs;
     }

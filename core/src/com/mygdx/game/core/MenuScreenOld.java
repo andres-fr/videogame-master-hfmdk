@@ -1,26 +1,15 @@
 package com.mygdx.game.core;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.game.MyGame;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.addAction;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 /**
  * Created by afr on 08.08.16.
@@ -28,12 +17,12 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 
 
-public abstract class MenuScreenOld extends GameScreen {
-    GameScreen backScreen;
+public abstract class MenuScreenOld extends GameScreenRaw {
+    GameScreenRaw backScreen;
     public AssetsManager assetsManager;
 
 
-    public MenuScreenOld(GameScreen s) {
+    public MenuScreenOld(GameScreenRaw s) {
         super(s.game);
         backScreen = s;
     }
@@ -61,7 +50,7 @@ public abstract class MenuScreenOld extends GameScreen {
         //addAction(gotoScreen(backScreen, 0.2f, 0.2f));
     }
 
-    public void setBackScreen(GameScreen backScreen) {
+    public void setBackScreen(GameScreenRaw backScreen) {
         this.backScreen = backScreen;
     }
 
@@ -79,7 +68,7 @@ public abstract class MenuScreenOld extends GameScreen {
 
     }
 
-    public Action gotoScreen(GameScreen gs, float a, float b) {
+    public Action gotoScreen(GameScreenRaw gs, float a, float b) {
         return Actions.fadeIn(0);
     }
 }

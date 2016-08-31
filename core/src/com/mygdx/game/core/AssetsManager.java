@@ -99,7 +99,4 @@ public class AssetsManager {
         for (Skin s : skins.values()) s.dispose();
         for (TextureAtlas ta : atlases.values()) ta.dispose();
     }
-
-
-
 }

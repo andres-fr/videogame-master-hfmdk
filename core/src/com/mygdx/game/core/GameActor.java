@@ -14,14 +14,14 @@ import com.mygdx.game.MyGame;
  * Created by afr on 26.08.16.
  */
 
-public class MyActor extends Actor {
+public class GameActor extends Actor {
     Color color = Color.WHITE;
     int cell;
     Rectangle bounds = new Rectangle();
     protected MyGame game;
 
 
-    public MyActor (MyGame g, boolean touchable, int initCell) {
+    public GameActor(MyGame g, boolean touchable, int initCell) {
         super();
         game = g;
         if (!touchable) setTouchable(Touchable.disabled);
@@ -76,7 +76,7 @@ public class MyActor extends Actor {
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
-    public boolean collidesWith(MyActor a) {
+    public boolean collidesWith(GameActor a) {
         return bounds.overlaps(a.getBounds());
     }
 

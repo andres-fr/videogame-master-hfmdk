@@ -1,21 +1,13 @@
 package com.mygdx.game.actors;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ArrayMap;
-import com.badlogic.gdx.utils.reflect.Method;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.core.*;
 
@@ -28,7 +20,7 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 
 
-public class Player extends com.mygdx.game.core.MyActor {
+public class Player extends GameActor {
     Array<TextureAtlas.AtlasRegion> walkCells;
     float speed = 200; // in pixels per second
     boolean walking = false;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MyGame;
-import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.core.GameScreenRaw;
 import com.mygdx.game.core.MenuScreenOld;
 
 /**
@@ -20,7 +20,7 @@ public class MainMenuScreen extends MenuScreenOld {
     public static int PREF_MENU_HEIGHT = (int)(MyGame.HEIGHT*0.9);
 
     // related menu screens
-    private GameScreen optionsScreen = new OptionsMenuScreen(this);
+    private GameScreenRaw optionsScreen = new OptionsMenuScreen(this);
     private GameplayMenuScreen gameplayScreen = new GameplayMenuScreen(this);
     private CreditsScreen creditsScreen = new CreditsScreen(this);
     private LoadSaveMenuScreen loadSaveMenuScreen = new LoadSaveMenuScreen(this);
@@ -37,7 +37,7 @@ public class MainMenuScreen extends MenuScreenOld {
     private TextButton gameplayButton = new TextButton("Gameplay", game.assetsManager.getSkin("uiskin"));
     private TextButton creditsButton = new TextButton("Credits", game.assetsManager.getSkin("uiskin"));
 
-    public MainMenuScreen(GameScreen s) {
+    public MainMenuScreen(GameScreenRaw s) {
         super(s);
         addWidgets();
         addListeners();

@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.core.GameScreenRaw;
 import com.mygdx.game.core.MenuScreenOld;
 
 /**
@@ -17,7 +17,7 @@ public class LoadSaveMenuScreen extends MenuScreenOld {
     private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin("uiskin"));
     private TextButton continueButton = new TextButton("Continue", game.assetsManager.getSkin("uiskin"));
 
-    public LoadSaveMenuScreen(GameScreen s) {
+    public LoadSaveMenuScreen(GameScreenRaw s) {
         super(s);
         addWidgets();
         addListeners();

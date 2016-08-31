@@ -4,10 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
-import com.mygdx.game.core.GameScreen;
+import com.mygdx.game.core.GameScreenExpanded;
 
 public class MyGame extends Game {
     // http://stackoverflow.com/questions/27560783/libgdx-translating-a-scene2d-camera
@@ -19,7 +20,7 @@ public class MyGame extends Game {
     // game related instances
     public AssetsManager assetsManager = new AssetsManager();
     public Stage stage;
-    public GameScreen mainScreen;
+    public GameScreenExpanded mainScreen;
     public Player player;
 
 	@Override
@@ -29,7 +30,7 @@ public class MyGame extends Game {
         assetsManager.prepareScene1();
         stage = new Stage(new FitViewport(MyGame.WIDTH, MyGame.HEIGHT), new PolygonSpriteBatch());
         player = new Player(this, true, 0);
-        mainScreen = new GameScreen(this);
+        mainScreen = new GameScreenExpanded(this);
 
         // configure screen for test
         mainScreen.cleanScreen();

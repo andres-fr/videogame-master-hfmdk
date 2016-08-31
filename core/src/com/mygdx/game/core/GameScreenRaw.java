@@ -24,34 +24,22 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
  * Created by afr on 23.08.16.
  */
 
-public class GameScreen implements Screen {
-
-
-    int counter = 0;
-
-
-
-
-
-
-
-
-
+public class GameScreenRaw implements Screen {
     public enum STATES {UI, GAMEPLAY}
-    private STATES currentState;
+    public STATES currentState;
 
     protected MyGame game;
     protected float downScale, upScale;
     protected Float travellingMargin = null; // 1 means the camera stands still until the Player hits the screen border
     protected float fitRatio;
-    protected BackgroundTable background;
-    protected Table shadows;
-    protected Table lights;
-    //protected Table foreground = new Table();
+    public BackgroundTable background;
+    public Table shadows;
+    public Table lights;
+    //public Table foreground = new Table();
     protected Array<WalkZone> walkZones = new Array<WalkZone>();
 
 
-    public GameScreen(MyGame g) {
+    public GameScreenRaw(MyGame g) {
         game = g;
     }
 
@@ -67,8 +55,10 @@ public class GameScreen implements Screen {
         // references for the dynamical scaling for 3d actors
         setActorScale(1, 1);
         // remove all actors and listeners from the stage
-        for (Actor a : game.stage.getActors()) a.clearActions();
-        game.stage.clear();
+        for (Actor a : game.stage.getActors()){
+            a.clearActions();
+            a.remove();
+        }
         // instantiate and add containers for BG
         background = new BackgroundTable(this);
         shadows = new Table();
@@ -113,41 +103,15 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        counter++;
-
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
-        if (currentState == STATES.GAMEPLAY) cameraFollowsPlayer(delta);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.stage.act(Gdx.graphics.getDeltaTime());
         game.stage.draw();
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            cleanScreen();
-            currentState = STATES.UI;
-            setBackgroundSuite("testImg", "testImg", "testImg");
+        if (currentState == STATES.GAMEPLAY){
+            cameraFollowsPlayer(delta);
+            game.player.setScale(getScaleFromStageY(game.player.getY()));
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            currentState = STATES.GAMEPLAY;
-            cleanScreen();
-            setBackgroundSuite("street_bg", "street_shadows", "street_lights");
-            addBackgroundListener();
-            setActorScale(0.7f, 0.2f);
-            travellingMargin = 0.33f;
-            float cycleTime = 6f;
-            background.addAction(Actions.forever(Actions.sequence(Actions.color(Color.WHITE, cycleTime), Actions.color(Color.NAVY, cycleTime))));
-            lights.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(cycleTime), Actions.fadeIn(cycleTime))));
-            shadows.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(cycleTime), Actions.fadeIn(cycleTime))));
-            addWalkzoneScaled(new int[]{1, 9, 6697, 4, 6696, 21, 3887, 641, 3733, 645, 3731, 320, 1935, 352, 1917, 321, 1829, 320, 1823, 362, 1445, 369,
-                    1186, 335, 1139, 369, 1146, 453, 1028, 465, 966, 443, 903, 443, 825, 464, 788, 495, 736, 491, 757, 337, 306, 238, 72, 249, 3, 270, 0, 1035});
-
-            // add and configure Player initial pos
-            game.stage.addActor(game.player);
-            game.player.setScale(0.5f);
-            Vector2 v2 = game.player.destinyCentered(game.WIDTH / 2, game.HEIGHT / 2);
-            game.player.setPosition(v2.x, v2.y);
-        }
-        // taken from the screenstreet class
-        if (currentState == STATES.GAMEPLAY) game.player.setScale(getScaleFromStageY(game.player.getY()));
     }
 
     @Override
@@ -223,25 +187,5 @@ public class GameScreen implements Screen {
     public Array<WalkZone> getWalkZones() {
         return walkZones;
     }
-
-    /**
-     * PROBLEM WITH ASSETMANAGER WHEN SWITCHING SCREENS?? REVISE
-     * @param nxt the screen to go to
-     * @param fadeOutTime in seconds
-     * @param fadeInTime in seconds
-     * @return the Action of changing screen. To actually do it, call addAction(gotoScreen(...))
-     */
-    /*
-    public Action gotoScreen(final GameScreen nxt, float fadeOutTime, final float fadeInTime) {
-        Runnable r = new Runnable() {
-            public void run() {
-                nxt.stage.addAction(sequence(fadeOut(0), fadeIn(fadeInTime)));
-                game.setScreen(nxt);
-            }
-        };
-        return sequence(fadeOut(fadeOutTime), run(r), fadeIn(fadeInTime));
-    }
-    */
-
 
 }
