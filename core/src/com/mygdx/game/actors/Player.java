@@ -22,7 +22,6 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 public class Player extends GameActor {
     Array<TextureAtlas.AtlasRegion> walkCells;
-    float speed = 200; // in pixels per second
     boolean walking = false;
     long timeStamp;
 
@@ -76,7 +75,7 @@ public class Player extends GameActor {
         for (WalkZone wz : getCurrentWalkzones()) {
             if (wz.contains(x, y)){
                 Vector2 destiny = destinyStanding (x, y);
-                float time = destiny.dst(getXY())/speed;
+                float time = destiny.dst(getXY())/game.PLAYER_SPEED;
                 clearActions();
                 startWalk();
                 addAction(Actions.sequence(Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out), Actions.run(new Runnable() {

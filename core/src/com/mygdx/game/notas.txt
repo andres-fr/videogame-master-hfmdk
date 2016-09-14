@@ -6,3 +6,21 @@ habria un unico polyspritebatch  DONE
 
 -> estandarizar el manejo de los assets, y el protocolo de "flusheado" del stage para cambiar entre escenas.
 -> IMPORTANTE: COMPROBAR SI EL GLITCH DEL DRAWER ES CONSISTENTE EN OTRAS PLATAFORMAS
+
+
+
+
+
+
+
+GAME:
+tiene 1 stage (con 1 polygonspritebatch), 1 player y 1 gamescreenexpanded
+
+GAMESCREENRAW:
+2 estados: UI, GAMEPLAY. en render if GAMEPLAY => playerscale, travelling
+tiene 3 backgrounds, y los metodos:
+cleanScreen
+setBgSuite
+addBgListener
+BgTouchedDown (solo if GAMEPLAY)
+addWalkZoneScaled

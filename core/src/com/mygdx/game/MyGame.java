@@ -17,6 +17,8 @@ public class MyGame extends Game {
     public final static boolean DEBUG = false;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
+    public final static int PLAYER_SPEED = 200; // in pixels per second
+    public final static float CAM_SPEED = PLAYER_SPEED/200; // proportional to player speed
     // game related instances
     public AssetsManager assetsManager = new AssetsManager();
     public Stage stage;

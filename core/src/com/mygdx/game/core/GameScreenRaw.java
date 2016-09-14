@@ -30,7 +30,6 @@ public class GameScreenRaw implements Screen {
 
     protected MyGame game;
     protected float downScale, upScale;
-    protected Float travellingMargin = null; // 1 means the camera stands still until the Player hits the screen border
     protected float fitRatio;
     public BackgroundTable background;
     public Table shadows;
@@ -51,7 +50,6 @@ public class GameScreenRaw implements Screen {
     public void cleanScreen() {
         ((OrthographicCamera) game.stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
         game.stage.setDebugAll(MyGame.DEBUG);
-        // camera travelling disabled by default
         // references for the dynamical scaling for 3d actors
         setActorScale(1, 1);
         // remove all actors and listeners from the stage
@@ -143,14 +141,10 @@ public class GameScreenRaw implements Screen {
     private void cameraFollowsPlayer(float delta) {
         float playerX = game.player.getCenter().x;
         float camX = game.stage.getCamera().position.x;
-        float margin = MyGame.WIDTH * travellingMargin / 2;
-        if (playerX < camX-margin) {
-            game.stage.getCamera().position.x += playerX-(camX-margin);
-            //game.stage.getCamera().translate(playerX-(camX-margin-20), 0, 0);
-        } else if (playerX > camX + margin) {
-            game.stage.getCamera().position.x += playerX-(camX+margin);
-            //game.stage.getCamera().translate(playerX-(camX+margin+20), 0, 0);
-        }
+        camX += (playerX - camX) * game.CAM_SPEED * delta;
+        // move cam
+        game.stage.getCamera().position.x = camX;
+        // prevent cam to override width bounds
         if (game.stage.getCamera().position.x < MyGame.WIDTH / 2){
             game.stage.getCamera().position.x = MyGame.WIDTH / 2;
         }

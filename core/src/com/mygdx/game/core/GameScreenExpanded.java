@@ -37,7 +37,6 @@ public class GameScreenExpanded extends GameScreenRaw {
             setBackgroundSuite("street_bg", "street_shadows", "street_lights");
             addBackgroundListener();
             setActorScale(0.7f, 0.025f);
-            travellingMargin = 0.33f;
             float cycleTime = 6f;
             background.addAction(Actions.forever(Actions.sequence(Actions.color(Color.WHITE, cycleTime), Actions.color(Color.NAVY, cycleTime))));
             lights.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(cycleTime), Actions.fadeIn(cycleTime))));
