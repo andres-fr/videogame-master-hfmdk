@@ -7,12 +7,13 @@ import com.mygdx.game.MyGame;
 
 /**
  * Created by afr on 29.08.16.
+ * a Table that draws its walkzones if DEBUG is true
  */
 
 public class BackgroundTable extends Table {
-    GameScreenRaw gameScreen;
+    GameScreenUI gameScreen;
 
-    public BackgroundTable(GameScreenRaw gs) {
+    public BackgroundTable(GameScreenUI gs) {
         super();
         gameScreen = gs;
     }

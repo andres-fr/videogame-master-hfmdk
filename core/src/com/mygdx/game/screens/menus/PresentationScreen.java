@@ -5,7 +5,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.MyGame;
-import com.mygdx.game.core.GameScreenRaw;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
@@ -18,7 +17,7 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
  * The animations can be skipped by clicking anywhere after MIN_TIME seconds.
  */
 
-public class PresentationScreen extends GameScreenRaw {
+public class PresentationScreen extends GameScreenBasic {
     // this array can be arbitrarily expanded when needed
     Image[] logos = {new Image(new Texture(Gdx.files.internal("logos/obama.png"))),
             new Image(new Texture(Gdx.files.internal("logos/korea.jpg"))),

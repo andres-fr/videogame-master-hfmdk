@@ -6,8 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.mygdx.game.core.GameScreenRaw;
-import com.mygdx.game.core.MenuScreenOld;
 
 /**
  * Created by afr on 08.08.16.
@@ -20,7 +18,7 @@ public class PauseMenuScreen extends MenuScreenOld {
     private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin("uiskin"));
     private TextButton exitButton = new TextButton("Exit", game.assetsManager.getSkin("uiskin"));
 
-    public PauseMenuScreen(GameScreenRaw s) {
+    public PauseMenuScreen(GameScreenBasic s) {
         super(s);
         addWidgets();
         addListeners();

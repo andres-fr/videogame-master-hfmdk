@@ -24,3 +24,23 @@ setBgSuite
 addBgListener
 BgTouchedDown (solo if GAMEPLAY)
 addWalkZoneScaled
+
+
+ENTONCES:
+1) tenemos la clase GameScreenRunnables con los runnables que flushean, rellenan, cambian el estado del screen.
+2) La clase GameScreenProtocols hereda a GSR y tiene una serie de metodos escuetos, que cambian de escenas
+con fades, travellings, abanicos y toda la pesca necesaria.
+3) dichos metodos son invocados por los actores del UI, que aun no tengo.
+4) al cambiar de capitulo, cambia el atlas. integrarlo? IDEA:
+tenemos 1 asset global, con cosas que siempre hacen falta (player, menus...)
+y luego tenemos 1 asset de chapter, con el atlas del capitulo, que se borra/cambia a cada capi.
+Por tanto el asset manager solo tiene 2 slots, uno estatico y el otro dinamico.
+
+esto deberia funcionar. como hacerlo?
+1) cambiar el asset manager, aclararte con los assets (bajarte las movidas de martin etc pa probar)
+2) implementar limpiamente el protocolo de asset en MyGame
+3) implementar limpiamente el protocolo de screens en GSProtocoll
+4) reconstruir los menu screens que hay en base al nuevo protocolo
+5) O QUIZA OLVIDATE DE ESO Y PRUEBA LO QUE DICE AQUI:
+http://badlogicgames.com/forum/viewtopic.php?f=11&t=11256
+cada "screen" mio seria un Table con el parentFill=true,

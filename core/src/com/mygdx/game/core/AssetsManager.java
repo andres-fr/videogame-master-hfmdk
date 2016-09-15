@@ -12,91 +12,60 @@ import com.badlogic.gdx.utils.ArrayMap;
  */
 
 public class AssetsManager {
-    private String currentAtlasName;
-    private ArrayMap<String, Skin> skins = new ArrayMap<String, Skin>();
-    private ArrayMap<String, TextureAtlas> atlases = new ArrayMap<String, TextureAtlas>();
-    private Array<TextureAtlas.AtlasRegion> regions;
+    private Skin skin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
+    private TextureAtlas permanentAtlas = new TextureAtlas(Gdx.files.internal("atlases/permanentAtlas"));
+    private String chapterAtlasName = null;
+    private TextureAtlas chapterAtlas = null;
 
 
     public AssetsManager() {
     }
 
-    private void loadAtlas(String name, String localAddress) {
-        if (atlases.get(name) == null) {
-            atlases.put(name, new TextureAtlas(Gdx.files.internal(localAddress)));
-        }
+    public Skin getSkin() {
+        return skin;
     }
 
-    private void deleteAtlas(String atlasName) {
-        TextureAtlas ta = atlases.get(atlasName);
-        atlases.removeKey(atlasName);
-        ta.dispose();
-        if (currentAtlasName == atlasName) {
-            currentAtlasName = null;
-            regions = null;
-        }
+    public TextureAtlas getChapterAtlas() {
+        return chapterAtlas;
     }
 
-    public void setCurrentAtlas(String name) {
-        currentAtlasName = name;
-        regions = atlases.get(name).getRegions();
+    public String getChapterAtlasName() {
+        return chapterAtlasName;
     }
 
-    public TextureAtlas getAtlas(String str) {
-        return atlases.get(currentAtlasName);
+    public TextureAtlas.AtlasRegion getPermanentRegion(int idx) {
+        return permanentAtlas.getRegions().get(idx);
     }
 
-    public TextureAtlas getCurrentAtlas() {
-        return atlases.get(currentAtlasName);
+    public TextureAtlas.AtlasRegion getPermanentRegion(String regName) {
+        return permanentAtlas.findRegion(regName);
     }
 
-    public TextureAtlas.AtlasRegion getRegion(int idx) {
-        return regions.get(idx);
+    public TextureAtlas.AtlasRegion getChapterRegion(int idx) {
+        return chapterAtlas.getRegions().get(idx);
     }
 
-    public TextureAtlas.AtlasRegion getRegion(String regionName) {
-        return getCurrentAtlas().findRegion(regionName);
+    public TextureAtlas.AtlasRegion getChapterRegion(String regName) {
+        return chapterAtlas.findRegion(regName);
     }
-
-    public TextureRegionDrawable getRegionDrawable(String regionName) {
-        return new TextureRegionDrawable(getCurrentAtlas().findRegion(regionName));
-    }
-
-    public String getCurrentAtlasName() {
-        return currentAtlasName;
-    }
-
-    private void loadSkin(String name, String localAddress) {
-        if (skins.get(name) == null) {
-            skins.put(name, new Skin(Gdx.files.internal("uiskin/uiskin.json")));
-        }
-    }
-    private void deleteSkin(String skinName) {
-        Skin s = skins.get(skinName);
-        skins.removeKey(skinName);
-        s.dispose();
-    }
-
-    public Skin getSkin(String skinName) {
-        return skins.get(skinName);
-    }
-
-
-    public void prepareInit() {
-        //loadSkin("uiskin", "uiskin/uiskin.json");
-        loadAtlas("menuscene", "menuscene-packed/pack.atlas");
-        setCurrentAtlas("menuscene");
-    }
-
-    public void prepareScene1() {
-        loadSkin("uiskin", "uiskin/uiskin.json");
-        loadAtlas("scene1", "scene1-packed/pack.atlas");
-        setCurrentAtlas("scene1");
-    }
-
 
     public void dispose() {
-        for (Skin s : skins.values()) s.dispose();
-        for (TextureAtlas ta : atlases.values()) ta.dispose();
+        skin.dispose();
+        permanentAtlas.dispose();
+        chapterAtlas.dispose();
+    }
+
+    /**
+     * @param atlasName just for debugging purposes, give a name to the atlas
+     * @param localAddress the string where to find the atlas in the assets (f.e. "atlases/myatlas")
+     */
+    private void loadChapterAtlas(String atlasName, String localAddress) {
+        if (chapterAtlas != null) chapterAtlas.dispose();
+        chapterAtlas = new TextureAtlas(Gdx.files.internal(localAddress));
+        chapterAtlasName = atlasName;
+    }
+
+    public void loadChapter1() {
+        loadChapterAtlas("chapter1", "atlases/chapter1");
     }
 }
