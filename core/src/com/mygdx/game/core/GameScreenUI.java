@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MyGame;
@@ -49,10 +50,10 @@ public class GameScreenUI implements Screen {
         // add the background for the given bgrnd name
         background = new BackgroundTable(this);
         stage.addActor(background);
-        screenFitRatio = ((float) MyGame.HEIGHT) / ((float) game.assetsManager.getRegion(bgrnd).getRegionHeight());
-        background.setBackground(game.assetsManager.getRegionDrawable(bgrnd));
-        background.setBounds(0, 0, game.assetsManager.getRegion(bgrnd).getRegionWidth() * screenFitRatio,
-                game.assetsManager.getRegion(bgrnd).getRegionHeight() * screenFitRatio);
+        screenFitRatio = ((float) MyGame.HEIGHT) / ((float) game.assetsManager.getChapterRegion(bgrnd).getRegionHeight());
+        background.setBackground(new TextureRegionDrawable(game.assetsManager.getChapterRegion(bgrnd)));
+        background.setBounds(0, 0, game.assetsManager.getChapterRegion(bgrnd).getRegionWidth() * screenFitRatio,
+                game.assetsManager.getChapterRegion(bgrnd).getRegionHeight() * screenFitRatio);
 
     }
 
@@ -61,15 +62,15 @@ public class GameScreenUI implements Screen {
         // add the shadows for the given shdw name
         shadows = new Table();
         stage.addActor(shadows);
-        shadows.setBackground(game.assetsManager.getRegionDrawable(shdw));
-        shadows.setBounds(0, 0, game.assetsManager.getRegion(shdw).getRegionWidth() * screenFitRatio,
-                game.assetsManager.getRegion(shdw).getRegionHeight() * screenFitRatio);
+        shadows.setBackground(new TextureRegionDrawable(game.assetsManager.getChapterRegion(shdw)));
+        shadows.setBounds(0, 0, game.assetsManager.getChapterRegion(shdw).getRegionWidth() * screenFitRatio,
+                game.assetsManager.getChapterRegion(shdw).getRegionHeight() * screenFitRatio);
         // add the lights for the given lghts name
         lights = new Table();
         stage.addActor(lights);
-        lights.setBackground(game.assetsManager.getRegionDrawable(lghts));
-        lights.setBounds(0, 0, game.assetsManager.getRegion(lghts).getRegionWidth() * screenFitRatio,
-                game.assetsManager.getRegion(lghts).getRegionHeight() * screenFitRatio);
+        lights.setBackground(new TextureRegionDrawable(game.assetsManager.getChapterRegion(lghts)));
+        lights.setBounds(0, 0, game.assetsManager.getChapterRegion(lghts).getRegionWidth() * screenFitRatio,
+                game.assetsManager.getChapterRegion(lghts).getRegionHeight() * screenFitRatio);
 
     }
 
@@ -121,9 +122,9 @@ public class GameScreenUI implements Screen {
     public void setForeground(String fgrnd) {
         foreground = new Table();
         stage.addActor(foreground);
-        foreground.setBackground(game.assetsManager.getRegionDrawable(fgrnd));
-        foreground.setBounds(0, 0, game.assetsManager.getRegion(fgrnd).getRegionWidth() * screenFitRatio,
-                game.assetsManager.getRegion(fgrnd).getRegionHeight() * screenFitRatio);
+        foreground.setBackground(new TextureRegionDrawable(game.assetsManager.getChapterRegion(fgrnd)));
+        foreground.setBounds(0, 0, game.assetsManager.getChapterRegion(fgrnd).getRegionWidth() * screenFitRatio,
+                game.assetsManager.getChapterRegion(fgrnd).getRegionHeight() * screenFitRatio);
     }
 
 

@@ -1,0 +1,41 @@
+
+presentation.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cage
+  rotate: false
+  xy: 1504, 1156
+  size: 273, 200
+  orig: 273, 200
+  offset: 0, 0
+  index: -1
+gnuu
+  rotate: false
+  xy: 452, 203
+  size: 204, 247
+  orig: 204, 247
+  offset: 0, 0
+  index: -1
+korea
+  rotate: false
+  xy: 1504, 1358
+  size: 500, 594
+  orig: 500, 594
+  offset: 0, 0
+  index: -1
+obama
+  rotate: false
+  xy: 2, 452
+  size: 1500, 1500
+  orig: 1500, 1500
+  offset: 0, 0
+  index: -1
+stallman
+  rotate: false
+  xy: 2, 2
+  size: 448, 448
+  orig: 448, 448
+  offset: 0, 0
+  index: -1

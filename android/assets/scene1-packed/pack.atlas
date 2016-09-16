@@ -1,90 +1,41 @@
 
 pack.png
-size: 8192,4096
+size: 8192,8192
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+room05
+  rotate: false
+  xy: 2, 2
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
 street_bg
   rotate: false
-  xy: 2, 3022
+  xy: 2, 3188
   size: 6701, 1050
   orig: 6701, 1050
   offset: 0, 0
   index: -1
 street_lights
   rotate: false
-  xy: 2, 1970
+  xy: 2, 2136
   size: 6701, 1050
   orig: 6701, 1050
   offset: 0, 0
   index: -1
 street_shadows
   rotate: false
-  xy: 2, 918
+  xy: 2, 1084
   size: 6701, 1050
   orig: 6701, 1050
   offset: 0, 0
   index: -1
 testImg
   rotate: false
-  xy: 6705, 3352
+  xy: 6705, 3518
   size: 1280, 720
   orig: 1280, 720
   offset: 0, 0
   index: -1
-walk.left
-  rotate: false
-  xy: 2, 460
-  size: 199, 456
-  orig: 199, 456
-  offset: 0, 0
-  index: 1
-walk.left
-  rotate: false
-  xy: 6705, 2894
-  size: 199, 456
-  orig: 199, 456
-  offset: 0, 0
-  index: 2
-walk.left
-  rotate: false
-  xy: 7987, 3616
-  size: 199, 456
-  orig: 199, 456
-  offset: 0, 0
-  index: 3
-walk.left
-  rotate: false
-  xy: 2, 2
-  size: 199, 456
-  orig: 199, 456
-  offset: 0, 0
-  index: 4
-walk.left
-  rotate: false
-  xy: 203, 460
-  size: 199, 456
-  orig: 199, 456
-  offset: 0, 0
-  index: 5
-walk.left
-  rotate: false
-  xy: 6705, 2436
-  size: 199, 456
-  orig: 199, 456
-  offset: 0, 0
-  index: 6
-walk.left
-  rotate: false
-  xy: 6906, 2894
-  size: 199, 456
-  orig: 199, 456
-  offset: 0, 0
-  index: 7
-walk.left
-  rotate: false
-  xy: 203, 2
-  size: 199, 456
-  orig: 199, 456
-  offset: 0, 0
-  index: 8

@@ -1,0 +1,83 @@
+
+pack.png
+size: 4096,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+mouse-pointer-fist
+  rotate: false
+  xy: 2, 1280
+  size: 2130, 2400
+  orig: 2130, 2400
+  offset: 0, 0
+  index: -1
+mouse-pointer-index
+  rotate: false
+  xy: 2134, 1280
+  size: 1774, 2400
+  orig: 1774, 2400
+  offset: 0, 0
+  index: -1
+mouse-pointer-metal
+  rotate: false
+  xy: 2, 918
+  size: 375, 360
+  orig: 375, 360
+  offset: 0, 0
+  index: -1
+walk.left
+  rotate: false
+  xy: 2, 460
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 1
+walk.left
+  rotate: false
+  xy: 2, 2
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 2
+walk.left
+  rotate: false
+  xy: 203, 460
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 3
+walk.left
+  rotate: false
+  xy: 203, 2
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 4
+walk.left
+  rotate: false
+  xy: 404, 822
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 5
+walk.left
+  rotate: false
+  xy: 404, 364
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 6
+walk.left
+  rotate: false
+  xy: 605, 822
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 7
+walk.left
+  rotate: false
+  xy: 605, 364
+  size: 199, 456
+  orig: 199, 456
+  offset: 0, 0
+  index: 8

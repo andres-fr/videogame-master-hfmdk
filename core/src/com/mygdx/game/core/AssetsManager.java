@@ -13,12 +13,13 @@ import com.badlogic.gdx.utils.ArrayMap;
 
 public class AssetsManager {
     private Skin skin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
-    private TextureAtlas permanentAtlas = new TextureAtlas(Gdx.files.internal("atlases/permanentAtlas"));
+    private TextureAtlas permanentAtlas;
     private String chapterAtlasName = null;
     private TextureAtlas chapterAtlas = null;
 
 
     public AssetsManager() {
+        permanentAtlas = new TextureAtlas(Gdx.files.internal("atlases/permanent"));
     }
 
     public Skin getSkin() {
@@ -49,6 +50,13 @@ public class AssetsManager {
         return chapterAtlas.findRegion(regName);
     }
 
+    /*
+    public TextureRegionDrawable getRegionDrawable(String regionName) {
+        return new TextureRegionDrawable(getCurrentAtlas().findRegion(regionName));
+    }
+    */
+
+
     public void dispose() {
         skin.dispose();
         permanentAtlas.dispose();
@@ -64,6 +72,8 @@ public class AssetsManager {
         chapterAtlas = new TextureAtlas(Gdx.files.internal(localAddress));
         chapterAtlasName = atlasName;
     }
+
+    public void loadPresentation(){ loadChapterAtlas("presentation", "atlases/presentation");}
 
     public void loadChapter1() {
         loadChapterAtlas("chapter1", "atlases/chapter1");
