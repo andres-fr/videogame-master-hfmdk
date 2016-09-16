@@ -3,6 +3,7 @@ package com.mygdx.game.core;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
 
 /**
@@ -38,6 +39,25 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         });
     }
 
+
+    /**
+     * rescales and adds the given walking zone to the screen
+     *
+     * @param points an array of integers designing the x, y, x, y... coordinates for the
+     *               vertices of a walkZone (Polygon), as they appear on the background image
+     *               without scaling and starting by (x,y)=(0,0) in the lower-left corner.
+     */
+    public void addWalkzoneScaled(int[] points) {
+        float[] scaled = new float[points.length];
+        for (int i = 0; i < points.length; i++) {
+            scaled[i] = points[i]*screenFitRatio;
+        }
+        walkZones.add(new WalkZone(scaled));
+    }
+
+    public Array<WalkZone> getWalkZones() {
+        return walkZones;
+    }
 
 
     /**

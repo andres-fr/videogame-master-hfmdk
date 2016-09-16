@@ -31,7 +31,7 @@ public class MyGame extends Game {
         player = new Player(this, true, 0);
 
         // load assets and start screen
-        assetsManager.loadChapter1();
+        assetsManager.prepareChapter1();
         setScreen(new StreetChapter1Screen(this));
     }
 

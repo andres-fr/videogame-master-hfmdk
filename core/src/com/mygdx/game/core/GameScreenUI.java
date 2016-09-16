@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -50,10 +51,10 @@ public class GameScreenUI implements Screen {
         // add the background for the given bgrnd name
         background = new BackgroundTable(this);
         stage.addActor(background);
-        screenFitRatio = ((float) MyGame.HEIGHT) / ((float) game.assetsManager.getChapterRegion(bgrnd).getRegionHeight());
-        background.setBackground(new TextureRegionDrawable(game.assetsManager.getChapterRegion(bgrnd)));
-        background.setBounds(0, 0, game.assetsManager.getChapterRegion(bgrnd).getRegionWidth() * screenFitRatio,
-                game.assetsManager.getChapterRegion(bgrnd).getRegionHeight() * screenFitRatio);
+        screenFitRatio = ((float) MyGame.HEIGHT) / ((float) game.assetsManager.getCurrentRegion(bgrnd).getRegionHeight());
+        background.setBackground(new TextureRegionDrawable(game.assetsManager.getCurrentRegion(bgrnd)));
+        background.setBounds(0, 0, game.assetsManager.getCurrentRegion(bgrnd).getRegionWidth() * screenFitRatio,
+                game.assetsManager.getCurrentRegion(bgrnd).getRegionHeight() * screenFitRatio);
 
     }
 
@@ -62,15 +63,15 @@ public class GameScreenUI implements Screen {
         // add the shadows for the given shdw name
         shadows = new Table();
         stage.addActor(shadows);
-        shadows.setBackground(new TextureRegionDrawable(game.assetsManager.getChapterRegion(shdw)));
-        shadows.setBounds(0, 0, game.assetsManager.getChapterRegion(shdw).getRegionWidth() * screenFitRatio,
-                game.assetsManager.getChapterRegion(shdw).getRegionHeight() * screenFitRatio);
+        shadows.setBackground(new TextureRegionDrawable(game.assetsManager.getCurrentRegion(shdw)));
+        shadows.setBounds(0, 0, game.assetsManager.getCurrentRegion(shdw).getRegionWidth() * screenFitRatio,
+                game.assetsManager.getCurrentRegion(shdw).getRegionHeight() * screenFitRatio);
         // add the lights for the given lghts name
         lights = new Table();
         stage.addActor(lights);
-        lights.setBackground(new TextureRegionDrawable(game.assetsManager.getChapterRegion(lghts)));
-        lights.setBounds(0, 0, game.assetsManager.getChapterRegion(lghts).getRegionWidth() * screenFitRatio,
-                game.assetsManager.getChapterRegion(lghts).getRegionHeight() * screenFitRatio);
+        lights.setBackground(new TextureRegionDrawable(game.assetsManager.getCurrentRegion(lghts)));
+        lights.setBounds(0, 0, game.assetsManager.getCurrentRegion(lghts).getRegionWidth() * screenFitRatio,
+                game.assetsManager.getCurrentRegion(lghts).getRegionHeight() * screenFitRatio);
 
     }
 
@@ -122,33 +123,29 @@ public class GameScreenUI implements Screen {
     public void setForeground(String fgrnd) {
         foreground = new Table();
         stage.addActor(foreground);
-        foreground.setBackground(new TextureRegionDrawable(game.assetsManager.getChapterRegion(fgrnd)));
-        foreground.setBounds(0, 0, game.assetsManager.getChapterRegion(fgrnd).getRegionWidth() * screenFitRatio,
-                game.assetsManager.getChapterRegion(fgrnd).getRegionHeight() * screenFitRatio);
+        foreground.setBackground(new TextureRegionDrawable(game.assetsManager.getCurrentRegion(fgrnd)));
+        foreground.setBounds(0, 0, game.assetsManager.getCurrentRegion(fgrnd).getRegionWidth() * screenFitRatio,
+                game.assetsManager.getCurrentRegion(fgrnd).getRegionHeight() * screenFitRatio);
     }
 
-
-    /**
-     * rescales and adds the given walking zone to the screen
-     *
-     * @param points an array of integers designing the x, y, x, y... coordinates for the
-     *               vertices of a walkZone (Polygon), as they appear on the background image
-     *               without scaling and starting by (x,y)=(0,0) in the lower-left corner.
-     */
-    public void addWalkzoneScaled(int[] points) {
-        float[] scaled = new float[points.length];
-        for (int i = 0; i < points.length; i++) {
-            scaled[i] = points[i]*screenFitRatio;
-        }
-        walkZones.add(new WalkZone(scaled));
+    protected Action fadeOutFadeIn(float fadeOutTime, float fadeInTime) {
+        return Actions.sequence(Actions.fadeOut(fadeOutTime), Actions.fadeIn(fadeInTime));
     }
 
-    public Array<WalkZone> getWalkZones() {
-        return walkZones;
+    protected Action fadeOutRunFadeIn( float fadeOutTime, Runnable r, float fadeInTime) {
+        return Actions.sequence(Actions.fadeOut(fadeOutTime), Actions.run(r), Actions.fadeIn(fadeInTime));
     }
 
-
-    private void changeScreen(Runnable r, float fadeOutTime, float fadeInTime) {
-        stage.addAction(Actions.sequence(Actions.fadeOut(fadeOutTime), Actions.run(r), Actions.fadeIn(fadeInTime)));
+    protected Action gotoScreen(final GameScreenUI gs, float fadeOut, final float fadeIn) {
+        final GameScreenUI currentScreen = this;
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                game.setScreen(gs);
+                currentScreen.dispose();
+                gs.fadeOutFadeIn(0, fadeIn);
+            }
+        };
+        return fadeOutRunFadeIn(fadeOut, r, 0);
     }
 }
