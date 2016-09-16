@@ -7,36 +7,38 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MyGame;
+import com.mygdx.game.core.GameScreenUI;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class MainMenuScreen extends MenuScreenOld {
+public class MainMenuScreen extends GameScreenUI {
     // size config
     public static int PREF_MENU_WIDTH = (int)(MyGame.WIDTH*0.9);
     public static int PREF_MENU_HEIGHT = (int)(MyGame.HEIGHT*0.9);
 
     // related menu screens
-    private GameScreenBasic optionsScreen = new OptionsMenuScreen(this);
+    private OptionsMenuScreen optionsScreen = new OptionsMenuScreen(this);
     private GameplayMenuScreen gameplayScreen = new GameplayMenuScreen(this);
     private CreditsScreen creditsScreen = new CreditsScreen(this);
     private LoadSaveMenuScreen loadSaveMenuScreen = new LoadSaveMenuScreen(this);
 
     // MAIN CONTAINER for everything else
     // menu widgets
-    private Label titleLabel = new Label("GAME TITLE", game.assetsManager.getSkin("uiskin"));
-    private Label versionLabel = new Label("version "+ MyGame.VERSION, game.assetsManager.getSkin("uiskin"));
-    private TextButton continueButton = new TextButton("Continue Game", game.assetsManager.getSkin("uiskin"));
-    private TextButton newGameButton = new TextButton("New Game", game.assetsManager.getSkin("uiskin"));
-    private TextButton loadSaveButton = new TextButton("Load/Save Game", game.assetsManager.getSkin("uiskin"));
-    private TextButton exitButton = new TextButton("Exit", game.assetsManager.getSkin("uiskin"));
-    private TextButton optionsButton = new TextButton("Options", game.assetsManager.getSkin("uiskin"));
-    private TextButton gameplayButton = new TextButton("Gameplay", game.assetsManager.getSkin("uiskin"));
-    private TextButton creditsButton = new TextButton("Credits", game.assetsManager.getSkin("uiskin"));
+    private Label titleLabel = new Label("GAME TITLE", game.assetsManager.getSkin());
+    private Label versionLabel = new Label("version "+ MyGame.VERSION, game.assetsManager.getSkin());
+    private TextButton continueButton = new TextButton("Continue Game", game.assetsManager.getSkin());
+    private TextButton newGameButton = new TextButton("New Game", game.assetsManager.getSkin());
+    private TextButton loadSaveButton = new TextButton("Load/Save Game", game.assetsManager.getSkin());
+    private TextButton exitButton = new TextButton("Exit", game.assetsManager.getSkin());
+    private TextButton optionsButton = new TextButton("Options", game.assetsManager.getSkin());
+    private TextButton gameplayButton = new TextButton("Gameplay", game.assetsManager.getSkin());
+    private TextButton creditsButton = new TextButton("Credits", game.assetsManager.getSkin());
 
-    public MainMenuScreen(GameScreenBasic s) {
-        super(s);
+    public MainMenuScreen(MyGame g) {
+        super(g, );
+        game = g;
         addWidgets();
         addListeners();
     }

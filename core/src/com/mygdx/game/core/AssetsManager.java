@@ -79,11 +79,8 @@ public class AssetsManager {
         }
     }
 
-    public void preparePresentation() {
-        setCurrentAtlas("presentation", "atlases/presentation");
-    }
-
-    public void prepareChapter1() {
-        setCurrentAtlas("chapter1", "atlases/chapter1");
+    public void prepare(String sectionName) {
+        if (sectionName.equals("lobby")) setCurrentAtlas("lobby", "atlases/lobby");
+        else if (sectionName.equals("chapter1")) setCurrentAtlas("chapter1", "atlases/chapter1");
     }
 }

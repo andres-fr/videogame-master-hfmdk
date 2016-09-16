@@ -128,24 +128,5 @@ public class GameScreenUI implements Screen {
                 game.assetsManager.getCurrentRegion(fgrnd).getRegionHeight() * screenFitRatio);
     }
 
-    protected Action fadeOutFadeIn(float fadeOutTime, float fadeInTime) {
-        return Actions.sequence(Actions.fadeOut(fadeOutTime), Actions.fadeIn(fadeInTime));
-    }
 
-    protected Action fadeOutRunFadeIn( float fadeOutTime, Runnable r, float fadeInTime) {
-        return Actions.sequence(Actions.fadeOut(fadeOutTime), Actions.run(r), Actions.fadeIn(fadeInTime));
-    }
-
-    protected Action gotoScreen(final GameScreenUI gs, float fadeOut, final float fadeIn) {
-        final GameScreenUI currentScreen = this;
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                game.setScreen(gs);
-                currentScreen.dispose();
-                gs.fadeOutFadeIn(0, fadeIn);
-            }
-        };
-        return fadeOutRunFadeIn(fadeOut, r, 0);
-    }
 }

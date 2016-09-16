@@ -5,9 +5,14 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
+import com.mygdx.game.core.GameActions;
+import com.mygdx.game.core.GameScreenUI;
 import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
+import com.mygdx.game.screens.menus.PresentationScreen;
 
 public class MyGame extends Game {
     // http://stackoverflow.com/questions/27560783/libgdx-translating-a-scene2d-camera
@@ -22,6 +27,8 @@ public class MyGame extends Game {
     public AssetsManager assetsManager;
     public PolygonSpriteBatch batch;
     public Player player;
+    // a pointer to the currently active screen
+    private GameScreenUI currentScreen = null;
 
 	@Override
 	public void create () {
@@ -30,9 +37,8 @@ public class MyGame extends Game {
         batch = new PolygonSpriteBatch();
         player = new Player(this, true, 0);
 
-        // load assets and start screen
-        assetsManager.prepareChapter1();
-        setScreen(new StreetChapter1Screen(this));
+        // start game!
+        gotoScreen(new PresentationScreen(this), "lobby", 0, 0);
     }
 
     @Override
@@ -40,5 +46,22 @@ public class MyGame extends Game {
         super.dispose();
         assetsManager.dispose();
         batch.dispose();
+    }
+
+
+
+
+    protected Action gotoScreen(final GameScreenUI gs, final String prepareAsset, float fadeout, final float fadein) {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                assetsManager.prepare(prepareAsset);
+                setScreen(gs);
+                currentScreen.dispose();
+                currentScreen = gs;
+                GameActions.fadeOutFadeIn(0, fadein);
+            }
+        };
+        return GameActions.fadeOutRunFadeIn(fadeout, r, 0);
     }
 }
