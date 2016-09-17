@@ -1,5 +1,6 @@
-package com.mygdx.game.screens.menus;
+package com.mygdx.game.screens.lobby;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -11,13 +12,15 @@ import com.mygdx.game.core.GameScreenUI;
  * Created by afr on 08.08.16.
  */
 
-public class LoadSaveMenuScreen extends GameScreenUI {
-    private Label titleLabel = new Label("CREDITS SCREEN", game.assetsManager.getSkin());
+public class PauseMenuScreen extends GameScreenUI {
+
+    private Label titleLabel = new Label("OPTIONS MENU SCREEN", game.assetsManager.getSkin());
     private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin());
-    private TextButton continueButton = new TextButton("Continue", game.assetsManager.getSkin());
+    private TextButton exitButton = new TextButton("Exit", game.assetsManager.getSkin());
     private MainMenuScreen menu;
 
-    public LoadSaveMenuScreen(MainMenuScreen m) {
+
+    public PauseMenuScreen(MainMenuScreen m) {
         super(m.game, "cage");
         menu = m;
         addWidgets();
@@ -50,15 +53,16 @@ public class LoadSaveMenuScreen extends GameScreenUI {
         titleTable.add(subTitleLabel).padBottom(150);
         // main buttons contents
         mainButtons.defaults().prefWidth(160).prefHeight(60);
-        mainButtons.add(continueButton).row();
+        mainButtons.add(exitButton).row();
     }
 
     protected void addListeners() {
-        continueButton.addListener(new ChangeListener() {
+        exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.gotoScreen(menu, "lobby", 0.2f, 0.2f);
+                Gdx.app.exit();
             }
         });
     }
+
 }

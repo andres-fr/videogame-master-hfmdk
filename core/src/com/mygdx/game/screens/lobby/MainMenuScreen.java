@@ -1,4 +1,4 @@
-package com.mygdx.game.screens.menus;
+package com.mygdx.game.screens.lobby;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;

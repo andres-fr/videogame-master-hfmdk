@@ -11,7 +11,7 @@ import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
 import com.mygdx.game.core.GameScreenUI;
-import com.mygdx.game.screens.menus.PresentationScreen;
+import com.mygdx.game.screens.lobby.PresentationScreen;
 
 public class MyGame extends Game {
     public final static int WIDTH = 1280;

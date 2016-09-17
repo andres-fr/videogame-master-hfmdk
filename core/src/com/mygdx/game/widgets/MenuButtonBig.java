@@ -1,4 +1,4 @@
-package com.mygdx.game.core.widgets;
+package com.mygdx.game.widgets;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;

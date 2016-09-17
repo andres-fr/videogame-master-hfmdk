@@ -1,6 +1,5 @@
-package com.mygdx.game.screens.menus;
+package com.mygdx.game.screens.lobby;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -12,15 +11,14 @@ import com.mygdx.game.core.GameScreenUI;
  * Created by afr on 08.08.16.
  */
 
-public class PauseMenuScreen extends GameScreenUI {
-
+public class GameplayMenuScreen extends GameScreenUI {
     private Label titleLabel = new Label("OPTIONS MENU SCREEN", game.assetsManager.getSkin());
     private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin());
-    private TextButton exitButton = new TextButton("Exit", game.assetsManager.getSkin());
+    private TextButton continueButton = new TextButton("Continue", game.assetsManager.getSkin());
     private MainMenuScreen menu;
 
 
-    public PauseMenuScreen(MainMenuScreen m) {
+    public GameplayMenuScreen(MainMenuScreen m) {
         super(m.game, "cage");
         menu = m;
         addWidgets();
@@ -53,16 +51,15 @@ public class PauseMenuScreen extends GameScreenUI {
         titleTable.add(subTitleLabel).padBottom(150);
         // main buttons contents
         mainButtons.defaults().prefWidth(160).prefHeight(60);
-        mainButtons.add(exitButton).row();
+        mainButtons.add(continueButton).row();
     }
 
     protected void addListeners() {
-        exitButton.addListener(new ChangeListener() {
+        continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
+                game.gotoScreen(menu, "lobby", 0.2f, 0.2f);
             }
         });
     }
-
 }

@@ -1,4 +1,4 @@
-package com.mygdx.game.screens.menus;
+package com.mygdx.game.screens.lobby;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -11,13 +11,14 @@ import com.mygdx.game.core.GameScreenUI;
  * Created by afr on 08.08.16.
  */
 
-public class CreditsScreen extends GameScreenUI {
+public class OptionsMenuScreen extends GameScreenUI {
     private Label titleLabel = new Label("OPTIONS MENU SCREEN", game.assetsManager.getSkin());
     private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin());
     private TextButton continueButton = new TextButton("Continue", game.assetsManager.getSkin());
     private MainMenuScreen menu;
 
-    public CreditsScreen(MainMenuScreen m) {
+
+    public OptionsMenuScreen(MainMenuScreen m) {
         super(m.game, "cage");
         menu = m;
         addWidgets();
