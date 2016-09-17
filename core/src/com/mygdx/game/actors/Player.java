@@ -21,13 +21,11 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 
 public class Player extends GameActor {
-    Array<TextureAtlas.AtlasRegion> walkCells;
     boolean walking = false;
     long timeStamp;
 
     public Player(MyGame g, boolean touchable, int initCell) {
-        super(g, touchable, initCell);
-        walkCells = getRegions("walk.left");
+        super(g, g.assetsManager.getPermanentAtlas().findRegions("walk.left"), touchable, initCell);
         timeStamp = nanoTime();
 
         this.addListener(new GameActorGestureListener(0.32f) {
@@ -68,11 +66,11 @@ public class Player extends GameActor {
     }
 
     private void walkForwards() {
-        changeCell((getCell()+1) % walkCells.size);
+        changeCell((getCell()+1) % cellArray.size);
     }
 
     public void walkTo(float x, float y) {
-        for (WalkZone wz : getCurrentWalkzones()) {
+        for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
             if (wz.contains(x, y)){
                 Vector2 destiny = destinyStanding (x, y);
                 float time = destiny.dst(getXY())/game.PLAYER_SPEED;
@@ -96,7 +94,7 @@ public class Player extends GameActor {
             timeStamp = nanoTime();
             walkForwards();
             Vector2 footPos = getFoot();
-            for (WalkZone wz : getCurrentWalkzones()) {
+            for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
                 if (!wz.contains(footPos.x, footPos.y)) {
                     clearActions();
                     standStill();
@@ -112,7 +110,4 @@ public class Player extends GameActor {
         standStill();
     }
 
-    private Array<WalkZone> getCurrentWalkzones() {
-        return game.mainScreen.getWalkZones();
-    }
 }

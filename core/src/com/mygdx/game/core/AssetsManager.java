@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
+import com.mygdx.game.MyGame;
 
 /**
  * Created by afr on 26.08.16.
@@ -23,11 +24,15 @@ public class AssetsManager {
 
 
     public AssetsManager() {
-        permanentAtlas = new TextureAtlas(Gdx.files.internal("atlases/permanent"));
+        permanentAtlas = new TextureAtlas(Gdx.files.internal("atlases/permanent.atlas"));
     }
 
     public Skin getSkin() {
         return skin;
+    }
+
+    public TextureAtlas getPermanentAtlas() {
+        return permanentAtlas;
     }
 
     public TextureAtlas getCurrentAtlas() {
@@ -80,7 +85,13 @@ public class AssetsManager {
     }
 
     public void prepare(String sectionName) {
-        if (sectionName.equals("lobby")) setCurrentAtlas("lobby", "atlases/lobby");
-        else if (sectionName.equals("chapter1")) setCurrentAtlas("chapter1", "atlases/chapter1");
+        if (sectionName.equals("lobby")){
+            if (MyGame.DEBUG) System.out.println("preparing lobby...");
+            setCurrentAtlas("lobby", "atlases/lobby.atlas");
+        }
+        else if (sectionName.equals("chapter1")){
+            if (MyGame.DEBUG) System.out.println("preparing chapter1...");
+            setCurrentAtlas("chapter1", "atlases/chapter1.atlas");
+        }
     }
 }

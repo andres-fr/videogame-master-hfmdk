@@ -6,20 +6,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.mygdx.game.core.GameScreenUI;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class PauseMenuScreen extends MenuScreenOld {
+public class PauseMenuScreen extends GameScreenUI {
+
+    private Label titleLabel = new Label("OPTIONS MENU SCREEN", game.assetsManager.getSkin());
+    private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin());
+    private TextButton exitButton = new TextButton("Exit", game.assetsManager.getSkin());
+    private MainMenuScreen menu;
 
 
-    private Label titleLabel = new Label("CREDITS SCREEN", game.assetsManager.getSkin("uiskin"));
-    private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin("uiskin"));
-    private TextButton exitButton = new TextButton("Exit", game.assetsManager.getSkin("uiskin"));
-
-    public PauseMenuScreen(GameScreenBasic s) {
-        super(s);
+    public PauseMenuScreen(MainMenuScreen m) {
+        super(m.game, "cage");
+        menu = m;
         addWidgets();
         addListeners();
     }
@@ -35,10 +38,10 @@ public class PauseMenuScreen extends MenuScreenOld {
         Table helpButtons = new Table();
 
         //cluster config
-        defaults().prefSize(MainMenuScreen.PREF_MENU_WIDTH, MainMenuScreen.PREF_MENU_HEIGHT).center();
+        clusterTable.defaults().prefSize(MainMenuScreen.PREF_MENU_WIDTH, MainMenuScreen.PREF_MENU_HEIGHT).center();
 
         // main cluster table
-        add(clusterTable);
+        stage.addActor(clusterTable);
         clusterTable.add(titleTable).expandX().row();
         clusterTable.add(buttonsTable).expand();
         buttonsTable.add(mainButtons);//.padRight(150);

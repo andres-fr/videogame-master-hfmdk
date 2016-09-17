@@ -14,21 +14,25 @@ import com.mygdx.game.MyGame;
  */
 
 public class GameScreenGAMEPLAY extends GameScreenUI {
+    protected float downScale, upScale;
+
     public GameScreenGAMEPLAY(MyGame g, float down_scale, float up_scale, String bgrnd) {
-        super(g, down_scale, up_scale, bgrnd);
-        addGameplayFunctionality();
+        super(g, bgrnd);
+        addGameplayFunctionality(down_scale, up_scale);
 
     }
 
     public GameScreenGAMEPLAY(MyGame g, float down_scale, float up_scale, String bgrnd, String shdw, String lghts) {
-        super(g, down_scale, up_scale, bgrnd, shdw, lghts);
-        addGameplayFunctionality();
+        super(g, bgrnd, shdw, lghts);
+        addGameplayFunctionality(down_scale, up_scale);
     }
 
     /**
      * if screen is of type GAMEPLAY, the background is touchable and activates Player.walkTo() when clicked
      */
-    private void addGameplayFunctionality() {
+    private void addGameplayFunctionality(float down_scale, float up_scale) {
+        downScale = down_scale;
+        upScale = up_scale;
         background.setTouchable(Touchable.enabled);
         background.addListener(new InputListener() {
             @Override
@@ -40,24 +44,7 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
     }
 
 
-    /**
-     * rescales and adds the given walking zone to the screen
-     *
-     * @param points an array of integers designing the x, y, x, y... coordinates for the
-     *               vertices of a walkZone (Polygon), as they appear on the background image
-     *               without scaling and starting by (x,y)=(0,0) in the lower-left corner.
-     */
-    public void addWalkzoneScaled(int[] points) {
-        float[] scaled = new float[points.length];
-        for (int i = 0; i < points.length; i++) {
-            scaled[i] = points[i]*screenFitRatio;
-        }
-        walkZones.add(new WalkZone(scaled));
-    }
 
-    public Array<WalkZone> getWalkZones() {
-        return walkZones;
-    }
 
 
     /**

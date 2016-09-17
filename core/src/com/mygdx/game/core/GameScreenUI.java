@@ -5,12 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -31,7 +26,7 @@ import com.mygdx.game.MyGame;
 public class GameScreenUI implements Screen {
     public MyGame game;
     public Stage stage;
-    protected float downScale, upScale;
+
     protected float screenFitRatio;
     public BackgroundTable background;
     public Table shadows;
@@ -39,11 +34,9 @@ public class GameScreenUI implements Screen {
     public Table foreground;
     protected Array<WalkZone> walkZones = new Array<WalkZone>();
 
-    public GameScreenUI(MyGame g, float down_scale, float up_scale, String bgrnd) {
+    public GameScreenUI(MyGame g, String bgrnd) {
         // assign given references to local fields
         game = g;
-        downScale = down_scale;
-        upScale = up_scale;
         // create new stage always usign the same game batch, and configure
         stage = new Stage(new FitViewport(MyGame.WIDTH, MyGame.HEIGHT), game.batch);
         ((OrthographicCamera) stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
@@ -51,6 +44,10 @@ public class GameScreenUI implements Screen {
         // add the background for the given bgrnd name
         background = new BackgroundTable(this);
         stage.addActor(background);
+
+
+
+
         screenFitRatio = ((float) MyGame.HEIGHT) / ((float) game.assetsManager.getCurrentRegion(bgrnd).getRegionHeight());
         background.setBackground(new TextureRegionDrawable(game.assetsManager.getCurrentRegion(bgrnd)));
         background.setBounds(0, 0, game.assetsManager.getCurrentRegion(bgrnd).getRegionWidth() * screenFitRatio,
@@ -58,8 +55,8 @@ public class GameScreenUI implements Screen {
 
     }
 
-    public GameScreenUI(MyGame g, float down_scale, float up_scale, String bgrnd, String shdw, String lghts) {
-        this(g, down_scale, up_scale, bgrnd);
+    public GameScreenUI(MyGame g, String bgrnd, String shdw, String lghts) {
+        this(g, bgrnd);
         // add the shadows for the given shdw name
         shadows = new Table();
         stage.addActor(shadows);
@@ -128,5 +125,25 @@ public class GameScreenUI implements Screen {
                 game.assetsManager.getCurrentRegion(fgrnd).getRegionHeight() * screenFitRatio);
     }
 
+
+
+    /**
+     * rescales and adds the given walking zone to the screen
+     *
+     * @param points an array of integers designing the x, y, x, y... coordinates for the
+     *               vertices of a walkZone (Polygon), as they appear on the background image
+     *               without scaling and starting by (x,y)=(0,0) in the lower-left corner.
+     */
+    public void addWalkzoneScaled(int[] points) {
+        float[] scaled = new float[points.length];
+        for (int i = 0; i < points.length; i++) {
+            scaled[i] = points[i]*screenFitRatio;
+        }
+        walkZones.add(new WalkZone(scaled));
+    }
+
+    public Array<WalkZone> getWalkZones() {
+        return walkZones;
+    }
 
 }

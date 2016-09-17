@@ -15,15 +15,17 @@ import com.mygdx.game.MyGame;
  */
 
 public class GameActor extends Actor {
-    Color color = Color.WHITE;
+    protected Array<TextureAtlas.AtlasRegion> cellArray;
     int cell;
     Rectangle bounds = new Rectangle();
     protected MyGame game;
 
 
-    public GameActor(MyGame g, boolean touchable, int initCell) {
+    public GameActor(MyGame g, Array<TextureAtlas.AtlasRegion> cells, boolean touchable, int initCell) {
         super();
         game = g;
+        cellArray = cells;
+        setColor(Color.WHITE);
         if (!touchable) setTouchable(Touchable.disabled);
         changeCell(initCell);
     }
@@ -61,17 +63,13 @@ public class GameActor extends Actor {
      * @return
      */
     public TextureAtlas.AtlasRegion getRegion(int idx) {
-        return game.assetsManager.getRegion(idx);
-    }
-
-    public Array<TextureAtlas.AtlasRegion> getRegions(String name) {
-        return game.assetsManager.getCurrentAtlas().findRegions(name);
+        return cellArray.get(idx);
+        //return game.assetsManager.getCurrentRegion(idx);
     }
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
-        color = getColor();
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        batch.setColor(getColor().r, getColor().g, getColor().b, getColor().a * parentAlpha);
         batch.draw(getRegion(cell), getX(), getY(), getOriginX(), getOriginY(),
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }

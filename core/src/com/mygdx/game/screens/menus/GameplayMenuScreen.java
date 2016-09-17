@@ -5,19 +5,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.mygdx.game.core.GameScreenUI;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class GameplayMenuScreen extends MenuScreenOld {
-    private Label titleLabel = new Label("CREDITS SCREEN", game.assetsManager.getSkin("uiskin"));
-    private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin("uiskin"));
-    private TextButton continueButton = new TextButton("Continue", game.assetsManager.getSkin("uiskin"));
+public class GameplayMenuScreen extends GameScreenUI {
+    private Label titleLabel = new Label("OPTIONS MENU SCREEN", game.assetsManager.getSkin());
+    private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin());
+    private TextButton continueButton = new TextButton("Continue", game.assetsManager.getSkin());
+    private MainMenuScreen menu;
 
 
-    public GameplayMenuScreen(GameScreenBasic s) {
-        super(s);
+    public GameplayMenuScreen(MainMenuScreen m) {
+        super(m.game, "cage");
+        menu = m;
         addWidgets();
         addListeners();
     }
@@ -33,10 +36,10 @@ public class GameplayMenuScreen extends MenuScreenOld {
         Table helpButtons = new Table();
 
         //cluster config
-        defaults().prefSize(MainMenuScreen.PREF_MENU_WIDTH, MainMenuScreen.PREF_MENU_HEIGHT).center();
+        clusterTable.defaults().prefSize(MainMenuScreen.PREF_MENU_WIDTH, MainMenuScreen.PREF_MENU_HEIGHT).center();
 
         // main cluster table
-        add(clusterTable);
+        stage.addActor(clusterTable);
         clusterTable.add(titleTable).expandX().row();
         clusterTable.add(buttonsTable).expand();
         buttonsTable.add(mainButtons);//.padRight(150);
@@ -55,7 +58,7 @@ public class GameplayMenuScreen extends MenuScreenOld {
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                gotoBackScreen();
+                game.gotoScreen(menu, "lobby", 0.2f, 0.2f);
             }
         });
     }

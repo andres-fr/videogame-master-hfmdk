@@ -42,8 +42,7 @@ public class PresentationScreen extends GameScreenUI {
 
 
     public PresentationScreen(MyGame g) {
-        super(g, 1, 1, "cage");
-        g.assetsManager.prepare("lobby");
+        super(g, "cage");
         for (String s : logoNames){
             logos.add(new Image(g.assetsManager.getCurrentRegion(s)));
         }
@@ -98,7 +97,7 @@ public class PresentationScreen extends GameScreenUI {
         for (int i = currentLogo; i<totalLogos; i++) { // add logo animations
             mainSequence.addAction(showLogoAnimated(logos.get(i)));
         }
-        mainSequence.addAction(gotoScreen(new MainMenuScreen(game), 0, 0.5f)); // go to main menu once finished
+        mainSequence.addAction(game.gotoScreen(new MainMenuScreen(game), "lobby", 0, 0.5f)); // go to main menu once finished
         return mainSequence;
     }
 }
