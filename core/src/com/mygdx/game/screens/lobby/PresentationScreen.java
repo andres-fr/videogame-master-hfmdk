@@ -1,7 +1,13 @@
 package com.mygdx.game.screens.lobby;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -39,15 +45,19 @@ public class PresentationScreen extends GameScreenUI {
     private int totalLogos = logoNames.length; // ends the iteration over the logos array
 
 
-    public PresentationScreen(MyGame g) {
-        super(g, "cage");
-        for (String s : logoNames){
-            logos.add(new Image(g.assetsManager.getCurrentRegion(s)));
-        }
+    Pixmap p = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+    Texture tex = new Texture(p);
+    TextureRegion rect = new TextureRegion(tex, 16, 16, 1, 1);
 
-        // .defaults().prefSize(PREFERRED_WIDTH, PREFERRED_HEIGHT);
+
+    public PresentationScreen(MyGame g) {
+        super(g);
+        for (String s : logoNames){
+            Image i = new Image(g.assetsManager.getCurrentRegion(s));
+            logos.add(i);
+        }
         timeStamp = nanoTime();
-        //addAction(createLogoSequence());
+        stage.addAction(createLogoSequence());
     }
 
     @Override
@@ -66,7 +76,7 @@ public class PresentationScreen extends GameScreenUI {
     private Action showLogoAnimated(final Image logo) {
         Runnable r = new Runnable() {
             public void run() {
-                stage.clear();
+                for (Actor a : stage.getActors()) a.remove();
                 float prefHeight = logo.getHeight() * (PREFERRED_WIDTH / logo.getWidth());
                 logo.setSize(PREFERRED_WIDTH, prefHeight);
                 logo.setPosition((game.WIDTH-PREFERRED_WIDTH)/2, (game.HEIGHT-prefHeight)/2);
@@ -83,9 +93,7 @@ public class PresentationScreen extends GameScreenUI {
         return Actions.sequence(fadeOut(initOut), fadeIn(fadeIn), fadeIn(hill), fadeOut(fadeOut), fadeOut(endOut));
     }
 
-
     /**
-     *
      * @return a sequence of faded in/out logos (starting from currentLogo) that ends switching to the nextScreen.
      */
     private Action createLogoSequence() {

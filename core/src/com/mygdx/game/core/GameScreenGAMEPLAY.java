@@ -1,5 +1,6 @@
 package com.mygdx.game.core;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -71,15 +72,33 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
      * @param yPos y position of Player actor
      * @return the scale factor for Player depending on its position and the up/downScale ratio (linear interp)
      */
-    private float getScaleFromStageY(float yPos) {
-        float yRel = (yPos / background.getHeight()) * (upScale - downScale) + downScale;
-        return yRel;
+    private float getFocalScaleFromStageY(float yPos) {
+        float b = 0.9f;
+        float c = 4f;
+        float y1 = 1;
+        return b*y1 / ((yPos / background.getHeight())*(c-1)+y1);
     }
+
+    private float getLinearScaleFromStageY(float yPos) {
+        return (yPos / background.getHeight()) * (upScale - downScale) + downScale;
+    }
+
+    private float getExponentialScaleFromStageY(float yPos) {
+        float a = 0.2f;
+        float b = 0.9f;
+        float h_m = 1000f;
+        float y_1 = 1;
+        double y_r = -y_1 / ((Math.log(h_m / b) - Math.log(h_m / a)));
+        double formula = h_m * Math.exp(-((yPos / background.getHeight())+y_r*Math.log(h_m/b)) / y_r);
+        return (float)formula;
+    }
+
+
 
     @Override
     public void render(float delta) {
         super.render(delta);
         cameraFollowsPlayer(delta);
-        game.player.setScale(getScaleFromStageY(game.player.getY()));
+        game.player.setScale(getExponentialScaleFromStageY(game.player.getY()));
     }
 }

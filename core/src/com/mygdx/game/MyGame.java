@@ -11,12 +11,13 @@ import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
 import com.mygdx.game.core.GameScreenUI;
+import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
 
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = true;
+    public final static boolean DEBUG = false;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
     public final static int PLAYER_SPEED = 200; // in pixels per second
@@ -36,9 +37,14 @@ public class MyGame extends Game {
 
         player = new Player(this, true, 0);
 
+        if (true) { // write false to configure init game in another point
+            assetsManager.prepare("lobby");
+            currentScreen = new PresentationScreen(this);
+        } else {
+            assetsManager.prepare("chapter1");
+            currentScreen = new StreetChapter1Screen(this);
+        }
         // start game!
-        assetsManager.prepare("lobby");
-        currentScreen = new PresentationScreen(this);
         setScreenSECURE(currentScreen, true);
     }
 
@@ -57,8 +63,8 @@ public class MyGame extends Game {
             @Override
             public void run() {
                 assetsManager.prepare(prepareAsset);
-                setScreen(gs);
-                currentScreen.dispose();
+                setScreenSECURE(gs, true);
+                if (currentScreen != null) currentScreen.dispose();
                 currentScreen = gs;
                 GameActions.fadeOutFadeIn(0, fadein);
             }

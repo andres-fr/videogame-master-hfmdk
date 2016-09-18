@@ -97,7 +97,6 @@ public class Player extends GameActor {
             for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
                 if (!wz.contains(footPos.x, footPos.y)) {
                     clearActions();
-                    standStill();
                     break;
                 }
             }

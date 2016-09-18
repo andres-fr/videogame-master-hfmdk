@@ -27,27 +27,28 @@ public class GameScreenUI implements Screen {
     public MyGame game;
     public Stage stage;
 
-    protected float screenFitRatio;
+    protected float screenFitRatio = 1;
     public BackgroundTable background;
     public Table shadows;
     public Table lights;
     public Table foreground;
     protected Array<WalkZone> walkZones = new Array<WalkZone>();
 
-    public GameScreenUI(MyGame g, String bgrnd) {
+
+    public GameScreenUI(MyGame g) {
         // assign given references to local fields
         game = g;
         // create new stage always usign the same game batch, and configure
         stage = new Stage(new FitViewport(MyGame.WIDTH, MyGame.HEIGHT), game.batch);
         ((OrthographicCamera) stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
         stage.setDebugAll(MyGame.DEBUG);
+    }
+
+    public GameScreenUI(MyGame g, String bgrnd) {
+        this(g);
         // add the background for the given bgrnd name
         background = new BackgroundTable(this);
         stage.addActor(background);
-
-
-
-
         screenFitRatio = ((float) MyGame.HEIGHT) / ((float) game.assetsManager.getCurrentRegion(bgrnd).getRegionHeight());
         background.setBackground(new TextureRegionDrawable(game.assetsManager.getCurrentRegion(bgrnd)));
         background.setBounds(0, 0, game.assetsManager.getCurrentRegion(bgrnd).getRegionWidth() * screenFitRatio,
