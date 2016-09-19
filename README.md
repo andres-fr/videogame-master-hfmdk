@@ -1,5 +1,5 @@
 # videogame-master-hfmdk
-art game in collaboration with various artists:
+art game in collaboration with various artists, based on [libGDX](https://libgdx.badlogicgames.com/):
 
 #####Philipp Dragic
 #####Isabel Gonzalez
