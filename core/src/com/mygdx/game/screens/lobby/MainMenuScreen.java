@@ -6,26 +6,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.MyGame;
+import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameScreenUI;
+import com.mygdx.game.core.MenuScreen;
 import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class MainMenuScreen extends GameScreenUI {
-    // size config
-    public static int PREF_MENU_WIDTH = (int)(MyGame.WIDTH*0.9);
-    public static int PREF_MENU_HEIGHT = (int)(MyGame.HEIGHT*0.9);
+public class MainMenuScreen extends MenuScreen {
 
     // related menu screens
-    /*
     private OptionsMenuScreen optionsScreen = new OptionsMenuScreen(this);
     private GameplayMenuScreen gameplayScreen = new GameplayMenuScreen(this);
     private CreditsScreen creditsScreen = new CreditsScreen(this);
     private LoadSaveMenuScreen loadSaveMenuScreen = new LoadSaveMenuScreen(this);
-    */
 
     // MAIN CONTAINER for everything else
     // menu widgets
@@ -40,7 +38,7 @@ public class MainMenuScreen extends GameScreenUI {
     private TextButton creditsButton = new TextButton("Credits", game.assetsManager.getSkin());
 
     public MainMenuScreen(MyGame g) {
-        super(g, "cage");
+        super(g);
         addWidgets();
         addListeners();
     }
@@ -49,15 +47,12 @@ public class MainMenuScreen extends GameScreenUI {
     protected void addWidgets() {
 
         // subtable creation and hierarchy
-        Table clusterTable = new Table();
         Table titleTable = new Table();
         Table buttonsTable = new Table();
         Table mainButtons = new Table();
         Table helpButtons = new Table();
 
-        //cluster config
-        clusterTable.defaults().prefSize(PREF_MENU_WIDTH, PREF_MENU_HEIGHT).center();
-        stage.addActor(clusterTable);
+
         // main cluster table
         clusterTable.add(titleTable).expandX().row();
         clusterTable.add(buttonsTable).expand();
@@ -67,7 +62,7 @@ public class MainMenuScreen extends GameScreenUI {
         // title contents
         titleTable.defaults().center();
         titleTable.add(titleLabel).row();
-        titleTable.add(versionLabel).padBottom(150);
+        titleTable.add(versionLabel).padBottom(100);
         // main buttons contents
         mainButtons.defaults().prefWidth(160).prefHeight(60);
         mainButtons.add(continueButton).row();
@@ -81,48 +76,59 @@ public class MainMenuScreen extends GameScreenUI {
         helpButtons.add(creditsButton);
     }
 
+
     protected void addListeners() {
-        final MainMenuScreen thisScreen = this;
         newGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.gotoScreen(new StreetChapter1Screen(game), "chapter1", 3, 0.2f);
+                stage.addAction(game.gotoScreenREFLECTED(StreetChapter1Screen.class, new Object[]{game},
+                        AssetsManager.PREPARE.CHAPTER1, 0, 0.5f));
             }
         });
 
         loadSaveButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.gotoScreen(new LoadSaveMenuScreen(thisScreen), "lobby", 0.2f, 0.2f);
+                stage.addAction(game.gotoScreenWITHOUTPREPARING(loadSaveMenuScreen, 0.2f, 0.2f, false));
             }
         });
 
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
+                game.exit();
             }
         });
 
         optionsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.gotoScreen(new OptionsMenuScreen(thisScreen), "lobby", 0.2f, 0.2f);
+                stage.addAction(game.gotoScreenWITHOUTPREPARING(optionsScreen, 0.2f, 0.2f, false));
             }
         });
 
         gameplayButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.gotoScreen(new GameplayMenuScreen(thisScreen), "lobby", 0.2f, 0.2f);
+                stage.addAction(game.gotoScreenWITHOUTPREPARING(gameplayScreen, 0.2f, 0.2f,false));
             }
         });
 
         creditsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.gotoScreen(new CreditsScreen(thisScreen), "lobby", 0.2f, 0.2f);
+                stage.addAction(game.gotoScreenWITHOUTPREPARING(creditsScreen, 0.2f, 0.2f, false));
             }
         });
+    }
+
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        optionsScreen.dispose();
+        creditsScreen.dispose();
+        gameplayScreen.dispose();
+        loadSaveMenuScreen.dispose();
     }
 }

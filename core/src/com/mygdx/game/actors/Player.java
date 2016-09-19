@@ -94,12 +94,14 @@ public class Player extends GameActor {
             timeStamp = nanoTime();
             walkForwards();
             Vector2 footPos = getFoot();
+
+            boolean walkZoneContains = false;
             for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
-                if (!wz.contains(footPos.x, footPos.y)) {
-                    clearActions();
+                if (wz.contains(footPos.x, footPos.y)) {
+                    walkZoneContains = true;
                     break;
                 }
-            }
+            }// if (!walkZoneContains) clearActions(); !!!!!!! stops the player when outside a wz
         }
     }
 

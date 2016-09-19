@@ -21,6 +21,7 @@ public class AssetsManager {
     private TextureAtlas permanentAtlas;
     private String currentAtlasName = null;
     private TextureAtlas currentAtlas = null;
+    public enum PREPARE {LOBBY, CHAPTER1}
 
 
     public AssetsManager() {
@@ -84,12 +85,12 @@ public class AssetsManager {
         }
     }
 
-    public void prepare(String sectionName) {
-        if (sectionName.equals("lobby")){
+    public void prepare(PREPARE p) {
+        if (p == PREPARE.LOBBY){
             if (MyGame.DEBUG) System.out.println("preparing lobby...");
             setCurrentAtlas("lobby", "atlases/lobby.atlas");
         }
-        else if (sectionName.equals("chapter1")){
+        else if (p == PREPARE.CHAPTER1){
             if (MyGame.DEBUG) System.out.println("preparing chapter1...");
             setCurrentAtlas("chapter1", "atlases/chapter1.atlas");
         }

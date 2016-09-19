@@ -7,21 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.core.GameScreenUI;
+import com.mygdx.game.core.MenuScreen;
 
 /**
  * Created by afr on 08.08.16.
  */
 
-public class PauseMenuScreen extends GameScreenUI {
-
-    private Label titleLabel = new Label("OPTIONS MENU SCREEN", game.assetsManager.getSkin());
+public class PauseMenuScreen extends MenuScreen {
+    private Label titleLabel = new Label("CREDITS MENU SCREEN", game.assetsManager.getSkin());
     private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin());
-    private TextButton exitButton = new TextButton("Exit", game.assetsManager.getSkin());
+    private TextButton continueButton = new TextButton("Continue", game.assetsManager.getSkin());
     private MainMenuScreen menu;
 
-
     public PauseMenuScreen(MainMenuScreen m) {
-        super(m.game, "cage");
+        super(m.game);
         menu = m;
         addWidgets();
         addListeners();
@@ -31,38 +30,32 @@ public class PauseMenuScreen extends GameScreenUI {
     protected void addWidgets() {
 
         // subtable creation and hierarchy
-        Table clusterTable = new Table();
         Table titleTable = new Table();
         Table buttonsTable = new Table();
         Table mainButtons = new Table();
         Table helpButtons = new Table();
 
-        //cluster config
-        clusterTable.defaults().prefSize(MainMenuScreen.PREF_MENU_WIDTH, MainMenuScreen.PREF_MENU_HEIGHT).center();
-
         // main cluster table
-        stage.addActor(clusterTable);
         clusterTable.add(titleTable).expandX().row();
         clusterTable.add(buttonsTable).expand();
-        buttonsTable.add(mainButtons);//.padRight(150);
-        //buttonsTable.add(helpButtons).bottom().padLeft(150);
+        buttonsTable.add(mainButtons).padRight((int)(buttonsTable.getWidth()*0.1));
+        buttonsTable.add(helpButtons).bottom().padLeft((int)(buttonsTable.getWidth()*0.1));
 
         // title contents
         titleTable.defaults().center();
         titleTable.add(titleLabel).row();
-        titleTable.add(subTitleLabel).padBottom(150);
+        titleTable.add(subTitleLabel).padBottom(100);
         // main buttons contents
         mainButtons.defaults().prefWidth(160).prefHeight(60);
-        mainButtons.add(exitButton).row();
+        mainButtons.add(continueButton).row();
     }
 
     protected void addListeners() {
-        exitButton.addListener(new ChangeListener() {
+        continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
+                stage.addAction(game.gotoScreenWITHOUTPREPARING(menu, 0.2f, 0.2f, false));
             }
         });
     }
-
 }

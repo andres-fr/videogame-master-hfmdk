@@ -8,11 +8,16 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
+import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameScreenUI;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
@@ -52,22 +57,26 @@ public class PresentationScreen extends GameScreenUI {
 
     public PresentationScreen(MyGame g) {
         super(g);
+        timeStamp = nanoTime();
+        // fill logos array with the Images with tap listener
         for (String s : logoNames){
             Image i = new Image(g.assetsManager.getCurrentRegion(s));
+            i.addListener(new ActorGestureListener(){
+                @Override
+                public void tap(InputEvent event, float x, float y, int count, int button) {
+                    super.tap(event, x, y, count, button);
+                    if ((nanoTime() - timeStamp >= MIN_TIME * 1e9) && currentLogo>0) {
+                        stage.clear();
+                        stage.addAction(createLogoSequence());
+                    }
+                }
+            });
             logos.add(i);
         }
-        timeStamp = nanoTime();
+        // start sequence!
         stage.addAction(createLogoSequence());
     }
 
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        if ((Gdx.input.isTouched()) && (nanoTime() - timeStamp >= MIN_TIME * 1e9) && currentLogo>0) {
-            stage.clear();
-            stage.addAction(createLogoSequence());
-        }
-    }
 
     /*
      * @param logo the instance of Image to be shown
@@ -103,7 +112,7 @@ public class PresentationScreen extends GameScreenUI {
         for (int i = currentLogo; i<totalLogos; i++) { // add logo animations
             mainSequence.addAction(showLogoAnimated(logos.get(i)));
         }
-        mainSequence.addAction(game.gotoScreen(new MainMenuScreen(game), "lobby", 0, 0.5f)); // go to main menu once finished
+        mainSequence.addAction(game.gotoScreenWITHOUTPREPARING(new MainMenuScreen(game), 0, 0.5f, true)); // go to main menu once finished
         return mainSequence;
     }
 }
