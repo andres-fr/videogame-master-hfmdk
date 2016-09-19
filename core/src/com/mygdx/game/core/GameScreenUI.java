@@ -35,17 +35,23 @@ public class GameScreenUI implements Screen {
     protected Array<WalkZone> walkZones = new Array<WalkZone>();
 
 
-    public GameScreenUI(MyGame g) {
+    /**
+     *
+     * @param g the MyGame instance (the app)
+     * @param prepareAsset a value of the enum signaling the asset context which this screen is created in.
+     */
+    public GameScreenUI(MyGame g, AssetsManager.PREPARE prepareAsset) {
         // assign given references to local fields
         game = g;
+        game.assetsManager.prepare(prepareAsset);
         // create new stage always usign the same game batch, and configure
         stage = new Stage(new FitViewport(MyGame.WIDTH, MyGame.HEIGHT), game.batch);
         ((OrthographicCamera) stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
         stage.setDebugAll(MyGame.DEBUG);
     }
 
-    public GameScreenUI(MyGame g, String bgrnd) {
-        this(g);
+    public GameScreenUI(MyGame g, AssetsManager.PREPARE prepareAsset, String bgrnd) {
+        this(g, prepareAsset);
         // add the background for the given bgrnd name
         background = new BackgroundTable(this);
         stage.addActor(background);
@@ -56,8 +62,8 @@ public class GameScreenUI implements Screen {
 
     }
 
-    public GameScreenUI(MyGame g, String bgrnd, String shdw, String lghts) {
-        this(g, bgrnd);
+    public GameScreenUI(MyGame g, AssetsManager.PREPARE prepareAsset, String bgrnd, String shdw, String lghts) {
+        this(g, prepareAsset, bgrnd);
         // add the shadows for the given shdw name
         shadows = new Table();
         stage.addActor(shadows);

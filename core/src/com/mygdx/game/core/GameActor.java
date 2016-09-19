@@ -1,6 +1,5 @@
 package com.mygdx.game.core;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
@@ -10,26 +9,45 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by afr on 26.08.16.
  */
 
 public class GameActor extends Actor {
-    protected Array<TextureAtlas.AtlasRegion> cellArray;
-    int cell;
-    Rectangle bounds = new Rectangle();
+    protected Array<TextureAtlas.AtlasRegion> cellArray = null;
+    int cell = -1;
     protected MyGame game;
+    protected Rectangle bounds = new Rectangle();
 
-
-    public GameActor(MyGame g, Array<TextureAtlas.AtlasRegion> cells, boolean touchable, int initCell) {
+    public GameActor(MyGame g, int posX, int posY, int width, int height, boolean touchable) {
         super();
         game = g;
-        cellArray = cells;
-        setColor(Color.WHITE);
+        this.setPosition(posX, posY);
+        this.setSize(width, height);
         if (!touchable) setTouchable(Touchable.disabled);
+    }
+
+
+    public GameActor(MyGame g, int posX, int posY, boolean touchable,
+                     @NotNull Array<TextureAtlas.AtlasRegion> cellRegions, int initCell) {
+        this(g, posX, posY, 0, 0, touchable);  // !!!! this 0, 0 works under the assumption that changeCell will change them rightafter
+        cellArray = cellRegions;
         changeCell(initCell);
     }
 
+
+    public int getCell() {
+        return cell;
+    }
+
+    public void changeCell(int newCell) {
+        cell = newCell;
+        if (cellArray!=null){
+            setSize(cellArray.get(cell).getRegionWidth(), cellArray.get(cell).getRegionHeight());
+        }
+    }
 
     public Rectangle getBounds() {
         return bounds;
@@ -47,35 +65,13 @@ public class GameActor extends Actor {
         setBounds(getX(), getY(), getWidth(), getHeight());
     }
 
-    public int getCell() {
-        return cell;
-    }
-
-    public void changeCell(int newCell) {
-        cell = newCell;
-        setSize(getRegion(cell).getRegionWidth(), getRegion(cell).getRegionHeight());
-    }
-
-
-    /**
-     * gets the region with idx from the atlas currently active in the AssetsManager
-     * @param idx
-     * @return
-     */
-    public TextureAtlas.AtlasRegion getRegion(int idx) {
-        return cellArray.get(idx);
-        //return game.assetsManager.getCurrentRegion(idx);
-    }
-
     @Override
     public void draw (Batch batch, float parentAlpha) {
         batch.setColor(getColor().r, getColor().g, getColor().b, getColor().a * parentAlpha);
-        batch.draw(getRegion(cell), getX(), getY(), getOriginX(), getOriginY(),
-                getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-    }
-
-    public boolean collidesWith(GameActor a) {
-        return bounds.overlaps(a.getBounds());
+        if (cellArray != null) {
+            batch.draw(cellArray.get(cell), getX(), getY(), getOriginX(), getOriginY(),
+                    getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        }
     }
 
     public Vector2 getXY() {
@@ -100,5 +96,9 @@ public class GameActor extends Actor {
 
     public Vector2 destinyStanding(float x, float y) {
         return new Vector2(x, y).sub(getQuarterSize().x, 0);
+    }
+
+    public boolean collidesWith(GameActor a) {
+        return bounds.overlaps(a.getBounds());
     }
 }

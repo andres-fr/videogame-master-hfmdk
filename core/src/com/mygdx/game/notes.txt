@@ -1,4 +1,25 @@
+TODO:
+-> implement exp tensor function for player y-size
+-> changing screen to new asset prevents smooth transition: in MainMenuScreen
+stage.addAction(game.gotoScreen(new StreetChapter1Screen(game), 0.2f, 0.5f, true));
 
-change reflection model?
-the idea is that each screen should have a prepareAsset parameter at instantiation, so no reflection/multiple gotoScreen methods needed
-BUT: this would mean that creating a screen would automatically change the assets... still think that the asset change should happen when the screen changes
+the instantiation of new Street... removes the current asset and therefore the fadeout is impossible!! fix that
+
+-> make the player walk to the door before changing screen!!
+
+-> add door in the room to get back to street
+
+-> add pause menu efficiently
+
+-> make the Player listener ignore the click if it was on an alpha pixel (so objects that are close to the head can be
+clicked anyway)
+
+
+
+
+
+
+
+
+
+

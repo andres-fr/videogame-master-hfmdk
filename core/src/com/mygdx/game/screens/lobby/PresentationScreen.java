@@ -56,7 +56,7 @@ public class PresentationScreen extends GameScreenUI {
 
 
     public PresentationScreen(MyGame g) {
-        super(g);
+        super(g, AssetsManager.PREPARE.LOBBY);
         timeStamp = nanoTime();
         // fill logos array with the Images with tap listener
         for (String s : logoNames){
@@ -112,7 +112,7 @@ public class PresentationScreen extends GameScreenUI {
         for (int i = currentLogo; i<totalLogos; i++) { // add logo animations
             mainSequence.addAction(showLogoAnimated(logos.get(i)));
         }
-        mainSequence.addAction(game.gotoScreenWITHOUTPREPARING(new MainMenuScreen(game), 0, 0.2f, true)); // go to main menu once finished
+        mainSequence.addAction(game.gotoScreen(new MainMenuScreen(game), 0, 0.2f, true)); // go to main menu once finished
         return mainSequence;
     }
 }

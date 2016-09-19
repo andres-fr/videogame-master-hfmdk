@@ -24,8 +24,8 @@ public class Player extends GameActor {
     boolean walking = false;
     long timeStamp;
 
-    public Player(MyGame g, boolean touchable, int initCell) {
-        super(g, g.assetsManager.getPermanentAtlas().findRegions("walk.left"), touchable, initCell);
+    public Player(MyGame g) {
+        super(g, 0, 0, true, g.assetsManager.getPermanentAtlas().findRegions("walk.left"), 0);
         timeStamp = nanoTime();
 
         this.addListener(new GameActorGestureListener(0.32f) {

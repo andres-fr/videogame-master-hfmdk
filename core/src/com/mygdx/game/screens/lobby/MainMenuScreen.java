@@ -81,15 +81,14 @@ public class MainMenuScreen extends MenuScreen {
         newGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenREFLECTED(StreetChapter1Screen.class, new Object[]{game},
-                        AssetsManager.PREPARE.CHAPTER1, 0, 0.5f));
+                stage.addAction(game.gotoScreen(new StreetChapter1Screen(game), 0.2f, 0.5f, true));
             }
         });
 
         loadSaveButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenWITHOUTPREPARING(loadSaveMenuScreen, 0.2f, 0.2f, false));
+                stage.addAction(game.gotoScreen(loadSaveMenuScreen, 0.2f, 0.2f, false));
             }
         });
 
@@ -103,21 +102,21 @@ public class MainMenuScreen extends MenuScreen {
         optionsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenWITHOUTPREPARING(optionsScreen, 0.2f, 0.2f, false));
+                stage.addAction(game.gotoScreen(optionsScreen, 0.2f, 0.2f, false));
             }
         });
 
         gameplayButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenWITHOUTPREPARING(gameplayScreen, 0.2f, 0.2f,false));
+                stage.addAction(game.gotoScreen(gameplayScreen, 0.2f, 0.2f,false));
             }
         });
 
         creditsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenWITHOUTPREPARING(creditsScreen, 0.2f, 0.2f, false));
+                stage.addAction(game.gotoScreen(creditsScreen, 0.2f, 0.2f, false));
             }
         });
     }

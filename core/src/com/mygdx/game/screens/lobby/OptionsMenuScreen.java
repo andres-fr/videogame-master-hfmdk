@@ -53,7 +53,7 @@ public class OptionsMenuScreen extends MenuScreen {
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenWITHOUTPREPARING(menu, 0.2f, 0.2f, false));
+                stage.addAction(game.gotoScreen(menu, 0.2f, 0.2f, false));
             }
         });
     }

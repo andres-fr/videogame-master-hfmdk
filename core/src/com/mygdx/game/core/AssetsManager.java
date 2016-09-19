@@ -79,6 +79,7 @@ public class AssetsManager {
      */
     private void setCurrentAtlas(String atlasName, String localAddress) {
         if (!atlasName.equals(currentAtlasName)){
+            if (MyGame.DEBUG) System.out.println("AssetsManager: preparing "+atlasName+"...");
             if (currentAtlas != null) currentAtlas.dispose();
             currentAtlas = new TextureAtlas(Gdx.files.internal(localAddress));
             currentAtlasName = atlasName;
@@ -86,13 +87,7 @@ public class AssetsManager {
     }
 
     public void prepare(PREPARE p) {
-        if (p == PREPARE.LOBBY){
-            if (MyGame.DEBUG) System.out.println("preparing lobby...");
-            setCurrentAtlas("lobby", "atlases/lobby.atlas");
-        }
-        else if (p == PREPARE.CHAPTER1){
-            if (MyGame.DEBUG) System.out.println("preparing chapter1...");
-            setCurrentAtlas("chapter1", "atlases/chapter1.atlas");
-        }
+        if (p == PREPARE.LOBBY) setCurrentAtlas("lobby", "atlases/lobby.atlas");
+        else if (p == PREPARE.CHAPTER1) setCurrentAtlas("chapter1", "atlases/chapter1.atlas");
     }
 }

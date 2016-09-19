@@ -14,7 +14,7 @@ public class MenuScreen extends GameScreenUI {
     protected Table clusterTable = new Table();
 
     public MenuScreen(MyGame g) {
-        super(g);
+        super(g, AssetsManager.PREPARE.LOBBY);
         clusterTable.setSize(PREF_MENU_WIDTH, PREF_MENU_HEIGHT);
         clusterTable.setPosition((MyGame.WIDTH-PREF_MENU_WIDTH)/2, (MyGame.HEIGHT-PREF_MENU_HEIGHT)/2);
         clusterTable.defaults().center();

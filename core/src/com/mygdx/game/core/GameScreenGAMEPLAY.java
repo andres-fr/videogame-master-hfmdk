@@ -17,14 +17,14 @@ import com.mygdx.game.MyGame;
 public class GameScreenGAMEPLAY extends GameScreenUI {
     protected float downScale, upScale;
 
-    public GameScreenGAMEPLAY(MyGame g, float down_scale, float up_scale, String bgrnd) {
-        super(g, bgrnd);
+    public GameScreenGAMEPLAY(MyGame g, AssetsManager.PREPARE prepareAsset, float down_scale, float up_scale, String bgrnd) {
+        super(g, prepareAsset, bgrnd);
         addGameplayFunctionality(down_scale, up_scale);
 
     }
 
-    public GameScreenGAMEPLAY(MyGame g, float down_scale, float up_scale, String bgrnd, String shdw, String lghts) {
-        super(g, bgrnd, shdw, lghts);
+    public GameScreenGAMEPLAY(MyGame g, AssetsManager.PREPARE prepareAsset, float down_scale, float up_scale, String bgrnd, String shdw, String lghts) {
+        super(g, prepareAsset, bgrnd, shdw, lghts);
         addGameplayFunctionality(down_scale, up_scale);
     }
 
