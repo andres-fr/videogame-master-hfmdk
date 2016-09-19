@@ -1,3 +1,4 @@
 
-change reflection model:
-each class should have a prepareAsset parameter at instantiation, so no reflection/multiple gotoScreen methods needed
+change reflection model?
+the idea is that each screen should have a prepareAsset parameter at instantiation, so no reflection/multiple gotoScreen methods needed
+BUT: this would mean that creating a screen would automatically change the assets... still think that the asset change should happen when the screen changes

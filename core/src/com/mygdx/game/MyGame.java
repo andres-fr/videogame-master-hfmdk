@@ -52,6 +52,7 @@ public class MyGame extends Game {
     }
 
 
+
     /**
      * This method is the official way to change from one GameScreen to another.
      * It uses reflection mainly because of the following reasons:
@@ -116,7 +117,6 @@ public class MyGame extends Game {
         };
         return GameActions.fadeOutRunFadeIn(fadeout, r, 0);
     }
-
 
     /**
      * this method performs the same as setScreen but with an extra boolean flag, for atibugging purposes:
