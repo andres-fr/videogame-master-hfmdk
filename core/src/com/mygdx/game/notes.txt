@@ -1,0 +1,3 @@
+
+change reflection model:
+each class should have a prepareAsset parameter at instantiation, so no reflection/multiple gotoScreen methods needed
