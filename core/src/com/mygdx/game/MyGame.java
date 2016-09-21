@@ -7,21 +7,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Constructor;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
 import com.mygdx.game.core.GameScreenUI;
+import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
 import com.mygdx.game.screens.lobby.MainMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
 
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = false;
+    public final static boolean DEBUG = true;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
-    public final static int PLAYER_SPEED = 200; // in pixels per second
-    public final static float CAM_SPEED = PLAYER_SPEED/200; // proportional to player speed
+    public final static float CAM_SPEED_RATIO = 1f/200f; // to be multiplied by player speed
     // game related instances
     public AssetsManager assetsManager;
     public PolygonSpriteBatch batch;
@@ -37,18 +40,33 @@ public class MyGame extends Game {
 
         player = new Player(this);
 
-        if (true) { // write false to configure init game in another point
+        // dirtiest hack ever to avoid nullPointerException when PresentationScreen tries to get dummyScreen.neededAsset
+        GameScreenUI dummyScreen = new GameScreenUI(this, AssetsManager.PREPARE.LOBBY);
+        currentScreen = dummyScreen;
+
+        if (false) { // write false to configure init game in another point
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
         } else {
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
-            currentScreen = new MainMenuScreen(this);
+            currentScreen = new StreetChapter1Screen(this);
         }
+
+        // second part of the dirtiest hack
+        dummyScreen.dispose();
+
         // start game!
         setScreenSECURE(currentScreen, true);
     }
 
-    public Action gotoScreen(final GameScreenUI gs, float fadeout, final float fadein, final boolean disposeCurrent) {
+
+    public Action gotoScreenWithSameAssets(final GameScreenUI gs, float fadeout, final float fadein, final boolean disposeCurrent) {
+        //System.out.println(currentScreen.neededAsset + "    "+ gs.neededAsset);
+        //System.out.println("asdfff");
+        if (false){// || currentScreen.neededAsset != gs.neededAsset){ // the == null is just for the very first screen of the game
+            throw new RuntimeException("trying to use gotoScreenWithSameAssets between 2 screens with different assets: " +
+                    currentScreen.neededAsset + ", " + gs.neededAsset);
+        } // else...
         Runnable r = new Runnable() {
             @Override
             public void run() {
@@ -59,6 +77,31 @@ public class MyGame extends Game {
             }
         };
         return GameActions.fadeOutRunFadeIn(fadeout, r, 0);
+    }
+
+    public Action gotoNewScreen(final Class<? extends GameScreenUI> screenClass, final Object[] consParameters,
+                                      final float fadeout, final float fadein) {
+        final Class[] parameterClasses = new Class[consParameters.length];
+        for (int i= 0; i<consParameters.length; i++){
+            parameterClasses[i] = consParameters[i].getClass();
+        }
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Constructor cons = ClassReflection.getConstructor(screenClass, parameterClasses);
+                    GameScreenUI gs = (GameScreenUI) cons.newInstance(consParameters);
+                    if (currentScreen != null) currentScreen.dispose();
+                    currentScreen = gs;
+                    setScreenSECURE(currentScreen, true);
+                    gs.stage.addAction(GameActions.fadeOutFadeIn(0, fadein));
+                } catch (ReflectionException e) {
+                    System.out.println("MyGame.gotoScreen: something went wrong with the following parameters: "+
+                    screenClass + "\n" + consParameters + "\n" + fadeout + "\n" + fadein);
+                    e.printStackTrace();
+                }
+            }
+        }; return GameActions.fadeOutRunFadeIn(fadeout, r, 0);
     }
 
 

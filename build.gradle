@@ -46,7 +46,8 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         //added by andres
         //compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
-        compile 'com.intellij:annotations:+@jar'
+        //compile 'com.intellij:annotations:+@jar'
+        compile "javax.validation:validation-api:1.1.0.Final"
     }
 }
 
@@ -70,7 +71,8 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         //added by andres
-        compile 'com.intellij:annotations:+@jar'
+        //compile 'com.intellij:annotations:+@jar'
+        compile "javax.validation:validation-api:1.1.0.Final"
     }
 }
 
@@ -87,7 +89,8 @@ project(":ios") {
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
         //added by andres
-        compile 'com.intellij:annotations:+@jar'
+        //compile 'com.intellij:annotations:+@jar'
+        compile "javax.validation:validation-api:1.1.0.Final"
     }
 }
 
@@ -104,7 +107,8 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
         //added by andres
-        compile 'com.intellij:annotations:+@jar'
+        //compile 'com.intellij:annotations:+@jar'
+        compile "javax.validation:validation-api:1.1.0.Final"
     }
 }
 
@@ -116,7 +120,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         //added by andres
-        compile 'com.intellij:annotations:+@jar'
+        //compile 'com.intellij:annotations:+@jar'
+        compile "javax.validation:validation-api:1.1.0.Final"
     }
 }
 

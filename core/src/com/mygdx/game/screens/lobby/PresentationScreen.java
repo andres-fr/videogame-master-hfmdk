@@ -112,7 +112,10 @@ public class PresentationScreen extends GameScreenUI {
         for (int i = currentLogo; i<totalLogos; i++) { // add logo animations
             mainSequence.addAction(showLogoAnimated(logos.get(i)));
         }
-        mainSequence.addAction(game.gotoScreen(new MainMenuScreen(game), 0, 0.2f, true)); // go to main menu once finished
+
+
+
+        mainSequence.addAction(game.gotoScreenWithSameAssets(new MainMenuScreen(game), 0, 0.2f, true)); // go to main menu once finished
         return mainSequence;
     }
 }

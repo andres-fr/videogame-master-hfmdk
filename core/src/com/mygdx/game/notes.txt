@@ -1,9 +1,4 @@
 TODO:
--> implement exp tensor function for player y-size
--> changing screen to new asset prevents smooth transition: in MainMenuScreen
-stage.addAction(game.gotoScreen(new StreetChapter1Screen(game), 0.2f, 0.5f, true));
-
-the instantiation of new Street... removes the current asset and therefore the fadeout is impossible!! fix that
 
 -> make the player walk to the door before changing screen!!
 

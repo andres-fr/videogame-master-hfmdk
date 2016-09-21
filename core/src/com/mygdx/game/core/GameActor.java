@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
+import javax.validation.constraints.NotNull;
 
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by afr on 26.08.16.

@@ -1,6 +1,8 @@
 package com.mygdx.game.actors.chapter1;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.mygdx.game.MyGame;
 import com.mygdx.game.core.GameActor;
@@ -18,7 +20,8 @@ public class ApartmentPortal extends GameActor {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 super.tap(event, x, y, count, button);
-                getStage().addAction(game.gotoScreen(new RoomChapter1Screen(game), 0.5f, 0.5f, true));
+                game.player.addAction(Actions.sequence(game.player.walkToANYPOINTAction(getFoot().x, getFoot().y),
+                        game.gotoScreenWithSameAssets(new RoomChapter1Screen(game), 2f, 2f, true)));
             }
         });
     }

@@ -26,7 +26,7 @@ import com.mygdx.game.MyGame;
 public class GameScreenUI implements Screen {
     public MyGame game;
     public Stage stage;
-
+    public AssetsManager.PREPARE neededAsset;
     protected float screenFitRatio = 1;
     public BackgroundTable background;
     public Table shadows;
@@ -43,6 +43,7 @@ public class GameScreenUI implements Screen {
     public GameScreenUI(MyGame g, AssetsManager.PREPARE prepareAsset) {
         // assign given references to local fields
         game = g;
+        neededAsset = prepareAsset;
         game.assetsManager.prepare(prepareAsset);
         // create new stage always usign the same game batch, and configure
         stage = new Stage(new FitViewport(MyGame.WIDTH, MyGame.HEIGHT), game.batch);

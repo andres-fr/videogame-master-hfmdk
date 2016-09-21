@@ -4,8 +4,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.FloatAction;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
+
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 
 /**
  * Created by afr on 15.09.16.
@@ -15,38 +19,56 @@ import com.mygdx.game.MyGame;
  */
 
 public class GameScreenGAMEPLAY extends GameScreenUI {
-    protected float downScale, upScale;
+    // THIS CONSTANTS ARE A POTENTIAL BUG SOURCE: revise in case player size glitches!!!
+    // see also AddGameplayFunctionality and getScaleFromStageY
+    private static final double EPSILON = 0.0001f;
+    private static final double BIG_NEGATIVE = -1000000;
+    protected float playerSizeDown;
+    protected float playerSizeUp;
+    protected double playerScaleTensor ;
 
-    public GameScreenGAMEPLAY(MyGame g, AssetsManager.PREPARE prepareAsset, float down_scale, float up_scale, String bgrnd) {
+    // This constants are derivated from the variables above and are
+    // needed in order to spare some computation overhead
+    private double expTensor;
+
+
+    public GameScreenGAMEPLAY(MyGame g, AssetsManager.PREPARE prepareAsset, float downSize, float upSize, double tensor, String bgrnd) {
         super(g, prepareAsset, bgrnd);
-        addGameplayFunctionality(down_scale, up_scale);
+        addGameplayFunctionality(downSize, upSize, tensor);
 
     }
 
-    public GameScreenGAMEPLAY(MyGame g, AssetsManager.PREPARE prepareAsset, float down_scale, float up_scale, String bgrnd, String shdw, String lghts) {
+    public GameScreenGAMEPLAY(MyGame g, AssetsManager.PREPARE prepareAsset, float downSize, float upSize, double tensor, String bgrnd, String shdw, String lghts) {
         super(g, prepareAsset, bgrnd, shdw, lghts);
-        addGameplayFunctionality(down_scale, up_scale);
+        addGameplayFunctionality(downSize, upSize, tensor);
     }
 
     /**
      * if screen is of type GAMEPLAY, the background is touchable and activates Player.walkTo() when clicked
      */
-    private void addGameplayFunctionality(float down_scale, float up_scale) {
-        downScale = down_scale;
-        upScale = up_scale;
+    private void addGameplayFunctionality(float downSize, float upSize, double tensor) {
+        if (tensor < 0 || tensor > 1) throw new RuntimeException("tensor ("+tensor+") must be between 0 and 1!");
+        if (downSize<0 || upSize < 0) throw new RuntimeException("both downSize ("+downSize+ ") and upSize ("+tensor+ ") must be non-negative!");
+        playerSizeDown = downSize;
+        playerSizeUp = upSize;
+        playerScaleTensor = tensor;
+
+
+        // Explanation: A is wanted to be between 0 and 1. But the formula using a expects it
+        // to be -inf <= A < upSize. Therefore the log generates -inf<=A<=1, and the multiplication
+        // constraints it to -inf<=A<(upsize-EPSILON)
+        double smallest = Math.min(upSize, downSize);
+        expTensor = (tensor==0)? BIG_NEGATIVE : Math.log(tensor*Math.E) * (smallest-EPSILON);
+        //
         background.setTouchable(Touchable.enabled);
         background.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.player.walkTo(x, y);
+                game.player.walkToWZ(x, y);
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
     }
-
-
-
-
 
     /**
      * this method updates the camera x-position, and is called by render(delta) when the
@@ -56,7 +78,7 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
     private void cameraFollowsPlayer(float delta) {
         float playerX = game.player.getCenter().x;
         float camX = stage.getCamera().position.x;
-        camX += (playerX - camX) * game.CAM_SPEED * delta;
+        camX += (playerX - camX) * game.player.SPEED * game.CAM_SPEED_RATIO  * delta;
         // move cam
         stage.getCamera().position.x = camX;
         // prevent cam to override width bounds
@@ -68,10 +90,31 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         }
     }
 
-    /**
-     * @param yPos y position of Player actor
-     * @return the scale factor for Player depending on its position and the up/downScale ratio (linear interp)
-     */
+    private float getScaleFromStageY(float yPos) {
+        double formula = ((playerSizeDown - expTensor) * Math.pow((playerSizeDown - expTensor) /
+                (playerSizeUp - expTensor), (-yPos / background.getHeight())) + expTensor);
+        return (float) formula;
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        cameraFollowsPlayer(delta);
+        game.player.setScale(getScaleFromStageY(game.player.getY()));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
     private float getFocalScaleFromStageY(float yPos) {
         float b = 0.9f;
         float c = 4f;
@@ -80,7 +123,7 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
     }
 
     private float getLinearScaleFromStageY(float yPos) {
-        return (yPos / background.getHeight()) * (upScale - downScale) + downScale;
+        return (yPos / background.getHeight()) * (playerSizeUp - playerSizeDown) + playerSizeDown;
     }
 
     private float getExponentialScaleFromStageY(float yPos) {
@@ -89,16 +132,8 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         float h_m = 1000f;
         float y_1 = 1;
         double y_r = -y_1 / ((Math.log(h_m / b) - Math.log(h_m / a)));
-        double formula = h_m * Math.exp(-((yPos / background.getHeight())+y_r*Math.log(h_m/b)) / y_r);
+        double formula = h_m * Math.exp(-(yPos / background.getHeight()+y_r*Math.log(h_m/b)) / y_r);
         return (float)formula;
     }
 
-
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        cameraFollowsPlayer(delta);
-        game.player.setScale(getExponentialScaleFromStageY(game.player.getY()));
-    }
-}
+*/
