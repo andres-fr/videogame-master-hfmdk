@@ -1,9 +1,13 @@
 package com.mygdx.game.core;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.FloatAction;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
@@ -52,8 +56,6 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         playerSizeDown = downSize;
         playerSizeUp = upSize;
         playerScaleTensor = tensor;
-
-
         // Explanation: A is wanted to be between 0 and 1. But the formula using a expects it
         // to be -inf <= A < upSize. Therefore the log generates -inf<=A<=1, and the multiplication
         // constraints it to -inf<=A<(upsize-EPSILON)
@@ -64,10 +66,14 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         background.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.player.walkToWZ(x, y);
+                walkPlayerToWalkZone(x, y);
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
+
+        //useful for debugging purposes
+        // addWalkzoneScaled(new int[]{0, 500, 100000000, 500 , 100000000, 100000000, 0, 100000000}); // testing wz
+
     }
 
     /**
@@ -94,6 +100,15 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         double formula = ((playerSizeDown - expTensor) * Math.pow((playerSizeDown - expTensor) /
                 (playerSizeUp - expTensor), (-yPos / background.getHeight())) + expTensor);
         return (float) formula;
+    }
+
+    public void walkPlayerToWalkZone(float x, float y) {
+        for (WalkZone wz : getWalkZones()) {
+            if (wz.contains(x, y)){
+                game.player.walkToANYPOINT(x, y);
+                break;
+            }
+        }
     }
 
     @Override

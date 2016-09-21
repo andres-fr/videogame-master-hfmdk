@@ -51,7 +51,7 @@ public class Player extends GameActor {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 if (moveAfter) {
-                    walkToWZ(stageTouchDown.x, stageTouchDown.y);
+                    ((GameScreenGAMEPLAY)game.getCurrentScreen()).walkPlayerToWalkZone(stageTouchDown.x, stageTouchDown.y);
                     moveAfter = true;
                 }
             }
@@ -59,9 +59,14 @@ public class Player extends GameActor {
         });
     }
 
-    private void standStill() {
-        walking = false;
-        changeCell(0);
+    public Action standStill() {
+        return new RunnableAction(){
+            @Override
+            public void run() {
+                walking = false;
+                changeCell(0);
+            }
+        };
     }
 
     private void startWalk() {
@@ -72,52 +77,25 @@ public class Player extends GameActor {
         changeCell((getCell()+1) % cellArray.size);
     }
 
-    public Action walkToWalkzoneAction(float x, float y) {
-        Action returnVal = null;
-        for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
-            if (wz.contains(x, y)){
-                Vector2 destiny = destinyStanding (x, y);
-                float time = destiny.dst(getXY())/SPEED;
-                startWalk();
-                returnVal = Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out);
-                break;
-            }
-        } return returnVal;
-    }
+
 
     public Action walkToANYPOINTAction(float x, float y) {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                startWalk();
+            }
+        };
         Vector2 destiny = destinyStanding (x, y);
         float time = destiny.dst(getXY())/SPEED;
-        startWalk();
-        return Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out);
+        return Actions.sequence(Actions.run(r), Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out));
     }
 
-    public void walkToWZ(float x, float y) {
-        addAction(walkToWalkzoneAction(x, y));
+    public void walkToANYPOINT(float x, float y) {
+        addAction(walkToANYPOINTAction(x, y));
     }
 
-    /*
-    public void walkTo(float x, float y) {
-        for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
-            if (wz.contains(x, y)){
-                Vector2 destiny = destinyStanding (x, y);
-                float time = destiny.dst(getXY())/SPEED;
-                clearActions();
-                startWalk();
-                addAction(Actions.sequence(Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out), Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        standStill();
-                    }
-                })));
-                break;
-            }
-        }
 
-
-    }
-
-*/
 
     @Override
     public void act(float delta) {
@@ -139,7 +117,50 @@ public class Player extends GameActor {
     @Override
     public void clearActions() {
         super.clearActions();
-        standStill();
+        addAction(standStill());
     }
 
 }
+
+
+
+
+/*
+    public void walkTo(float x, float y) {
+        for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
+            if (wz.contains(x, y)){
+                Vector2 destiny = destinyStanding (x, y);
+                float time = destiny.dst(getXY())/SPEED;
+                clearActions();
+                startWalk();
+                addAction(Actions.sequence(Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        standStill();
+                    }
+                })));
+                break;
+            }
+        }
+
+
+    }
+
+    public Action walkToWalkzoneAction(float x, float y) {
+        Action returnVal = null;
+        for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
+            if (wz.contains(x, y)){
+                Vector2 destiny = destinyStanding (x, y);
+                float time = destiny.dst(getXY())/SPEED;
+                startWalk();
+                returnVal = Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out);
+                break;
+            }
+        } return returnVal;
+    }
+
+    public void walkToWZ(float x, float y) {
+        addAction(walkToWalkzoneAction(x, y));
+    }
+
+*/

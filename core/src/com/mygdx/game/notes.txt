@@ -1,6 +1,6 @@
 TODO:
 
--> make the player walk to the door before changing screen!!
+-> Player speed and final position should adapt to resizing (they are buggy).
 
 -> add door in the room to get back to street
 

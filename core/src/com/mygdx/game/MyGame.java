@@ -14,6 +14,7 @@ import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
 import com.mygdx.game.core.GameScreenUI;
+import com.mygdx.game.screens.chapter1.RoomChapter1Screen;
 import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
 import com.mygdx.game.screens.lobby.MainMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
@@ -49,7 +50,7 @@ public class MyGame extends Game {
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
         } else {
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
-            currentScreen = new StreetChapter1Screen(this);
+            currentScreen = new RoomChapter1Screen(this);
         }
 
         // second part of the dirtiest hack
