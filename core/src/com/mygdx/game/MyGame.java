@@ -22,7 +22,7 @@ import com.mygdx.game.screens.lobby.PresentationScreen;
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = true;
+    public final static boolean DEBUG = false;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
     public final static float CAM_SPEED_RATIO = 1f/200f; // to be multiplied by player speed
@@ -45,11 +45,11 @@ public class MyGame extends Game {
         GameScreenUI dummyScreen = new GameScreenUI(this, AssetsManager.PREPARE.LOBBY);
         currentScreen = dummyScreen;
 
-        if (false) { // write false to configure init game in another point
+        if (!DEBUG) { // write false to configure init game in another point
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
         } else {
-            assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
+            assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
             currentScreen = new RoomChapter1Screen(this);
         }
 

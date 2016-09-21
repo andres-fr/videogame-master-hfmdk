@@ -2,7 +2,9 @@ TODO:
 
 -> Player speed and final position should adapt to resizing (they are buggy).
 
--> add door in the room to get back to street
+-> player should somehow delete all actions before starting a walk (it is buggy)
+
+-> add dorm WZ
 
 -> add pause menu efficiently
 
