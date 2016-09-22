@@ -15,14 +15,17 @@ import com.mygdx.game.screens.chapter1.RoomChapter1Screen;
 
 public class Door extends GameActor {
 
+    public Class nextScreenClass;
+
     public Door(MyGame g, int posX, int posY, int width, int height, final Class<? extends GameScreenUI> screenClass) {
         super(g, posX, posY, width, height, true);
+        nextScreenClass = screenClass;
+        final Door thisDoor = this;
         addListener(new ActorGestureListener(){
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 super.tap(event, x, y, count, button);
-                game.player.addAction(Actions.sequence(game.player.walkToANYPOINTAction(getFoot().x, getFoot().y),
-                        game.gotoNewScreen(screenClass, new Object[]{game}, 0.5f, 0.5f), game.player.standStill()));
+                game.player.walkToDoorAndCross(thisDoor);
             }
         });
     }

@@ -1,5 +1,11 @@
 TODO:
 
+
+--> revise the whole screen stuff to make sure the omnipresent actor is never deleted!! important
+
+-> when this is ensured, readapt the whole CORE action system to be performed by the omni actor.
+if this is done, it should become much simpler. Tricky question: how would it work to have one single mygame.stage??
+
 -> Player speed and final position should adapt to resizing (they are buggy).
 
 -> player should somehow delete all actions before starting a walk (it is buggy)
@@ -12,11 +18,37 @@ TODO:
 clicked anyway)
 
 
+DIRTY HACKS:
 
+0)  keep an eye on all GameStage instances!! they should always have the omnipresent actor on them, no matter what.
 
+1) do NOT do this BECAUSE the first action of the sequence will delete the sequence itself ):
+Runnable r => run(){clearActions();}
+addAction(sequence(Actions.run(r), ... ))
 
-
-
+2) also do NOT do this BECAUSE if we want simply to queue this action,
+ the first line (setState) won't be scheduled!!! it will be executed inmediately:
+Action buggyMethod (int whatever){
+    game.player.setState(STATES.IDLE);
+    return Actions.sequence(....);
+THIS IS MUCH CLEANER:
+public Action WalkPlayerToAnyPoint(float x, float y) {
+        Vector2 destiny = game.player.destinyStanding (x, y);
+        float time = destiny.dst(game.player.getXY())/Player.SPEED;
+        Runnable r1 = new Runnable() {
+            @Override
+            public void run() {
+                game.player.setState(Player.STATES.LEFT);
+            }
+        };
+        Runnable r2 = new Runnable() {
+            @Override
+            public void run() {
+                game.player.setState(Player.STATES.IDLE);
+            }
+        };
+        return Actions.sequence(Actions.run(r1), Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out), Actions.run(r2));
+    }
 
 
 

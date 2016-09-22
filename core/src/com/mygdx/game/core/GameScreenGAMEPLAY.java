@@ -1,19 +1,10 @@
 package com.mygdx.game.core;
 
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.FloatAction;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 
 /**
  * Created by afr on 15.09.16.
@@ -105,7 +96,7 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
     public void walkPlayerToWalkZone(float x, float y) {
         for (WalkZone wz : getWalkZones()) {
             if (wz.contains(x, y)){
-                game.player.walkToANYPOINT(x, y);
+                game.player.walkTo(x, y);
                 break;
             }
         }

@@ -42,7 +42,7 @@ public class GameActor extends Actor {
         return cell;
     }
 
-    public void changeCell(int newCell) {
+    protected void changeCell(int newCell) {
         cell = newCell;
         if (cellArray!=null){
             setSize(cellArray.get(cell).getRegionWidth(), cellArray.get(cell).getRegionHeight());

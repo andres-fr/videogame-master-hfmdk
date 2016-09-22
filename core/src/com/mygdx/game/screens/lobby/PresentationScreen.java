@@ -12,11 +12,14 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.AfterAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
+import com.mygdx.game.actors.OmnipresentInvisibleActor;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameScreenUI;
 
@@ -52,7 +55,6 @@ public class PresentationScreen extends GameScreenUI {
 
     Pixmap p = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
     Texture tex = new Texture(p);
-    TextureRegion rect = new TextureRegion(tex, 16, 16, 1, 1);
 
 
     public PresentationScreen(MyGame g) {
@@ -85,7 +87,8 @@ public class PresentationScreen extends GameScreenUI {
     private Action showLogoAnimated(final Image logo) {
         Runnable r = new Runnable() {
             public void run() {
-                for (Actor a : stage.getActors()) a.remove();
+                stage.removeActorsButNotListenersNorActions();
+                stage.addActor(game.omnipresentInvisibleActor); // don't know why but this keeps being removed from the stage in this class...
                 float prefHeight = logo.getHeight() * (PREFERRED_WIDTH / logo.getWidth());
                 logo.setSize(PREFERRED_WIDTH, prefHeight);
                 logo.setPosition((game.WIDTH-PREFERRED_WIDTH)/2, (game.HEIGHT-prefHeight)/2);
@@ -95,27 +98,18 @@ public class PresentationScreen extends GameScreenUI {
             }
         };
         // retrieve wanted action
-        return parallel(Actions.run(r), alphaHill(0, 0.5f, 1, 1.5f, 1));
-    }
-
-    private Action alphaHill(float initOut, float fadeIn, float hill, float fadeOut, float endOut) {
-        return Actions.sequence(fadeOut(initOut), fadeIn(fadeIn), fadeIn(hill), fadeOut(fadeOut), fadeOut(endOut));
+        return parallel(Actions.run(r), game.actions.alphaHill(0, 0.5f, 1, 1.5f, 1));
     }
 
     /**
      * @return a sequence of faded in/out logos (starting from currentLogo) that ends switching to the nextScreen.
      */
     private Action createLogoSequence() {
-        SequenceAction mainSequence = new SequenceAction();
-        // build main sequence
-        if (currentLogo == 0) mainSequence.addAction(alphaHill(1, 0, 0, 0, 0)); // initial fade-out time 1 second
-        for (int i = currentLogo; i<totalLogos; i++) { // add logo animations
-            mainSequence.addAction(showLogoAnimated(logos.get(i)));
+        Action[] actionsChain = new Action[(totalLogos - currentLogo) + 1];
+        for (int i = 0; i < (totalLogos - currentLogo); i++) { // add logo animations
+            actionsChain[i] = showLogoAnimated(logos.get(i+currentLogo));
         }
-
-
-
-        mainSequence.addAction(game.gotoScreenWithSameAssets(new MainMenuScreen(game), 0, 0.2f, true)); // go to main menu once finished
-        return mainSequence;
+        actionsChain[totalLogos - currentLogo] = game.actions.gotoScreenWithSameAssets(new MainMenuScreen(game), 0, 0.2f, true);
+        return (Actions.sequence(actionsChain));
     }
 }

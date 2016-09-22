@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MyGame;
 
+import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
+
 /**
  * Created by afr on 15.09.16.
  * This class comprises the functionalities needed for any screen in this game:
@@ -25,7 +27,7 @@ import com.mygdx.game.MyGame;
 
 public class GameScreenUI implements Screen {
     public MyGame game;
-    public Stage stage;
+    public GameStage stage;
     public AssetsManager.PREPARE neededAsset;
     protected float screenFitRatio = 1;
     public BackgroundTable background;
@@ -33,6 +35,9 @@ public class GameScreenUI implements Screen {
     public Table lights;
     public Table foreground;
     protected Array<WalkZone> walkZones = new Array<WalkZone>();
+
+
+    long timeStamp; //!!!!!!
 
 
     /**
@@ -46,9 +51,9 @@ public class GameScreenUI implements Screen {
         neededAsset = prepareAsset;
         game.assetsManager.prepare(prepareAsset);
         // create new stage always usign the same game batch, and configure
-        stage = new Stage(new FitViewport(MyGame.WIDTH, MyGame.HEIGHT), game.batch);
-        ((OrthographicCamera) stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
-        stage.setDebugAll(MyGame.DEBUG);
+        stage = new GameStage(game);
+        stage.addActor(game.omnipresentInvisibleActor);
+        timeStamp = nanoTime();
     }
 
     public GameScreenUI(MyGame g, AssetsManager.PREPARE prepareAsset, String bgrnd) {
@@ -60,7 +65,6 @@ public class GameScreenUI implements Screen {
         background.setBackground(new TextureRegionDrawable(game.assetsManager.getCurrentRegion(bgrnd)));
         background.setBounds(0, 0, game.assetsManager.getCurrentRegion(bgrnd).getRegionWidth() * screenFitRatio,
                 game.assetsManager.getCurrentRegion(bgrnd).getRegionHeight() * screenFitRatio);
-
     }
 
     public GameScreenUI(MyGame g, AssetsManager.PREPARE prepareAsset, String bgrnd, String shdw, String lghts) {
@@ -87,10 +91,14 @@ public class GameScreenUI implements Screen {
 
     @Override
     public void render(float delta) {
+        if  (MyGame.DEBUG && (nanoTime()-timeStamp)>1e9){
+            timeStamp = nanoTime();
+            System.out.println("\n\nActors in current Screen: " + stage.getActors().toString());
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) game.exit();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(delta);
         stage.draw();
     }
 
@@ -153,5 +161,4 @@ public class GameScreenUI implements Screen {
     public Array<WalkZone> getWalkZones() {
         return walkZones;
     }
-
 }

@@ -19,9 +19,9 @@ public class AssetsManager {
     private Skin skin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
     // atlas containers
     private TextureAtlas permanentAtlas;
-    private String currentAtlasName = null;
-    private TextureAtlas currentAtlas = null;
     public enum PREPARE {LOBBY, CHAPTER1}
+    private PREPARE currentAtlasLabel = null;
+    private TextureAtlas currentAtlas = null;
 
 
     public AssetsManager() {
@@ -40,8 +40,8 @@ public class AssetsManager {
         return currentAtlas;
     }
 
-    public String getCurrentAtlasName() {
-        return currentAtlasName;
+    public PREPARE getCurrentAtlasLabel() {
+        return currentAtlasLabel;
     }
 
     public TextureAtlas.AtlasRegion getPermanentRegion(int idx) {
@@ -60,13 +60,6 @@ public class AssetsManager {
         return currentAtlas.findRegion(regName);
     }
 
-    /*
-    public TextureRegionDrawable getRegionDrawable(String regionName) {
-        return new TextureRegionDrawable(getCurrentAtlas().findRegion(regionName));
-    }
-    */
-
-
     public void dispose() {
         skin.dispose();
         permanentAtlas.dispose();
@@ -74,20 +67,20 @@ public class AssetsManager {
     }
 
     /**
-     * @param atlasName    just for debugging purposes, give a name to the atlas
+     * @param atlasLabel    the PREPARE label to design the atlas to be loaded
      * @param localAddress the string where to find the atlas in the assets (f.e. "atlases/myatlas")
      */
-    private void setCurrentAtlas(String atlasName, String localAddress) {
-        if (!atlasName.equals(currentAtlasName)){
-            if (MyGame.DEBUG) System.out.println("AssetsManager: preparing "+atlasName+"...");
+    private void setCurrentAtlas(PREPARE atlasLabel, String localAddress) {
+        if (!atlasLabel.equals(currentAtlasLabel)){
+            if (MyGame.DEBUG) System.out.println("AssetsManager: preparing "+atlasLabel+"...");
             if (currentAtlas != null) currentAtlas.dispose();
             currentAtlas = new TextureAtlas(Gdx.files.internal(localAddress));
-            currentAtlasName = atlasName;
+            currentAtlasLabel = atlasLabel;
         }
     }
 
     public void prepare(PREPARE p) {
-        if (p == PREPARE.LOBBY) setCurrentAtlas("lobby", "atlases/lobby.atlas");
-        else if (p == PREPARE.CHAPTER1) setCurrentAtlas("chapter1", "atlases/chapter1.atlas");
+        if (p == PREPARE.LOBBY) setCurrentAtlas(p, "atlases/lobby.atlas");
+        else if (p == PREPARE.CHAPTER1) setCurrentAtlas(p, "atlases/chapter1.atlas");
     }
 }

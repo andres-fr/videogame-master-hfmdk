@@ -82,14 +82,14 @@ public class MainMenuScreen extends MenuScreen {
         newGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoNewScreen(StreetChapter1Screen.class, new Object[]{game}, 0.2f, 0.5f));
+                stage.addAction(game.actions.gotoNewScreen(StreetChapter1Screen.class, new Object[]{game}, 0.2f, 0.5f));
             }
         });
 
         loadSaveButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenWithSameAssets(loadSaveMenuScreen, 0.2f, 0.2f, false));
+                stage.addAction(game.actions.gotoScreenWithSameAssets(loadSaveMenuScreen, 0.2f, 0.2f, false));
             }
         });
 
@@ -103,21 +103,21 @@ public class MainMenuScreen extends MenuScreen {
         optionsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenWithSameAssets(optionsScreen, 0.2f, 0.2f, false));
+                stage.addAction(game.actions.gotoScreenWithSameAssets(optionsScreen, 0.2f, 0.2f, false));
             }
         });
 
         gameplayButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenWithSameAssets(gameplayScreen, 0.2f, 0.2f,false));
+                stage.addAction(game.actions.gotoScreenWithSameAssets(gameplayScreen, 0.2f, 0.2f,false));
             }
         });
 
         creditsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.gotoScreenWithSameAssets(creditsScreen, 0.2f, 0.2f, false));
+                stage.addAction(game.actions.gotoScreenWithSameAssets(creditsScreen, 0.2f, 0.2f, false));
             }
         });
     }

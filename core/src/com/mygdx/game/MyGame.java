@@ -6,23 +6,19 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Constructor;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.mygdx.game.actors.OmnipresentInvisibleActor;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
 import com.mygdx.game.core.GameScreenUI;
 import com.mygdx.game.screens.chapter1.RoomChapter1Screen;
-import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
-import com.mygdx.game.screens.lobby.MainMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
 
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = false;
+    public final static boolean DEBUG = true;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
     public final static float CAM_SPEED_RATIO = 1f/200f; // to be multiplied by player speed
@@ -30,6 +26,8 @@ public class MyGame extends Game {
     public AssetsManager assetsManager;
     public PolygonSpriteBatch batch;
     public Player player;
+    public OmnipresentInvisibleActor omnipresentInvisibleActor;
+    public GameActions actions;
     // a pointer to the currently active screen
     private GameScreenUI currentScreen = null;
 
@@ -38,83 +36,44 @@ public class MyGame extends Game {
         if (FULLSCREEN) Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         assetsManager = new AssetsManager();
         batch = new PolygonSpriteBatch();
-
+        actions = new GameActions(this);
         player = new Player(this);
+        omnipresentInvisibleActor = new OmnipresentInvisibleActor(this);
 
-        // dirtiest hack ever to avoid nullPointerException when PresentationScreen tries to get dummyScreen.neededAsset
-        GameScreenUI dummyScreen = new GameScreenUI(this, AssetsManager.PREPARE.LOBBY);
-        currentScreen = dummyScreen;
-
-        if (!DEBUG) { // write false to configure init game in another point
+        if (DEBUG) {
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
+
         } else {
             assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
             currentScreen = new RoomChapter1Screen(this);
         }
-
-        // second part of the dirtiest hack
-        dummyScreen.dispose();
-
         // start game!
-        setScreenSECURE(currentScreen, true);
-    }
-
-
-    public Action gotoScreenWithSameAssets(final GameScreenUI gs, float fadeout, final float fadein, final boolean disposeCurrent) {
-        //System.out.println(currentScreen.neededAsset + "    "+ gs.neededAsset);
-        //System.out.println("asdfff");
-        if (false){// || currentScreen.neededAsset != gs.neededAsset){ // the == null is just for the very first screen of the game
-            throw new RuntimeException("trying to use gotoScreenWithSameAssets between 2 screens with different assets: " +
-                    currentScreen.neededAsset + ", " + gs.neededAsset);
-        } // else...
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                if (disposeCurrent && currentScreen!=null) currentScreen.dispose();
-                currentScreen = gs;
-                setScreenSECURE(gs, true);
-                gs.stage.addAction(GameActions.fadeOutFadeIn(0, fadein));
-            }
-        };
-        return GameActions.fadeOutRunFadeIn(fadeout, r, 0);
-    }
-
-    public Action gotoNewScreen(final Class<? extends GameScreenUI> screenClass, final Object[] consParameters,
-                                      final float fadeout, final float fadein) {
-        final Class[] parameterClasses = new Class[consParameters.length];
-        for (int i= 0; i<consParameters.length; i++){
-            parameterClasses[i] = consParameters[i].getClass();
+        setScreenSECURE(currentScreen, "imSureOfWhatImDoing");
+        /*
+        if (!DEBUG) {
+            actions.gotoNewScreen(PresentationScreen.class, new Object[]{this}, 0, 0);
+        } else{
+            actions.gotoNewScreen(RoomChapter1Screen.class, new Object[]{this}, 0, 0);
         }
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Constructor cons = ClassReflection.getConstructor(screenClass, parameterClasses);
-                    GameScreenUI gs = (GameScreenUI) cons.newInstance(consParameters);
-                    if (currentScreen != null) currentScreen.dispose();
-                    currentScreen = gs;
-                    setScreenSECURE(currentScreen, true);
-                    gs.stage.addAction(GameActions.fadeOutFadeIn(0, fadein));
-                } catch (ReflectionException e) {
-                    System.out.println("MyGame.gotoScreen: something went wrong with the following parameters: "+
-                    screenClass + "\n" + consParameters + "\n" + fadeout + "\n" + fadein);
-                    e.printStackTrace();
-                }
-            }
-        }; return GameActions.fadeOutRunFadeIn(fadeout, r, 0);
-    }
 
+        */
+    }
 
     /**
-     * this method performs the same as setScreen but with an extra boolean flag, for atibugging purposes:
-     * every setScreen call should be done through the gotoScreen method in this class, so the vanilla
+     * this method sets the currentScreen variable, and activates setScreen(), but it has an extra boolean flag,
+     * for atibugging purposes:
+     * every setScreen call should be done through the gotoScreen method in the GameActions, so the vanilla
      * setScreen is overriden to throw an exception when used
-     * @param screen
-     * @param check
+     * @param screen the new Screen to be set
+     * @param areUSureOfWhatUrDoing this must equal 'imSureOfWhatImDoing' if you want this method to perform
      */
-    public void setScreenSECURE(Screen screen, boolean check) {
-        super.setScreen(screen);
+    public void setScreenSECURE(GameScreenUI screen, String areUSureOfWhatUrDoing) {
+        if (areUSureOfWhatUrDoing.equals("imSureOfWhatImDoing")) {
+            currentScreen = screen;
+            super.setScreen(screen);
+        } else throw new RuntimeException("ANTIBUGGING: SetScreenSecure is public, but not expected to be directly used "+
+        "(See GameActions.java). If you still want to use it, type 'imSureOfWhatImDoing' at the String field.");
     }
 
     /**
@@ -123,12 +82,14 @@ public class MyGame extends Game {
      */
     @Override
     public void setScreen(Screen screen) {
-        throw new RuntimeException("setScreen() not allowed! use MyGame.gotoScreen() instead");
+        throw new RuntimeException("ANTIBUGGING: setScreen() not allowed! use GameActions.goto...() instead");
     }
 
     public GameScreenUI getCurrentScreen() {
         return currentScreen;
     }
+
+
 
 
 

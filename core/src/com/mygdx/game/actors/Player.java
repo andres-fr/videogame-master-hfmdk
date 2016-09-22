@@ -24,12 +24,14 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 public class Player extends GameActor {
     public static final int SPEED = 200; // in pixels/sec
-    boolean walking = false;
+    public enum STATES {IDLE, LEFT, RIGHT}
+    private STATES currentState;
     long timeStamp;
 
     public Player(MyGame g) {
         super(g, 0, 0, true, g.assetsManager.getPermanentAtlas().findRegions("walk.left"), 0);
         timeStamp = nanoTime();
+        setState(STATES.IDLE);
 
         this.addListener(new GameActorGestureListener(0.32f) {
             Vector2 stageTouchDown;
@@ -55,112 +57,50 @@ public class Player extends GameActor {
                     moveAfter = true;
                 }
             }
-
         });
     }
 
-    public Action standStill() {
-        return new RunnableAction(){
-            @Override
-            public void run() {
-                walking = false;
+    public void setState(STATES state) {
+        currentState = state;
+        switch (state) {
+            case IDLE:
                 changeCell(0);
-            }
-        };
+                addAction(Actions.moveTo(getX(), getY())); //!!!!!!!!!!!!!!!!!
+                break;
+            case LEFT:
+                break;
+            case RIGHT:
+                break;
+            default:
+                break;
+        }
     }
-
-    private void startWalk() {
-        walking = true;
-    }
-
-    private void walkForwards() {
-        changeCell((getCell()+1) % cellArray.size);
-    }
-
-
-
-    public Action walkToANYPOINTAction(float x, float y) {
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                startWalk();
-            }
-        };
-        Vector2 destiny = destinyStanding (x, y);
-        float time = destiny.dst(getXY())/SPEED;
-        return Actions.sequence(Actions.run(r), Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out));
-    }
-
-    public void walkToANYPOINT(float x, float y) {
-        addAction(walkToANYPOINTAction(x, y));
-    }
-
-
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (walking && nanoTime() - timeStamp > 0.1 * 1e9) {
+        if (currentState!=STATES.IDLE && nanoTime() - timeStamp > 0.1 * 1e9) {
             timeStamp = nanoTime();
-            walkForwards();
+            changeCell((getCell()+1) % cellArray.size);
             Vector2 footPos = getFoot();
-            boolean walkZoneContains = false;
+            boolean anyWalkZoneContainsPlayer = false;
             for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
                 if (wz.contains(footPos.x, footPos.y)) {
-                    walkZoneContains = true;
+                    anyWalkZoneContainsPlayer = true;
                     break;
                 }
-            }// if (!walkZoneContains) clearActions(); !!!!!!! stops the player when outside a wz
+            }if (!anyWalkZoneContainsPlayer){
+                clearActions(); //!!!!!!! stops the player when outside a wz
+                setState(STATES.IDLE);
+            }
         }
     }
 
-    @Override
-    public void clearActions() {
-        super.clearActions();
-        addAction(standStill());
-    }
-
-}
-
-
-
-
-/*
     public void walkTo(float x, float y) {
-        for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
-            if (wz.contains(x, y)){
-                Vector2 destiny = destinyStanding (x, y);
-                float time = destiny.dst(getXY())/SPEED;
-                clearActions();
-                startWalk();
-                addAction(Actions.sequence(Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out), Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        standStill();
-                    }
-                })));
-                break;
-            }
-        }
-
-
+        addAction(game.actions.walkPlayerToAnyPoint(x, y));
     }
 
-    public Action walkToWalkzoneAction(float x, float y) {
-        Action returnVal = null;
-        for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
-            if (wz.contains(x, y)){
-                Vector2 destiny = destinyStanding (x, y);
-                float time = destiny.dst(getXY())/SPEED;
-                startWalk();
-                returnVal = Actions.moveTo(destiny.x, destiny.y, time, Interpolation.pow2Out);
-                break;
-            }
-        } return returnVal;
+    public void walkToDoorAndCross(Door d){
+        addAction(game.actions.movePlayerTHENgotoNewScreen(getFoot().x, getFoot().y, d.nextScreenClass, new Object[]{game}, 0.5f, 0.5f));
     }
-
-    public void walkToWZ(float x, float y) {
-        addAction(walkToWalkzoneAction(x, y));
-    }
-
-*/
+}
