@@ -1,8 +1,12 @@
 package com.mygdx.game.core;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.game.MyGame;
 
 
@@ -18,6 +22,7 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
     // see also AddGameplayFunctionality and getScaleFromStageY
     private static final double EPSILON = 0.0001f;
     private static final double BIG_NEGATIVE = -1000000;
+    //
     protected float playerSizeDown;
     protected float playerSizeUp;
     protected double playerScaleTensor ;
@@ -25,7 +30,6 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
     // This constants are derivated from the variables above and are
     // needed in order to spare some computation overhead
     private double expTensor;
-
 
     public GameScreenGAMEPLAY(MyGame g, AssetsManager.PREPARE prepareAsset, float downSize, float upSize, double tensor, String bgrnd) {
         super(g, prepareAsset, bgrnd);
@@ -47,17 +51,15 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         playerSizeDown = downSize;
         playerSizeUp = upSize;
         playerScaleTensor = tensor;
-        // Explanation: A is wanted to be between 0 and 1. But the formula using a expects it
-        // to be -inf <= A < upSize. Therefore the log generates -inf<=A<=1, and the multiplication
-        // constraints it to -inf<=A<(upsize-EPSILON)
+        // Explanation: the parameter tensor is wanted to be between 0 and 1. But the formula using a expects it
+        // to be -inf <= expTensor < upSize. Therefore the log generates -inf<=expTensor<=1, and the multiplication
+        // constraints it to -inf<=expTensor<(upsize-EPSILON)
         double smallest = Math.min(upSize, downSize);
         expTensor = (tensor==0)? BIG_NEGATIVE : Math.log(tensor*Math.E) * (smallest-EPSILON);
-        //
-        background.setTouchable(Touchable.enabled);
         background.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                walkPlayerToWalkZone(x, y);
+                game.player.walkToWalkZone(x, y);
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -66,7 +68,6 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         // addWalkzoneScaled(new int[]{0, 500, 100000000, 500 , 100000000, 100000000, 0, 100000000}); // testing wz
 
     }
-
     /**
      * this method updates the camera x-position, and is called by render(delta) when the
      * type of the screen is gameplay
@@ -93,14 +94,6 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         return (float) formula;
     }
 
-    public void walkPlayerToWalkZone(float x, float y) {
-        for (WalkZone wz : getWalkZones()) {
-            if (wz.contains(x, y)){
-                game.player.walkTo(x, y);
-                break;
-            }
-        }
-    }
 
     @Override
     public void render(float delta) {
@@ -109,12 +102,6 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
         game.player.setScale(getScaleFromStageY(game.player.getY()));
     }
 }
-
-
-
-
-
-
 
 
 
@@ -131,15 +118,4 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
     private float getLinearScaleFromStageY(float yPos) {
         return (yPos / background.getHeight()) * (playerSizeUp - playerSizeDown) + playerSizeDown;
     }
-
-    private float getExponentialScaleFromStageY(float yPos) {
-        float a = 0.2f;
-        float b = 0.9f;
-        float h_m = 1000f;
-        float y_1 = 1;
-        double y_r = -y_1 / ((Math.log(h_m / b) - Math.log(h_m / a)));
-        double formula = h_m * Math.exp(-(yPos / background.getHeight()+y_r*Math.log(h_m/b)) / y_r);
-        return (float)formula;
-    }
-
 */

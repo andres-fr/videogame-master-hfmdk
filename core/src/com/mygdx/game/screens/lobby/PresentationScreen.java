@@ -1,30 +1,16 @@
 package com.mygdx.game.screens.lobby;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.AfterAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGame;
-import com.mygdx.game.actors.OmnipresentInvisibleActor;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameScreenUI;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
@@ -41,25 +27,18 @@ public class PresentationScreen extends GameScreenUI {
     String[] logoNames = {"obama", "korea", "stallman"};
     Array<Image> logos = new Array<Image>();
 
-    /*
-    Image[] logos = {new Image(new Texture(Gdx.files.internal("logos/obama.png"))),
-            new Image(new Texture(Gdx.files.internal("logos/korea.jpg"))),
-            new Image(new Texture(Gdx.files.internal("logos/stallman.jpeg")))};
-            */
     private int PREFERRED_WIDTH = (int) (MyGame.WIDTH * 0.3); // height preserves aspect ratio
     private long timeStamp; // needed to keep track of when the current logo started
     private float MIN_TIME = 1f; // a logo can't be skipped until MIN_TIME in seconds passes
     private int currentLogo = 0; // iterates over the logos array
     private int totalLogos = logoNames.length; // ends the iteration over the logos array
 
-
-    Pixmap p = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-    Texture tex = new Texture(p);
-
+    private MainMenuScreen mainMenuScreen;
 
     public PresentationScreen(MyGame g) {
         super(g, AssetsManager.PREPARE.LOBBY);
         timeStamp = nanoTime();
+        mainMenuScreen = new MainMenuScreen(game);
         // fill logos array with the Images with tap listener
         for (String s : logoNames){
             Image i = new Image(g.assetsManager.getCurrentRegion(s));
@@ -87,8 +66,7 @@ public class PresentationScreen extends GameScreenUI {
     private Action showLogoAnimated(final Image logo) {
         Runnable r = new Runnable() {
             public void run() {
-                stage.removeActorsButNotListenersNorActions();
-                stage.addActor(game.omnipresentInvisibleActor); // don't know why but this keeps being removed from the stage in this class...
+                for (Actor a : stage.getActors()) a.remove(); // remove is not like clear() see javadocs
                 float prefHeight = logo.getHeight() * (PREFERRED_WIDTH / logo.getWidth());
                 logo.setSize(PREFERRED_WIDTH, prefHeight);
                 logo.setPosition((game.WIDTH-PREFERRED_WIDTH)/2, (game.HEIGHT-prefHeight)/2);
@@ -109,7 +87,7 @@ public class PresentationScreen extends GameScreenUI {
         for (int i = 0; i < (totalLogos - currentLogo); i++) { // add logo animations
             actionsChain[i] = showLogoAnimated(logos.get(i+currentLogo));
         }
-        actionsChain[totalLogos - currentLogo] = game.actions.gotoScreenWithSameAssets(new MainMenuScreen(game), 0, 0.2f, true);
+        actionsChain[totalLogos - currentLogo] = game.actions.gotoScreenWithSameAssets(mainMenuScreen, 0, 0.2f, true);
         return (Actions.sequence(actionsChain));
     }
 }

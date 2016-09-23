@@ -1,32 +1,33 @@
 TODO:
 
 
---> revise the whole screen stuff to make sure the omnipresent actor is never deleted!! important
 
--> when this is ensured, readapt the whole CORE action system to be performed by the omni actor.
-if this is done, it should become much simpler. Tricky question: how would it work to have one single mygame.stage??
 
 -> Player speed and final position should adapt to resizing (they are buggy).
 
--> player should somehow delete all actions before starting a walk (it is buggy)
+-> use PathFinder of gdxAI to implement optimal pathfinding
 
 -> add dorm WZ
-
--> add pause menu efficiently
 
 -> make the Player listener ignore the click if it was on an alpha pixel (so objects that are close to the head can be
 clicked anyway)
 
+-> also important to learn how the player passes the click to other actors, in case he wants to ignore it.
+
+-> in GameActions, screentransitions: background.clearListeners() is restored? if not, how does it still work???
+
 
 DIRTY HACKS:
 
-0)  keep an eye on all GameStage instances!! they should always have the omnipresent actor on them, no matter what.
+=>  keep an eye on all GameStage instances!! they should always have the omnipresent actor on them, no matter what.
 
-1) do NOT do this BECAUSE the first action of the sequence will delete the sequence itself ):
+=> do NOT do this: public Action ... return null; // this will generate a nullpoinerexception
+
+=> do NOT do this BECAUSE the first action of the sequence will delete the sequence itself ):
 Runnable r => run(){clearActions();}
 addAction(sequence(Actions.run(r), ... ))
 
-2) also do NOT do this BECAUSE if we want simply to queue this action,
+=> also do NOT do this BECAUSE if we want simply to queue this action,
  the first line (setState) won't be scheduled!!! it will be executed inmediately:
 Action buggyMethod (int whatever){
     game.player.setState(STATES.IDLE);

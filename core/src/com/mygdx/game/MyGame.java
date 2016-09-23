@@ -6,19 +6,18 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.mygdx.game.actors.OmnipresentInvisibleActor;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
 import com.mygdx.game.core.GameScreenUI;
-import com.mygdx.game.screens.chapter1.RoomChapter1Screen;
+import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
+import com.mygdx.game.screens.lobby.PauseMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
 
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = true;
+    public final static boolean DEBUG = false;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
     public final static float CAM_SPEED_RATIO = 1f/200f; // to be multiplied by player speed
@@ -26,10 +25,12 @@ public class MyGame extends Game {
     public AssetsManager assetsManager;
     public PolygonSpriteBatch batch;
     public Player player;
-    public OmnipresentInvisibleActor omnipresentInvisibleActor;
     public GameActions actions;
+    // a pointer to the pause menu
+    private PauseMenuScreen pauseMenu = null;
     // a pointer to the currently active screen
     private GameScreenUI currentScreen = null;
+
 
 	@Override
 	public void create () {
@@ -38,18 +39,18 @@ public class MyGame extends Game {
         batch = new PolygonSpriteBatch();
         actions = new GameActions(this);
         player = new Player(this);
-        omnipresentInvisibleActor = new OmnipresentInvisibleActor(this);
+        pauseMenu = new PauseMenuScreen(this);
 
-        if (DEBUG) {
+        if (DEBUG==false) {
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
 
-        } else {
+        } else { // DEBUG==true
             assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
-            currentScreen = new RoomChapter1Screen(this);
+            currentScreen = new StreetChapter1Screen(this);
         }
         // start game!
-        setScreenSECURE(currentScreen, "imSureOfWhatImDoing");
+        setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");
         /*
         if (!DEBUG) {
             actions.gotoNewScreen(PresentationScreen.class, new Object[]{this}, 0, 0);
@@ -68,7 +69,7 @@ public class MyGame extends Game {
      * @param screen the new Screen to be set
      * @param areUSureOfWhatUrDoing this must equal 'imSureOfWhatImDoing' if you want this method to perform
      */
-    public void setScreenSECURE(GameScreenUI screen, String areUSureOfWhatUrDoing) {
+    public void setScreenINSECURE(GameScreenUI screen, String areUSureOfWhatUrDoing) {
         if (areUSureOfWhatUrDoing.equals("imSureOfWhatImDoing")) {
             currentScreen = screen;
             super.setScreen(screen);
@@ -89,9 +90,9 @@ public class MyGame extends Game {
         return currentScreen;
     }
 
-
-
-
+    public PauseMenuScreen getPauseMenu() {
+        return pauseMenu;
+    }
 
     @Override
     public void dispose() {
@@ -109,95 +110,3 @@ public class MyGame extends Game {
         Gdx.app.exit();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
-     * This method is the official way to change from one GameScreen to another.
-     * It uses reflection mainly because of the following reasons:
-     * 1) it was important to call  "assetsManager.prepare" BEFORE instantiating the GameScreen in EVERY case
-     * 2) the alternative of passing a GameScreenUI as an argument would cause it to be instantiated before the method starts
-     * 3) an if-else design would be a huge overhead, since there are lots of classes that extend GameScreenUI. That's what
-     * reflection is been made for. Usage example, to be found in MainMenuScreen.java:
-     * game.gotoScreen(StreetChapter1Screen.class, new Object[]{game}, AssetsManager.PREPARE.CHAPTER1, 0, 0.5f);
-     * @param screenClass the class of the string to be switched to.
-     * @param parameters an Object array holding the clazz's constructor parameters, respecting the order
-     * @param prepareAsset the AssetsManager.PREPARE element to be "prepared" before screen instantiation
-     * @param fadeout the fadeOut time before screen switching, in seconds (it can be zero)
-     * @param fadein the fadeIn time after screen switching, in seconds (it can be zero)
-     * @return an Action consisting of fadeOut->prepareAsset->changeScreen->fadein
-     */
-
-/*
-public Action gotoScreenREFLECTED(final Class<? extends GameScreenUI> screenClass, final Object[] parameters,
-                                  final AssetsManager.PREPARE prepareAsset, final float fadeout, final float fadein) {
-    final Class[] parameterClasses = new Class[parameters.length];
-    for (int i= 0; i<parameters.length; i++){
-        parameterClasses[i] = parameters[i].getClass();
-    }
-    Runnable r = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                assetsManager.prepare(prepareAsset);
-                Constructor cons = ClassReflection.getConstructor(screenClass, parameterClasses);
-                GameScreenUI gs = (GameScreenUI) cons.newInstance(parameters);
-                if (currentScreen != null) currentScreen.dispose();
-                currentScreen = gs;
-                setScreenSECURE(currentScreen, true);
-                gs.stage.addAction(GameActions.fadeOutFadeIn(0, fadein));
-            } catch (ReflectionException e) {
-                e.printStackTrace();
-            }
-        }
-    }; return GameActions.fadeOutRunFadeIn(fadeout, r, 0);
-}
-
-
-    /**
-     * this version of gotoScreen is useful between screens that share the same assets, but
-     * fatal else! it is implemented because gotoScreen forces screen instantiation, which can
-     * become CPU-expensive if constantly switching between screens that share the same asset.
-     * Usage example, to be found in PresentationScreen.java:
-     * game.gotoScreenWITHOUTPREPARING(new MainMenuScreen(game), 0, 0.5f)
-     * @param gs the reference of the GameScreen to be switched to
-     * @param fadeout the fadeOut time before switching, in seconds (it can be zero)
-     * @param fadein the fadeIn time after switching, in seconds (it can be zero)
-     * @param disposeCurrent if true&&currentScreen!=null, the currentScreen is disposed before currentScreen=gs
-     * @return an Action consisting of fadeOut->changeScreen->fadein
-     */
-
-/*
-    public Action gotoScreenWITHOUTPREPARING(final GameScreenUI gs, float fadeout, final float fadein, final boolean disposeCurrent) {
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                if (disposeCurrent && currentScreen!=null) currentScreen.dispose();
-                currentScreen = gs;  //clazz.getDeclaredConstructor(parameter.getClass()).newInstance(parameter);
-                setScreenSECURE(gs, true);
-                gs.stage.addAction(GameActions.fadeOutFadeIn(0, fadein));
-            }
-        };
-        return GameActions.fadeOutRunFadeIn(fadeout, r, 0);
-    }
- */

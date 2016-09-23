@@ -1,11 +1,11 @@
 package com.mygdx.game.screens.lobby;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.mygdx.game.MyGame;
 import com.mygdx.game.core.GameScreenUI;
 import com.mygdx.game.core.MenuScreen;
 
@@ -14,14 +14,15 @@ import com.mygdx.game.core.MenuScreen;
  */
 
 public class PauseMenuScreen extends MenuScreen {
-    private Label titleLabel = new Label("CREDITS MENU SCREEN", game.assetsManager.getSkin());
+    private GameScreenUI returnScreen;
+
+    private Label titleLabel = new Label("PAUSE MENU SCREEN", game.assetsManager.getSkin());
     private Label subTitleLabel = new Label("subtitle ", game.assetsManager.getSkin());
     private TextButton continueButton = new TextButton("Continue", game.assetsManager.getSkin());
-    private MainMenuScreen menu;
+    private TextButton exitButton = new TextButton("EXIT", game.assetsManager.getSkin());
 
-    public PauseMenuScreen(MainMenuScreen m) {
-        super(m.game);
-        menu = m;
+    public PauseMenuScreen(MyGame g) {
+        super(g);
         addWidgets();
         addListeners();
     }
@@ -48,14 +49,31 @@ public class PauseMenuScreen extends MenuScreen {
         // main buttons contents
         mainButtons.defaults().prefWidth(160).prefHeight(60);
         mainButtons.add(continueButton).row();
+        mainButtons.add(exitButton);
     }
 
     protected void addListeners() {
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                stage.addAction(game.actions.gotoScreenWithSameAssets(menu, 0.2f, 0.2f, false));
+                stage.addAction(game.actions.resumeGame());
+            }
+        });
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.exit();
             }
         });
     }
+
+
+    public void setReturnScreen(GameScreenUI returnScreen) {
+        this.returnScreen = returnScreen;
+    }
+
+    public GameScreenUI getReturnScreen() {
+        return returnScreen;
+    }
+
 }

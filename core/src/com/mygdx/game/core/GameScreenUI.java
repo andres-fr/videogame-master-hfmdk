@@ -5,7 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -27,7 +31,7 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 public class GameScreenUI implements Screen {
     public MyGame game;
-    public GameStage stage;
+    public Stage stage;
     public AssetsManager.PREPARE neededAsset;
     protected float screenFitRatio = 1;
     public BackgroundTable background;
@@ -35,9 +39,14 @@ public class GameScreenUI implements Screen {
     public Table lights;
     public Table foreground;
     protected Array<WalkZone> walkZones = new Array<WalkZone>();
+    // some ugly stuff, belonging to method runRunnableAfterActorEndsActions
+    // this is necessary to coordinate actions between screens at transitions
+    private boolean watchingTemp;
+    private Actor watchActorTemp;
+    private Action actionTemp;
 
 
-    long timeStamp; //!!!!!!
+    protected long timeStamp; // for debugging purposes
 
 
     /**
@@ -51,8 +60,9 @@ public class GameScreenUI implements Screen {
         neededAsset = prepareAsset;
         game.assetsManager.prepare(prepareAsset);
         // create new stage always usign the same game batch, and configure
-        stage = new GameStage(game);
-        stage.addActor(game.omnipresentInvisibleActor);
+        stage = new Stage(new FitViewport(MyGame.WIDTH, MyGame.HEIGHT), g.batch);
+        ((OrthographicCamera) stage.getCamera()).setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);
+        stage.setDebugAll(MyGame.DEBUG);
         timeStamp = nanoTime();
     }
 
@@ -65,6 +75,7 @@ public class GameScreenUI implements Screen {
         background.setBackground(new TextureRegionDrawable(game.assetsManager.getCurrentRegion(bgrnd)));
         background.setBounds(0, 0, game.assetsManager.getCurrentRegion(bgrnd).getRegionWidth() * screenFitRatio,
                 game.assetsManager.getCurrentRegion(bgrnd).getRegionHeight() * screenFitRatio);
+        background.setTouchable(Touchable.enabled);
     }
 
     public GameScreenUI(MyGame g, AssetsManager.PREPARE prepareAsset, String bgrnd, String shdw, String lghts) {
@@ -91,13 +102,17 @@ public class GameScreenUI implements Screen {
 
     @Override
     public void render(float delta) {
-        if  (MyGame.DEBUG && (nanoTime()-timeStamp)>1e9){
+        if  (MyGame.DEBUG && (nanoTime()-timeStamp)>3e9){
             timeStamp = nanoTime();
-            System.out.println("\n\nActors in current Screen: " + stage.getActors().toString());
+            System.out.println("\n\nActors in current "+this.getClass().getSimpleName().toString()+": " + stage.getActors().toString());
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) game.exit();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        // if some actor has no actions, and watchingTemp is true, addAction(runnableTemp) once
+        if (watchingTemp && !watchActorTemp.hasActions()) {
+            watchingTemp = false;
+            stage.addAction(actionTemp);
+        }
         stage.act(delta);
         stage.draw();
     }
@@ -160,5 +175,11 @@ public class GameScreenUI implements Screen {
 
     public Array<WalkZone> getWalkZones() {
         return walkZones;
+    }
+
+    public void addActionOnStageAfterActorEndsHisActions(Actor actor, Action action) {
+        watchActorTemp = actor;
+        actionTemp = action;
+        watchingTemp = true;
     }
 }

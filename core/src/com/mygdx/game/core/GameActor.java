@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
  */
 
 public class GameActor extends Actor {
+    public int SPEED = 0; // in pixels/sec
     protected Array<TextureAtlas.AtlasRegion> cellArray = null;
     int cell = -1;
     protected MyGame game;

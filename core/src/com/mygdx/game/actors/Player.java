@@ -23,13 +23,13 @@ import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 
 public class Player extends GameActor {
-    public static final int SPEED = 200; // in pixels/sec
     public enum STATES {IDLE, LEFT, RIGHT}
     private STATES currentState;
     long timeStamp;
 
     public Player(MyGame g) {
         super(g, 0, 0, true, g.assetsManager.getPermanentAtlas().findRegions("walk.left"), 0);
+        SPEED = 200;
         timeStamp = nanoTime();
         setState(STATES.IDLE);
 
@@ -45,7 +45,7 @@ public class Player extends GameActor {
 
             @Override
             public boolean longPress(Actor actor, float x, float y) {
-                setColor(MathUtils.random(0, 1f), MathUtils.random(0, 1f), MathUtils.random(0, 1f), 1);
+                getStage().addAction(game.actions.pauseGame());
                 moveAfter = false;
                 return super.longPress(actor, x, y);
             }
@@ -53,7 +53,7 @@ public class Player extends GameActor {
             @Override
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 if (moveAfter) {
-                    ((GameScreenGAMEPLAY)game.getCurrentScreen()).walkPlayerToWalkZone(stageTouchDown.x, stageTouchDown.y);
+                    walkToWalkZone(stageTouchDown.x, stageTouchDown.y);
                     moveAfter = true;
                 }
             }
@@ -90,17 +90,39 @@ public class Player extends GameActor {
                     break;
                 }
             }if (!anyWalkZoneContainsPlayer){
-                clearActions(); //!!!!!!! stops the player when outside a wz
-                setState(STATES.IDLE);
+                //clearActions(); //!!!!!!! stops the player when outside a wz
+                //setState(STATES.IDLE);
             }
         }
     }
 
-    public void walkTo(float x, float y) {
-        addAction(game.actions.walkPlayerToAnyPoint(x, y));
+    public Action actionWalkToAnyPoint(float x, float y) {
+        clearActions(); /// !!!!!!! clears all actions inmediately before starting to walk
+        Runnable r1 = new Runnable() {
+            @Override
+            public void run() {
+                setState(Player.STATES.LEFT);
+            }
+        };
+        Runnable r2 = new Runnable() {
+            @Override
+            public void run() {
+                setState(Player.STATES.IDLE);
+            }
+        };
+        return game.actions.moveActorToAnyPoint(this, x, y, r1, r2);
     }
 
-    public void walkToDoorAndCross(Door d){
-        addAction(game.actions.movePlayerTHENgotoNewScreen(getFoot().x, getFoot().y, d.nextScreenClass, new Object[]{game}, 0.5f, 0.5f));
+    public void walkToAnyPoint(float x, float y) {
+        addAction(actionWalkToAnyPoint(x, y));
+    }
+
+    public void walkToWalkZone(float x, float y) {
+        for (WalkZone wz : game.getCurrentScreen().getWalkZones()) {
+            if (wz.contains(x, y)){
+                walkToAnyPoint(x, y);
+                break;
+            }
+        }
     }
 }
