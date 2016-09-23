@@ -48,13 +48,10 @@ public class MyGame extends Game {
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
 
         } else { // DEBUG==true
-            assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
-            currentScreen = new StreetChapter1Screen(this);
-            for (int i = 0; i<2; i++) {
-                //System.out.println("\n" + BullshitGenerator.generateFormattedSentences(4));
+            for (int i = 0; i<4; i++) {
+                System.out.println("\n" + BullshitGenerator.generateFormattedSentences(4));
             }
-            //assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
-            //currentScreen = new StreetChapter1Screen(this);
+            exit();
         }
         // start game!
         setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");
