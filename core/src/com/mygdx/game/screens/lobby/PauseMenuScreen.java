@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MyGame;
+import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameScreenUI;
 import com.mygdx.game.core.MenuScreen;
 
@@ -13,7 +14,12 @@ import com.mygdx.game.core.MenuScreen;
  * Created by afr on 08.08.16.
  */
 
-public class PauseMenuScreen extends MenuScreen {
+public class PauseMenuScreen extends GameScreenUI {
+    // size config
+    public static int PREF_MENU_WIDTH = (int)(MyGame.WIDTH*0.9);
+    public static int PREF_MENU_HEIGHT = (int)(MyGame.HEIGHT*0.9);
+    protected Table clusterTable = new Table();
+
     private GameScreenUI returnScreen;
 
     private Label titleLabel = new Label("PAUSE MENU SCREEN", game.assetsManager.getSkin());
@@ -22,7 +28,11 @@ public class PauseMenuScreen extends MenuScreen {
     private TextButton exitButton = new TextButton("EXIT", game.assetsManager.getSkin());
 
     public PauseMenuScreen(MyGame g) {
-        super(g);
+        super(g, AssetsManager.PREPARE.PERMANENT);
+        clusterTable.setSize(PREF_MENU_WIDTH, PREF_MENU_HEIGHT);
+        clusterTable.setPosition((MyGame.WIDTH-PREF_MENU_WIDTH)/2, (MyGame.HEIGHT-PREF_MENU_HEIGHT)/2);
+        clusterTable.defaults().center();
+        stage.addActor(clusterTable);
         addWidgets();
         addListeners();
     }

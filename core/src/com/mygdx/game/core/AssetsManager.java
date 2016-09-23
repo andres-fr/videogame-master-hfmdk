@@ -19,7 +19,7 @@ public class AssetsManager {
     private Skin skin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
     // atlas containers
     private TextureAtlas permanentAtlas;
-    public enum PREPARE {LOBBY, CHAPTER1}
+    public enum PREPARE {PERMANENT, LOBBY, CHAPTER1}
     private PREPARE currentAtlasLabel = null;
     private TextureAtlas currentAtlas = null;
 
@@ -80,7 +80,16 @@ public class AssetsManager {
     }
 
     public void prepare(PREPARE p) {
-        if (p == PREPARE.LOBBY) setCurrentAtlas(p, "atlases/lobby.atlas");
-        else if (p == PREPARE.CHAPTER1) setCurrentAtlas(p, "atlases/chapter1.atlas");
+        switch (p) {
+            case PERMANENT:
+                // do nothing
+                break;
+            case LOBBY:
+                setCurrentAtlas(p, "atlases/lobby.atlas");
+                break;
+            case CHAPTER1:
+                setCurrentAtlas(p, "atlases/chapter1.atlas");
+                break;
+        }
     }
 }

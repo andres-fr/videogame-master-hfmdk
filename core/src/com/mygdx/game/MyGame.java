@@ -6,8 +6,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
+import com.mygdx.game.core.BullshitGenerator;
 import com.mygdx.game.core.GameActions;
 import com.mygdx.game.core.GameScreenUI;
 import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
@@ -17,7 +19,7 @@ import com.mygdx.game.screens.lobby.PresentationScreen;
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = false;
+    public final static boolean DEBUG = true ;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
     public final static float CAM_SPEED_RATIO = 1f/200f; // to be multiplied by player speed
@@ -48,9 +50,19 @@ public class MyGame extends Game {
         } else { // DEBUG==true
             assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
             currentScreen = new StreetChapter1Screen(this);
+            for (int i = 0; i<2; i++) {
+                //System.out.println("\n" + BullshitGenerator.generateFormattedSentences(4));
+            }
+            //assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
+            //currentScreen = new StreetChapter1Screen(this);
         }
         // start game!
         setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");
+
+
+
+
+
         /*
         if (!DEBUG) {
             actions.gotoNewScreen(PresentationScreen.class, new Object[]{this}, 0, 0);
