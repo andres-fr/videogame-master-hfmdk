@@ -131,8 +131,8 @@ public class GameActions {
                 Actions.run(runAfterMove));
     }
 
-    public void movePlayerTHENgotoNewScreen(final float xPos, final float yPos, final Class<? extends GameScreenUI> screenClass, final Object[] consParameters,
-                                              final float fadeout, final float fadein) {
+    public void movePlayerTHENgotoNewScreen(float xPos, float yPos, Class<? extends GameScreenUI> screenClass, Object[] consParameters,
+                                            float fadeout, float fadein) {
         game.player.walkToAnyPoint(xPos, yPos);
         game.getCurrentScreen().addActionOnStageAfterActorEndsHisActions(game.player, gotoNewScreen(screenClass, consParameters, fadeout, fadein));
     }

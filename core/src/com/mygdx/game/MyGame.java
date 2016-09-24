@@ -48,10 +48,9 @@ public class MyGame extends Game {
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
 
         } else { // DEBUG==true
-            for (int i = 0; i<4; i++) {
+            for (int i = 0; i<11; i++) {
                 System.out.println("\n" + BullshitGenerator.generateFormattedSentences(4));
             }
-            exit();
         }
         // start game!
         setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");
