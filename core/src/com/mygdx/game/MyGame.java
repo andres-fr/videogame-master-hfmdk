@@ -51,6 +51,8 @@ public class MyGame extends Game {
             for (int i = 0; i<11; i++) {
                 System.out.println("\n" + BullshitGenerator.generateFormattedSentences(4));
             }
+            assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
+            currentScreen = new PresentationScreen(this);
         }
         // start game!
         setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");
