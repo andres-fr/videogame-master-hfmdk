@@ -1,7 +1,6 @@
 package com.mygdx.game.core;
 
-
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -296,27 +295,27 @@ public abstract class BullshitGenerator {
           };
 
 
-    private static void addRandomElementsWithoutRepetitions(int finalSizeofList, Array<String> list, String[] source) {
+    private static void addRandomElementsWithoutRepetitions(int finalSizeofList, ArrayList<String> list, String[] source) {
         if (finalSizeofList>source.length || finalSizeofList<1){
             throw new RuntimeException("ANTIBUGGING||BullshitGenerator condition (1<=finalSizeofList<=" +
                     source.length + ") unmet because finalSizeOfList=" + finalSizeofList);
         }
         int MAXLENGTH = source.length;
         Random r = new Random();
-        while (list.size < finalSizeofList) {
+        while (list.size() < finalSizeofList) {
             String candidate = source[r.nextInt(MAXLENGTH)];
-            if (!list.contains(candidate, false)) list.add(candidate);
+            if (!list.contains(candidate)) list.add(candidate);
         }
     }
 
-    public static Array<String> generateRawSentencesArray(int numberOfSentences) {
-        // 1) concat the BEGIN and the NON_BEGIN sentences to allSentencesArray
-        Array<String> allSentencesList = new Array<>();
+    public static ArrayList<String> generateRawSentencesArray(int numberOfSentences) {
+        // 1) concat the BEGIN and the NON_BEGIN sentences to allSentencesArrayList
+        ArrayList<String> allSentencesList = new ArrayList<>();
         for (String s : BEGIN_SENTENCE_STRUCTURES) allSentencesList.add(s);
         for (String s : NON_BEGIN_SENTENCE_STRUCTURES) allSentencesList.add(s);
-        String[] allSentencesArray = allSentencesList.toArray(String.class);
+        String[] allSentencesArray = allSentencesList.toArray(new String[0]);// .toArrayList(String.class);
         // 2) create and fill the list:
-        Array<String> finalText = new Array<String>();
+        ArrayList<String> finalText = new ArrayList<String>();
         addRandomElementsWithoutRepetitions(1, finalText, BEGIN_SENTENCE_STRUCTURES);
         addRandomElementsWithoutRepetitions(numberOfSentences, finalText, allSentencesArray);
         // 4) process nouns:
@@ -327,7 +326,7 @@ public abstract class BullshitGenerator {
         return finalText;
     }
 
-    public static String collapseStringList(Array<String> list) {
+    public static String collapseStringList(ArrayList<String> list) {
         String temp = Arrays.toString(list.toArray());
         temp = temp.replaceAll("\\[|\\]", "");
         temp = temp.replaceAll("\\.,", ".");
@@ -335,7 +334,7 @@ public abstract class BullshitGenerator {
     }
 
     public static String generateFormattedSentences(int numberOfSentences) {
-        Array<String> list = new Array<String>();
+        ArrayList<String> list = new ArrayList<String>();
         for (String s : generateRawSentencesArray(numberOfSentences)) list.add(formatSentence(s));
         return collapseStringList(list);
     }
@@ -402,6 +401,7 @@ public abstract class BullshitGenerator {
         for (int i = 0; i<5; i++) {
             System.out.println("\n" + BullshitGenerator.generateFormattedSentences(5));
         }
+        System.out.println("\n\n\n");
     }
 
 }

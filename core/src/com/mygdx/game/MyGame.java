@@ -48,9 +48,7 @@ public class MyGame extends Game {
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
 
         } else { // DEBUG==true
-            for (int i = 0; i<11; i++) {
-                System.out.println("\n" + BullshitGenerator.generateFormattedSentences(4));
-            }
+            BullshitGenerator.main(null);
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
             currentScreen = new PresentationScreen(this);
         }
