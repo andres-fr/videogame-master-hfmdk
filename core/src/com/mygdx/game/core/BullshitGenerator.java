@@ -273,7 +273,7 @@ public abstract class BullshitGenerator {
             "write|writes|writing"
            };
     public final static String[] BEGIN_SENTENCE_STRUCTURES = new String[]{
-            "As a |adverb| |adjective| artist, I aim to |verb-present| the |noun| within |adjective|-|noun-plural|, and bring forth a single |noun| that really |verb-present| the most |adjective| |noun-both|.",
+            "As a |adverb| |adjective| artist, I aim to |verb-present| the |noun| within |adjective|-|noun-plural|, and bring forth a single |noun| that really |verb-present| the most |adjective| |noun-plural|.",
             "By |verb-ing| in |adjective| |verb-ing|, I seek to |verb| the existing |adjective| |noun-plural|, and |verb| a more |adjective| and |adjective| |noun|.",
             "It is of paramount importance that |adjective|, |adjective| |noun|-|noun-plural| must never be allowed to become |adjective|, or |adverb| |adjective|.",
             "My latest piece begins with a rather |adjective| |noun|, before |adverb| |verb-ing| the existing |adjective| |noun-both| into a more |adjective| |noun|, a process I term ‘|adverb|-|adjective|-|verb-ing|’.",
@@ -369,6 +369,7 @@ public abstract class BullshitGenerator {
                 break;
             case "|noun-both|":
                 returnString = (r.nextBoolean()) ? formatWord("|noun|") : formatWord("|noun-plural|");
+                break;
             case "|verb|":
                 if (r.nextInt(30)<1)  returnString = returnString+PREFIXES[r.nextInt(PREFIXES.length)]+"-";
                 returnString = verbs[0];
