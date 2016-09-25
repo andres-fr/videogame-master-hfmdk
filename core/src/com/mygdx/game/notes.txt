@@ -7,7 +7,7 @@ TODO:
 
 -> use PathFinder of gdxAI to implement optimal pathfinding
 
--> add dorm WZ
+-> add dorm Walkzone
 
 -> make the Player listener ignore the click if it was on an alpha pixel (so objects that are close to the head can be
 clicked anyway)
@@ -16,6 +16,7 @@ clicked anyway)
 
 -> in GameActions, screentransitions: background.clearListeners() is restored? if not, how does it still work???
 
+-> complete bs-generator with more examples
 
 DIRTY HACKS:
 

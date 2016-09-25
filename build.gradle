@@ -48,6 +48,7 @@ project(":desktop") {
         //compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
         //compile 'com.intellij:annotations:+@jar'
         compile "javax.validation:validation-api:1.1.0.Final"
+        compile "de.sciss:jcollider:1.0.0" // from https://github.com/Sciss/JCollider
     }
 }
 
@@ -73,6 +74,7 @@ project(":android") {
         //added by andres
         //compile 'com.intellij:annotations:+@jar'
         compile "javax.validation:validation-api:1.1.0.Final"
+        compile "de.sciss:jcollider:1.0.0" // from https://github.com/Sciss/JCollider
     }
 }
 
@@ -91,6 +93,7 @@ project(":ios") {
         //added by andres
         //compile 'com.intellij:annotations:+@jar'
         compile "javax.validation:validation-api:1.1.0.Final"
+        compile "de.sciss:jcollider:1.0.0" // from https://github.com/Sciss/JCollider
     }
 }
 
@@ -109,6 +112,7 @@ project(":html") {
         //added by andres
         //compile 'com.intellij:annotations:+@jar'
         compile "javax.validation:validation-api:1.1.0.Final"
+        compile "de.sciss:jcollider:1.0.0" // from https://github.com/Sciss/JCollider
     }
 }
 
@@ -122,6 +126,7 @@ project(":core") {
         //added by andres
         //compile 'com.intellij:annotations:+@jar'
         compile "javax.validation:validation-api:1.1.0.Final"
+        compile "de.sciss:jcollider:1.0.0" // from https://github.com/Sciss/JCollider
     }
 }
 

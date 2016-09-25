@@ -1,5 +1,13 @@
 package com.mygdx.game.core;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.IntBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -273,7 +281,7 @@ public abstract class BullshitGenerator {
             "write|writes|writing"
            };
     public final static String[] BEGIN_SENTENCE_STRUCTURES = new String[]{
-            "As a |adverb| |adjective| artist, I aim to |verb-present| the |noun| within |adjective|-|noun-plural|, and bring forth a single |noun| that really |verb-present| the most |adjective| |noun-plural|.",
+            "As a |adverb| |adjective| artist, I aim to |verb| the |noun| within |adjective|-|noun-plural|, and bring forth a single |noun| that really |verb-present| the most |adjective| |noun-plural|.",
             "By |verb-ing| in |adjective| |verb-ing|, I seek to |verb| the existing |adjective| |noun-plural|, and |verb| a more |adjective| and |adjective| |noun|.",
             "It is of paramount importance that |adjective|, |adjective| |noun|-|noun-plural| must never be allowed to become |adjective|, or |adverb| |adjective|.",
             "My latest piece begins with a rather |adjective| |noun|, before |adverb| |verb-ing| the existing |adjective| |noun-both| into a more |adjective| |noun|, a process I term ‘|adverb|-|adjective|-|verb-ing|’.",
@@ -398,11 +406,9 @@ public abstract class BullshitGenerator {
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         for (int i = 0; i<5; i++) {
             System.out.println("\n" + BullshitGenerator.generateFormattedSentences(5));
-        }
-        System.out.println("\n\n\n");
+        }System.out.println("\n\n\n");
     }
-
 }

@@ -48,9 +48,8 @@ public class MyGame extends Game {
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
 
         } else { // DEBUG==true
-            BullshitGenerator.main(null);
-            assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
-            currentScreen = new PresentationScreen(this);
+            assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
+            currentScreen = new StreetChapter1Screen(this);
         }
         // start game!
         setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");
