@@ -6,15 +6,20 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
-import com.mygdx.game.core.BullshitGenerator;
 import com.mygdx.game.core.GameActions;
 import com.mygdx.game.core.GameScreenUI;
 import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
 import com.mygdx.game.screens.lobby.PauseMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
+import com.mygdx.game.supercollider.SCClient;
+
+import java.io.IOException;
+
+import de.sciss.jcollider.Constants;
+import de.sciss.jcollider.Server;
+import de.sciss.net.OSCMessage;
 
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
@@ -32,6 +37,8 @@ public class MyGame extends Game {
     private PauseMenuScreen pauseMenu = null;
     // a pointer to the currently active screen
     private GameScreenUI currentScreen = null;
+    // the client for the SuperCollider server
+    SCClient scClient;
 
 
 	@Override
@@ -50,6 +57,15 @@ public class MyGame extends Game {
         } else { // DEBUG==true
             assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
             currentScreen = new StreetChapter1Screen(this);
+            scClient = new SCClient();
+
+            scClient.server.addDoWhenBooted(new Server.CompletionAction() {
+                @Override
+                public void completion(Server server) {
+                    System.out.println("server finished booting!!!!!!!!!!");
+                }
+            });
+            scClient.playTest();
         }
         // start game!
         setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");
@@ -104,6 +120,7 @@ public class MyGame extends Game {
     @Override
     public void dispose() {
         super.dispose();
+        scClient.close();
         assetsManager.dispose();
         batch.dispose();
         currentScreen.dispose();
@@ -115,5 +132,6 @@ public class MyGame extends Game {
      */
     public void exit() {
         Gdx.app.exit();
+
     }
 }
