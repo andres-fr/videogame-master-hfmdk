@@ -102,6 +102,9 @@ public class GameScreenUI implements Screen {
 
     @Override
     public void render(float delta) {
+        ///
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) game.exit();
+        ///
         if  (MyGame.DEBUG && (nanoTime()-timeStamp)>3e9){
             timeStamp = nanoTime();
             System.out.println("\n\nActors in current "+this.getClass().getSimpleName().toString()+": " + stage.getActors().toString());
