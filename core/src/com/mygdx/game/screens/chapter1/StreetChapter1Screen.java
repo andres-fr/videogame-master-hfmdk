@@ -31,5 +31,14 @@ public class StreetChapter1Screen extends GameScreenGAMEPLAY {
         // add and configure Player initial pos
         stage.addActor(game.player);
         game.player.setPosition(doorXpos, doorYpos);
+
+
+        //!!!!!!!!!!!!!!
+        stage.addAction(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                game.getScClient().playTest();
+            }
+        }));
     }
 }
