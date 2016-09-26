@@ -65,11 +65,10 @@ public class MyGame extends Game {
             Runnable r = new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("RUNNABLE INNNN");
                     scClient.playTest();
                 }
             };
-            player.addAction(Actions.sequence(Actions.moveTo(100, 100, 2f), Actions.run(r)));
+            player.addAction(Actions.sequence(Actions.moveTo(100, 100, 3f), Actions.run(r)));
 
 
         }

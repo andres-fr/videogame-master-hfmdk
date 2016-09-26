@@ -25,7 +25,6 @@ public class SCClient implements FileFilter, ServerListener, Constants {
     protected Group grpAll;
     protected SynthDef testSynth;
 
-    JFrame serverPannel;
 
     public SCClient() {
         final String fs	= File.separator;
@@ -35,18 +34,10 @@ public class SCClient implements FileFilter, ServerListener, Constants {
             server = new Server("localhost");
             UGenInfo.readBinaryDefinitions();
 
+
             // SynthDef.new("testSynth", {Out.ar(0, (SinOsc.ar([440, 470])*0.04))})
-            //GraphElem sinosc = UGen.ar("*", UGen.ar("SinOsc", UGen.array(UGen.ir(440), UGen.ir(470))), UGen.ir(0.1f));
-            //testSynth = new SynthDef( "testSynth", UGen.ar( "Out", UGen.ir( 0 ), sinosc ));
-
-            GraphElem g1, g2;
-            g1 = UGen.kr( "midicps", UGen.kr( "MulAdd", UGen.kr( "LFSaw", UGen.ir( 0.4f ), UGen.ir( 0 )),
-                    UGen.ir( 24 ), UGen.kr( "MulAdd", UGen.kr( "LFSaw", UGen.array( UGen.ir( 8 ), UGen.ir( 7.23f )), UGen.ir( 0 )),
-                            UGen.ir( 3 ), UGen.ir( 80 ))));
-            g2 = UGen.ar( "CombN", UGen.ar( "*", UGen.ar( "SinOsc", g1, UGen.ir( 0 )), UGen.ir( 0.04f )),
-                    UGen.ir( 0.2f ), UGen.ir( 0.2f ), UGen.ir( 4 ));
-            testSynth = new SynthDef( "JAnalogBubbles", UGen.ar( "Out", UGen.ir( 0 ), g2 ));
-
+            GraphElem sinosc = UGen.ar("*", UGen.ar("SinOsc", UGen.array(UGen.ir(440), UGen.ir(470))), UGen.ir(0.1f));
+            testSynth = new SynthDef( "testSynth", UGen.ar( "Out", UGen.ir( 0 ), sinosc ));
 
 
 
@@ -70,7 +61,6 @@ public class SCClient implements FileFilter, ServerListener, Constants {
                 server.boot();
             }
             catch( IOException e1 ) { /* ignored */ }
-            serverPannel = ServerPanel.makeWindow( server, ServerPanel.MIMIC | ServerPanel.CONSOLE | ServerPanel.DUMP );
         }
 
         // finish constructor with catch in case something went wrong
@@ -84,7 +74,7 @@ public class SCClient implements FileFilter, ServerListener, Constants {
         try {
             testSynth.send(server);
         } catch (IOException e) {
-            System.err.println( "Sending Def " + testSynth.getName() + " : " +
+            System.err.println( "Error sending def " + testSynth.getName() + " : " +
                     e.getClass().getName() + " : " + e.getLocalizedMessage() );
         }
         if( !server.didWeBootTheServer() ) {
@@ -199,14 +189,9 @@ public class SCClient implements FileFilter, ServerListener, Constants {
 
     public void close() {
         stopAll();
-
         if( nw != null ) {
             nw.dispose();
             nw = null;
-        }
-        if( serverPannel != null ) {
-            serverPannel.dispose();
-            serverPannel = null;
         }
         if( server != null ) {
             try {
@@ -221,10 +206,4 @@ public class SCClient implements FileFilter, ServerListener, Constants {
             }
         }
     }
-
-
-
-
-
-
 }
