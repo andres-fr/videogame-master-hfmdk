@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 
 import de.sciss.jcollider.*;
 import de.sciss.jcollider.gui.ServerPanel;
-import de.sciss.net.OSCMessage;
 
 /**
  * Created by afr on 25.09.16.
@@ -21,8 +20,8 @@ import de.sciss.net.OSCMessage;
 
 public class SCClient implements FileFilter, ServerListener, Constants {
 
-    public Server		server	= null;
-    protected NodeWatcher	nw		= null;
+    public Server server = null;
+    protected NodeWatcher nw = null;
     protected Group grpAll;
     protected SynthDef testSynth;
 
@@ -36,18 +35,17 @@ public class SCClient implements FileFilter, ServerListener, Constants {
             server = new Server("localhost");
             UGenInfo.readBinaryDefinitions();
 
-            // define synth
-            GraphElem g1, g2;
+            // SynthDef.new("testSynth", {Out.ar(0, (SinOsc.ar([440, 470])*0.04))})
+            //GraphElem sinosc = UGen.ar("*", UGen.ar("SinOsc", UGen.array(UGen.ir(440), UGen.ir(470))), UGen.ir(0.1f));
+            //testSynth = new SynthDef( "testSynth", UGen.ar( "Out", UGen.ir( 0 ), sinosc ));
 
+            GraphElem g1, g2;
             g1 = UGen.kr( "midicps", UGen.kr( "MulAdd", UGen.kr( "LFSaw", UGen.ir( 0.4f ), UGen.ir( 0 )),
                     UGen.ir( 24 ), UGen.kr( "MulAdd", UGen.kr( "LFSaw", UGen.array( UGen.ir( 8 ), UGen.ir( 7.23f )), UGen.ir( 0 )),
                             UGen.ir( 3 ), UGen.ir( 80 ))));
             g2 = UGen.ar( "CombN", UGen.ar( "*", UGen.ar( "SinOsc", g1, UGen.ir( 0 )), UGen.ir( 0.04f )),
                     UGen.ir( 0.2f ), UGen.ir( 0.2f ), UGen.ir( 4 ));
             testSynth = new SynthDef( "JAnalogBubbles", UGen.ar( "Out", UGen.ir( 0 ), g2 ));
-
-            //g2 = UGen.ar("*", UGen.ar("SinOsc", UGen.ir(1)), UGen.ir(0.1f));
-            //testSynth = new SynthDef( "testSynth", UGen.ar( "Out", UGen.ir( 0 ), g2 ));
 
 
 
@@ -83,7 +81,6 @@ public class SCClient implements FileFilter, ServerListener, Constants {
     }
 
     private void initServer() throws IOException {
-        System.out.println("INITSERVER CALLED!!");
         try {
             testSynth.send(server);
         } catch (IOException e) {
@@ -171,21 +168,18 @@ public class SCClient implements FileFilter, ServerListener, Constants {
     //////////////////////////////////////////////////////////////////////////
 
     private void runAfterInit() {
-        playTest();
+        //playTest();
     }
 
 
     public void playTest() {
-        System.out.println("PLAYTEST CALLED!!!");
         final SynthDef def = testSynth;
         final Synth	synth;
         if( (def != null) && (grpAll != null) && (server != null) ) {
             try {
                 synth = Synth.basicNew(def.getName(), server);
-                System.out.println("synth created: "+ synth.getDefName());
                 if (nw != null) nw.register(synth);
                 server.sendMsg(synth.newMsg(grpAll)); // adds the synth to the group
-                System.out.println("everything went good");
             } catch (IOException e) {
                 e.printStackTrace();
             }

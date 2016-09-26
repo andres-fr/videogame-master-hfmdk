@@ -6,6 +6,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import de.sciss.jcollider.Constants;
 import de.sciss.jcollider.Server;
 import de.sciss.net.OSCMessage;
+
+import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
@@ -58,6 +61,15 @@ public class MyGame extends Game {
             assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
             currentScreen = new StreetChapter1Screen(this);
             scClient = new SCClient();
+
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("RUNNABLE INNNN");
+                    scClient.playTest();
+                }
+            };
+            player.addAction(Actions.sequence(Actions.moveTo(100, 100, 2f), Actions.run(r)));
 
 
         }
