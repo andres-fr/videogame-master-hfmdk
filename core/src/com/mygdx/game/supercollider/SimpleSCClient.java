@@ -84,7 +84,7 @@ public class SimpleSCClient implements ServerListener, Constants {
     }
 
 
-    // ------------- ServerListener interface -------------
+    // ------------- ServerListener interface --------------
     public void serverAction( ServerEvent sEvt ) { // RUNNING=0, STOPPED=1, COUNTS=2
         switch( sEvt.getID() ) {
             case ServerEvent.COUNTS:
