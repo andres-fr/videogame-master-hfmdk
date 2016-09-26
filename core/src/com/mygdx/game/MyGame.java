@@ -6,29 +6,21 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
 import com.mygdx.game.core.GameScreenUI;
-import com.mygdx.game.screens.chapter1.StreetChapter1Screen;
+import com.mygdx.game.screens.lobby.MainMenuScreen;
 import com.mygdx.game.screens.lobby.PauseMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
-import com.mygdx.game.supercollider.SCClient;
-import com.mygdx.game.supercollider.SimpleSCClient;
+import com.mygdx.game.scala.SimpleSCClient;
+import com.mygdx.game.scala.TestScalaClass;
 
-import java.io.IOException;
-
-import de.sciss.jcollider.Constants;
-import de.sciss.jcollider.Server;
-import de.sciss.net.OSCMessage;
-
-import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
 
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = false ;
+    public final static boolean DEBUG = true ;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
     public final static float CAM_SPEED_RATIO = 1f/200f; // to be multiplied by player speed
@@ -53,31 +45,21 @@ public class MyGame extends Game {
         actions = new GameActions(this);
         player = new Player(this);
         pauseMenu = new PauseMenuScreen(this);
-        scClient = new SimpleSCClient();
+        //scClient = new SimpleSCClient();
+        //TestScalaClass test = new TestScalaClass();
+
+        TestScalaClass tsc = new TestScalaClass();
+        for (int i=0; i<100; i++) {
+            tsc.test2();
+        }
 
         if (DEBUG==false) {
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
             currentScreen = new PresentationScreen(this);//new PresentationScreen(this);
 
         } else { // DEBUG==true
-            assetsManager.prepare(AssetsManager.PREPARE.CHAPTER1);
-            currentScreen = new StreetChapter1Screen(this);
-            Runnable r1 = new Runnable() {
-                @Override
-                public void run() {
-                    scClient.playTest();
-                }
-            };
-            Runnable r2 = new Runnable() {
-                @Override
-                public void run() {
-                    scClient.stopAll();
-                }
-            };
-            player.addAction(Actions.sequence(Actions.moveTo(100, 100, 0.2f), Actions.run(r1),
-                    Actions.delay(1), Actions.run(r2), Actions.delay(1), Actions.run(r1)));
-
-
+            assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
+            currentScreen = new MainMenuScreen(this);
         }
         // start game!
         setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");

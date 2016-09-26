@@ -25,8 +25,14 @@
 -dontwarn com.badlogic.gdx.backends.android.AndroidFragmentApplication
 -dontwarn com.badlogic.gdx.utils.GdxBuild
 -dontwarn com.badlogic.gdx.physics.box2d.utils.Box2DBuild
--dontwarn com.badlogic.gdx.jnigen.BuildTarget*
 -dontwarn com.badlogic.gdx.graphics.g2d.freetype.FreetypeBuild
+
+## changed by andres
+# -dontwarn com.badlogic.gdx.jnigen.BuildTarget* https://github.com/libgdx/libgdx/wiki/Using-libgdx-with-Scala
+-dontwarn com.badlogic.gdx.jnigen.*
+-dontwarn sun.misc.*
+-dontwarn java.lang.management.**
+-dontwarn java.beans.**
 
 -keep class com.badlogic.gdx.controllers.android.AndroidControllers
 
