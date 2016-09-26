@@ -24,12 +24,18 @@ import de.sciss.jcollider.UGenInfo;
 
 
 /**
- * this class tests the functionality of JCollider at its most basic level.
- * When the server is connected, up and running, a call of the "playTest()" method
- * should output a SinOsc.ar([440, 470]) to the two lowest-numbered channels.
+ * this class tests the functionality of JCollider at its most basic level, and it is
+ * basically a version of JCollider's demo
+ * https://github.com/Sciss/JCollider/blob/master/src/test/java/de/sciss/jcollider/test/Demo.java
+ * without GUIs and Demo-Defsynths. After instantiation, when the server is connected,
+ * up and running, a call of the "playTest()" method should output a SinOsc.ar([440, 470])
+ * to the two lowest-numbered channels.
  * If talked too soon after booting, it may ignore the first OSC messages
  * even if server.isRunning() returns true and the first ServerEvent.RUNNING
- * has been received (in my case it is about 3 seconds because of the JACK connections).
+ * has been received (in my case it is about 3 seconds, but probably because of the JACK
+ * reconnections).
+ *
+ * As the rest of this project it is licensed under GPLv3
  */
 public class SimpleSCClient implements ServerListener, Constants {
 
@@ -94,7 +100,7 @@ public class SimpleSCClient implements ServerListener, Constants {
                 }
                 break;
 
-            case ServerEvent.STOPPED: // called one when server stops
+            case ServerEvent.STOPPED: // called once when server stops
                 // re-run alive thread
                 final javax.swing.Timer t = new javax.swing.Timer( 1000, new ActionListener() {
                     public void actionPerformed( ActionEvent aEvt )
@@ -168,7 +174,11 @@ public class SimpleSCClient implements ServerListener, Constants {
 
     }
 
-    // a test
+    /**
+     * call this method after the server is up and running to output
+     * a SinOsc.ar([440, 470]) to the two lowest-numbered channels.
+     * Call stopAll() when you wish to stop it.
+     */
     public void playTest() {
         final SynthDef def = testSynth;
         final Synth	synth;
@@ -183,6 +193,9 @@ public class SimpleSCClient implements ServerListener, Constants {
         }
     }
 
+    /**
+     * stops all synths, it calls freeAll() from the main synth group.
+     */
     public void stopAll() {
         if( grpAll != null ) {
             try {grpAll.freeAll();}
@@ -190,6 +203,9 @@ public class SimpleSCClient implements ServerListener, Constants {
         }
     }
 
+    /**
+     * this should take care of all garbage
+     */
     public void close() {
         stopAll();
         if( nw != null ) {
