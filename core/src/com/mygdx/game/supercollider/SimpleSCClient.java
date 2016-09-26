@@ -78,7 +78,7 @@ public class SimpleSCClient implements ServerListener, Constants {
         }
         // finish constructor with catch in case something went wrong
         catch( IOException e2 ) {
-            System.out.println("Failed to create a server: ");
+            System.out.println("Failed to create the SC client: ");
             reportError(e2);
         }
     }
