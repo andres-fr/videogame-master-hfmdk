@@ -1,6 +1,7 @@
 package com.mygdx.game.supercollider;
 
 import com.android.org.conscrypt.SSLClientSessionCache;
+import com.badlogic.gdx.audio.Sound;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,9 +33,24 @@ public class SCClient implements FileFilter, ServerListener, Constants {
 
         try {
             // create supercollider server representation, load current ugendefs, define new test synth (a simple SinOsc)
-            server = new Server( "localhost" );
+            server = new Server("localhost");
             UGenInfo.readBinaryDefinitions();
-            testSynth = new SynthDef("testSynth", UGen.ar( "*", UGen.ar( "SinOsc", UGen.ir(440), UGen.ir( 0 )), UGen.ir( 0.04f )));
+
+            // define synth
+            GraphElem g1, g2;
+
+            g1 = UGen.kr( "midicps", UGen.kr( "MulAdd", UGen.kr( "LFSaw", UGen.ir( 0.4f ), UGen.ir( 0 )),
+                    UGen.ir( 24 ), UGen.kr( "MulAdd", UGen.kr( "LFSaw", UGen.array( UGen.ir( 8 ), UGen.ir( 7.23f )), UGen.ir( 0 )),
+                            UGen.ir( 3 ), UGen.ir( 80 ))));
+            g2 = UGen.ar( "CombN", UGen.ar( "*", UGen.ar( "SinOsc", g1, UGen.ir( 0 )), UGen.ir( 0.04f )),
+                    UGen.ir( 0.2f ), UGen.ir( 0.2f ), UGen.ir( 4 ));
+            testSynth = new SynthDef( "JAnalogBubbles", UGen.ar( "Out", UGen.ir( 0 ), g2 ));
+
+            //g2 = UGen.ar("*", UGen.ar("SinOsc", UGen.ir(1)), UGen.ir(0.1f));
+            //testSynth = new SynthDef( "testSynth", UGen.ar( "Out", UGen.ir( 0 ), g2 ));
+
+
+
 
             // find the scsynth app, and set it to this.server representation
             File f = findFile( JCollider.isWindows ? "scsynth.exe" : "scsynth", new String[] {
@@ -47,15 +63,19 @@ public class SCClient implements FileFilter, ServerListener, Constants {
             });
             if( f != null ) Server.setProgram( f.getAbsolutePath() );
 
+
+            // allow this class to receive msgs from server (override behaviour in the serverAction method)
             server.addListener( this );
             try {
                 server.start();
                 server.startAliveThread();
-                //server.boot();
+                server.boot();
             }
             catch( IOException e1 ) { /* ignored */ }
             serverPannel = ServerPanel.makeWindow( server, ServerPanel.MIMIC | ServerPanel.CONSOLE | ServerPanel.DUMP );
         }
+
+        // finish constructor with catch in case something went wrong
         catch( IOException e ) {
             System.out.println("Failed to create a server: ");
             reportError(e);
@@ -63,6 +83,7 @@ public class SCClient implements FileFilter, ServerListener, Constants {
     }
 
     private void initServer() throws IOException {
+        System.out.println("INITSERVER CALLED!!");
         try {
             testSynth.send(server);
         } catch (IOException e) {
@@ -74,10 +95,10 @@ public class SCClient implements FileFilter, ServerListener, Constants {
             server.notify( true );
         }
         nw	= NodeWatcher.newFrom( server );
-        grpAll = Group.basicNew( server );
+        grpAll = Group.basicNew( server ); // creates the group in the client-side
         nw.register( server.getDefaultGroup() );
         nw.register( grpAll );
-        server.sendMsg( grpAll.newMsg() );
+        server.sendMsg( grpAll.newMsg() ); // creates the group in the server-side
     }
 
 
@@ -104,6 +125,7 @@ public class SCClient implements FileFilter, ServerListener, Constants {
                 try {
                     server.dumpOSC();
                     initServer();
+                    runAfterInit();
                 }
                 catch( IOException e) {
                     reportError(e);
@@ -148,15 +170,22 @@ public class SCClient implements FileFilter, ServerListener, Constants {
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
+    private void runAfterInit() {
+        playTest();
+    }
+
 
     public void playTest() {
+        System.out.println("PLAYTEST CALLED!!!");
         final SynthDef def = testSynth;
         final Synth	synth;
         if( (def != null) && (grpAll != null) && (server != null) ) {
             try {
                 synth = Synth.basicNew(def.getName(), server);
+                System.out.println("synth created: "+ synth.getDefName());
                 if (nw != null) nw.register(synth);
-                server.sendMsg(synth.newMsg(grpAll));
+                server.sendMsg(synth.newMsg(grpAll)); // adds the synth to the group
+                System.out.println("everything went good");
             } catch (IOException e) {
                 e.printStackTrace();
             }

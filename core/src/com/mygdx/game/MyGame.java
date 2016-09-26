@@ -59,13 +59,7 @@ public class MyGame extends Game {
             currentScreen = new StreetChapter1Screen(this);
             scClient = new SCClient();
 
-            scClient.server.addDoWhenBooted(new Server.CompletionAction() {
-                @Override
-                public void completion(Server server) {
-                    System.out.println("server finished booting!!!!!!!!!!");
-                }
-            });
-            scClient.playTest();
+
         }
         // start game!
         setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");
