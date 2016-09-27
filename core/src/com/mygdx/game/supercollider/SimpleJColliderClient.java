@@ -37,7 +37,7 @@ import de.sciss.jcollider.UGenInfo;
  *
  * As the rest of this project it is licensed under GPLv3
  */
-public class SimpleJColliderClient implements ServerListener, Constants {
+public class SimpleJColliderClient implements ServerListener, Constants, SupercolliderClient {
 
     protected Server server = null;
     protected NodeWatcher nw = null;
