@@ -13,7 +13,7 @@ import com.mygdx.game.core.GameScreenUI;
 import com.mygdx.game.screens.lobby.MainMenuScreen;
 import com.mygdx.game.screens.lobby.PauseMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
-import com.mygdx.game.scalacollider.SimpleJColliderClient;
+import com.mygdx.game.jcollider.SimpleJColliderClient;
 
 
 public class MyGame extends Game {
@@ -44,6 +44,7 @@ public class MyGame extends Game {
         actions = new GameActions(this);
         player = new Player(this);
         pauseMenu = new PauseMenuScreen(this);
+        scClient = new SimpleJColliderClient();
 
         if (DEBUG==false) {
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
