@@ -23,7 +23,7 @@ sourceSets { // this is a dirty hack to allow crossed references between the .ja
             srcDirs = ["src/"] // the "java" classes are compiled before the "scala" classes. This
         }                      // generates an error when java files try to access to scala classes.
         java { // so the dirty hack is to say that the java classes are in "<PATH>/scala" and the java
-            srcDirs = ["src/scala"] // ones in "<PATH>" (simply the rest), so the scala classes are
+            srcDirs = ["src/scalacollider"] // ones in "<PATH>" (simply the rest), so the scala classes are
         }  // compiled before. I don't know why does it work, because the scala classes themselves call
     } // java stuff. But hey, never touch a running system.
     test {

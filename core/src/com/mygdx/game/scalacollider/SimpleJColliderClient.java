@@ -1,4 +1,4 @@
-package com.mygdx.game.scala;
+package com.mygdx.game.scalacollider;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,14 +37,14 @@ import de.sciss.jcollider.UGenInfo;
  *
  * As the rest of this project it is licensed under GPLv3
  */
-public class SimpleSCClient implements ServerListener, Constants {
+public class SimpleJColliderClient implements ServerListener, Constants {
 
     protected Server server = null;
     protected NodeWatcher nw = null;
     protected Group grpAll;
     protected SynthDef testSynth;
 
-    public SimpleSCClient() {
+    public SimpleJColliderClient() {
         final String fs	= File.separator;
 
         try {

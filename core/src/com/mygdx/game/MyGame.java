@@ -13,7 +13,7 @@ import com.mygdx.game.core.GameScreenUI;
 import com.mygdx.game.screens.lobby.MainMenuScreen;
 import com.mygdx.game.screens.lobby.PauseMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
-import com.mygdx.game.scala.SimpleSCClient;
+import com.mygdx.game.scalacollider.SimpleJColliderClient;
 
 
 public class MyGame extends Game {
@@ -33,7 +33,7 @@ public class MyGame extends Game {
     // a pointer to the currently active screen
     private GameScreenUI currentScreen = null;
     // the client for the SuperCollider server
-    private SimpleSCClient scClient;
+    private SimpleJColliderClient scClient;
 
 
 	@Override
@@ -103,7 +103,7 @@ public class MyGame extends Game {
         return pauseMenu;
     }
 
-    public SimpleSCClient getScClient() {
+    public SimpleJColliderClient getScClient() {
         return scClient;
     }
 
