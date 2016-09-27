@@ -14,16 +14,18 @@ sourceCompatibility = 1.7
 //sourceSets.main.scala.srcDir "src/main/java"
 //sourceSets.main.java.srcDirs = []
 // some more help in http://stackoverflow.com/questions/23261075/compiling-scala-before-alongside-java-with-gradle
-// MY WORKING SOLUTION: to have all
-sourceSets {
-    main {
-        scala {
-            srcDirs = ["src"]
-        }
-        java {
-            srcDirs = ["src/scala"]
-        }
-    }
+
+
+// MY WORKING SOLUTION:
+sourceSets { // this is a dirty hack to allow crossed references between the .java files of the
+    main { // main project and the scala files in <PATH>/scala. As explained here,
+        scala { // http://stackoverflow.com/questions/23261075/compiling-scala-before-alongside-java-with-gradle
+            srcDirs = ["src/"] // the "java" classes are compiled before the "scala" classes. This
+        }                      // generates an error when java files try to access to scala classes.
+        java { // so the dirty hack is to say that the java classes are in "<PATH>/scala" and the java
+            srcDirs = ["src/scala"] // ones in "<PATH>" (simply the rest), so the scala classes are
+        }  // compiled before. I don't know why does it work, because the scala classes themselves call
+    } // java stuff. But hey, never touch a running system.
 }
 eclipse.project {
     name = appName + "-core"

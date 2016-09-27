@@ -6,6 +6,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
@@ -45,13 +46,6 @@ public class MyGame extends Game {
         actions = new GameActions(this);
         player = new Player(this);
         pauseMenu = new PauseMenuScreen(this);
-        //scClient = new SimpleSCClient();
-        //TestScalaClass test = new TestScalaClass();
-
-        TestScalaClass tsc = new TestScalaClass();
-        for (int i=0; i<100; i++) {
-            tsc.test2();
-        }
 
         if (DEBUG==false) {
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);

@@ -1,26 +1,43 @@
 package com.mygdx.game.scala
+import java.util.Calendar
+import java.text.SimpleDateFormat
 
-import com.mygdx.game.core.TestingStuff
+import com.mygdx.game.game_tests.TestScalaInteraction
 
 /**
   * Created by afr on 27.09.16.
   */
+
+
+/**
+  * TestScalaClass tsc = new TestScalaClass();
+  * tsc.test3();
+  */
 class TestScalaClass {
 
 
-  def helloWorld(): Unit ={
-    println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")
+  /**
+    * This method instantiates a .java class, and calls a method in it
+    */
+  def test1(): Unit ={
+    val t = new TestScalaInteraction
+    t.printsomething()
+
   }
 
-  def test2(): Unit ={
-    val t = new TestingStuff
-    t.test()
+  def test3(): Unit ={
+    println(HelloWorld.getCurrentDate)
   }
 
 
   object HelloWorld {
-    def main(args: Array[String]) {
-      println("ASDFASDFLKASJDFLKASJDLFAJSDFLKASJDFLK")
-    }
+    def getCurrentDate :String = getCurrentDateTime("EEEE, MMMM d")
+  }
+
+
+  private def getCurrentDateTime(dateTimeFormat: String): String = {
+    val dateFormat = new SimpleDateFormat(dateTimeFormat)
+    val cal = Calendar.getInstance()
+    dateFormat.format(cal.getTime())
   }
 }
