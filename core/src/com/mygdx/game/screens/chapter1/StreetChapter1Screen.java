@@ -37,6 +37,7 @@ public class StreetChapter1Screen extends GameScreenGAMEPLAY {
         stage.addAction(Actions.run(new Runnable() {
             @Override
             public void run() {
+                //game.getScClient().playTest();
                 game.getScClient().playTest();
             }
         }));

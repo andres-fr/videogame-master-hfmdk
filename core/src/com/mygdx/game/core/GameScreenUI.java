@@ -104,11 +104,13 @@ public class GameScreenUI implements Screen {
     public void render(float delta) {
         ///
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) game.exit();
-        ///
+
+        /* this can be a very big print and disturb the debugging of other stuff
         if  (MyGame.DEBUG && (nanoTime()-timeStamp)>3e9){
             timeStamp = nanoTime();
             System.out.println("\n\nActors in current "+this.getClass().getSimpleName().toString()+": " + stage.getActors().toString());
         }
+        */
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // if some actor has no actions, and watchingTemp is true, addAction(runnableTemp) once

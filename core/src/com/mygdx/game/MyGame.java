@@ -14,6 +14,7 @@ import com.mygdx.game.screens.lobby.MainMenuScreen;
 import com.mygdx.game.screens.lobby.PauseMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
 import com.mygdx.game.supercollider.SimpleJColliderClient;
+import com.mygdx.game.supercollider.SimpleScalaColliderClient;
 
 
 public class MyGame extends Game {
@@ -33,7 +34,8 @@ public class MyGame extends Game {
     // a pointer to the currently active screen
     private GameScreenUI currentScreen = null;
     // the client for the SuperCollider server
-    private SimpleJColliderClient scClient;
+    //private SimpleJColliderClient scClient;
+    private SimpleScalaColliderClient scClient;
 
 
 	@Override
@@ -44,7 +46,8 @@ public class MyGame extends Game {
         actions = new GameActions(this);
         player = new Player(this);
         pauseMenu = new PauseMenuScreen(this);
-        scClient = new SimpleJColliderClient();
+        //scClient = new SimpleJColliderClient();
+        scClient = new SimpleScalaColliderClient();
 
         if (DEBUG==false) {
             assetsManager.prepare(AssetsManager.PREPARE.LOBBY);
@@ -104,14 +107,14 @@ public class MyGame extends Game {
         return pauseMenu;
     }
 
-    public SimpleJColliderClient getScClient() {
+    public SimpleScalaColliderClient getScClient() {
         return scClient;
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        scClient.close();
+        //scClient.close(); not needed with the scala client
         assetsManager.dispose();
         batch.dispose();
         currentScreen.dispose();
