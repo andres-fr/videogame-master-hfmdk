@@ -1,7 +1,7 @@
 package com.mygdx.game.game_tests;
 
 
-import com.mygdx.game.scalacollider.ScalaClassForTestingPurposes;
+import com.mygdx.game.game_tests.ScalaClassForTestingPurposes;
 
 import org.junit.Test;
 

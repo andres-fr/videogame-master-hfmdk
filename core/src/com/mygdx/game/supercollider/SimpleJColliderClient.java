@@ -1,4 +1,4 @@
-package com.mygdx.game.jcollider;
+package com.mygdx.game.supercollider;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

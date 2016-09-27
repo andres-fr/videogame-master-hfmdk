@@ -4,7 +4,7 @@ package com.mygdx.game.game_tests;
  * Created by afr on 27.09.16.
  */
 
-import com.mygdx.game.scalacollider.ScalaClassForTestingPurposes;
+import com.mygdx.game.game_tests.ScalaClassForTestingPurposes;
 
 /**
  * This class is intended to hold any necessary field for testing purposes.

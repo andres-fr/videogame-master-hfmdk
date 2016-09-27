@@ -13,7 +13,7 @@ import com.mygdx.game.core.GameScreenUI;
 import com.mygdx.game.screens.lobby.MainMenuScreen;
 import com.mygdx.game.screens.lobby.PauseMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
-import com.mygdx.game.jcollider.SimpleJColliderClient;
+import com.mygdx.game.supercollider.SimpleJColliderClient;
 
 
 public class MyGame extends Game {

@@ -1,7 +1,4 @@
-package com.mygdx.game.scalacollider
-
-import com.mygdx.game.game_tests.JavaClassForTestingPurposes
-
+package com.mygdx.game.game_tests
 
 /**
   * Created by afr on 27.09.16.
