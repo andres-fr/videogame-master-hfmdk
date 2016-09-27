@@ -17,13 +17,13 @@ buildscript {
         //classpath "com.android.tools.build:gradle:2.10.0-all"
         //classpath "jp.leafytree.gradle:gradle-android-scala-plugin:1.4"
         //classpath "org.scala-lang:scala-library:2.11.7"
+
     }
 }
 
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
-
 
     version = '1.0'
     ext {
@@ -63,6 +63,7 @@ project(":desktop") {
         compile "de.sciss:jcollider:1.0.0" // from https://github.com/Sciss/JCollider
         //compile "com.android.support:multidex:1.0.1" // from https://github.com/saturday06/gradle-android-scala-plugin/blob/master/sample/simple/build.gradle
         //compile "org.scala-lang:scala-library:2.11.7" // from https://github.com/saturday06/gradle-android-scala-plugin
+        // adding JUnit4
     }
 }
 
@@ -155,8 +156,6 @@ project(":core") {
     //apply plugin: "jp.leafytree.android-scala"
     apply plugin: "scala" //*** from https://github.com/libgdx/libgdx/wiki/Using-libgdx-with-Scala
 
-
-
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
@@ -166,6 +165,9 @@ project(":core") {
         compile "de.sciss:jcollider:1.0.0" // from https://github.com/Sciss/JCollider
         //compile "com.android.support:multidex:1.0.1" // from https://github.com/saturday06/gradle-android-scala-plugin/blob/master/sample/simple/build.gradle
         compile "org.scala-lang:scala-library:2.11.7" //*** https://github.com/libgdx/libgdx/wiki/Using-libgdx-with-Scala
+        // adding JUnit4
+        testCompile 'junit:junit:4.12' // from JUnit https://github.com/junit-team/junit4/wiki/Use-with-Gradle
+        compile 'junit:junit:4.12' // added by andres because otherwise androidstudio and gradle test wouldnt compile
     }
 }
 

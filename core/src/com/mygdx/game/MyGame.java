@@ -6,7 +6,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.actors.Player;
 import com.mygdx.game.core.AssetsManager;
 import com.mygdx.game.core.GameActions;
@@ -15,7 +14,6 @@ import com.mygdx.game.screens.lobby.MainMenuScreen;
 import com.mygdx.game.screens.lobby.PauseMenuScreen;
 import com.mygdx.game.screens.lobby.PresentationScreen;
 import com.mygdx.game.scala.SimpleSCClient;
-import com.mygdx.game.scala.TestScalaClass;
 
 
 public class MyGame extends Game {

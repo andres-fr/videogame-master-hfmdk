@@ -1,8 +1,7 @@
 package com.mygdx.game.scala
 import java.util.Calendar
 import java.text.SimpleDateFormat
-
-import com.mygdx.game.game_tests.TestScalaInteraction
+import com.mygdx.game.game_tests.SomeJavaClass
 
 /**
   * Created by afr on 27.09.16.
@@ -13,14 +12,14 @@ import com.mygdx.game.game_tests.TestScalaInteraction
   * TestScalaClass tsc = new TestScalaClass();
   * tsc.test3();
   */
-class TestScalaClass {
+class SomeScalaClass {
 
 
   /**
     * This method instantiates a .java class, and calls a method in it
     */
   def test1(): Unit ={
-    val t = new TestScalaInteraction
+    val t = new SomeJavaClass
     t.printsomething()
 
   }

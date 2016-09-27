@@ -1,12 +1,19 @@
 package com.mygdx.game.game_tests;
 
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
+
 /**
  * Created by afr on 27.09.16.
  */
 
 public class TestScalaInteraction {
 
-    public void printsomething() {
-        System.out.println("this method is in a java class!");
+
+    @Test
+    public void thisAlwaysPasses() {
+        assertTrue(true);
     }
 }
