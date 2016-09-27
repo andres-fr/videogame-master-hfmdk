@@ -178,7 +178,7 @@ public abstract class BullshitGenerator {
             "linear",
             "literal",
             "melodic|melodically",
-            "metaphisical",
+            "metaphysical",
             "metaphoric|metaphorically",
             "microtonal",
             "modern",

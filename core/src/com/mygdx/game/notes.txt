@@ -1,7 +1,10 @@
 TODO:
 
 
+-> Revise the docs for server:
+https://github.com/Sciss/ScalaCollider/blob/master/src/main/scala/de/sciss/synth/Server.scala
 
+-> Learn enough scala to FINISH A GOOD IMPLEMENTATION OF SupercolliderClient.
 
 -> Player speed and final position should adapt to resizing (they are buggy).
 
