@@ -10,12 +10,21 @@ import Ops._
   */
 class SimpleScalaColliderClient extends SupercolliderClient {
 
+  // config and boot server at construction
   val cfg = Server.Config()
   cfg.program = "/usr/bin/scsynth"
+  var s :ServerConnection = Server.boot
+
+  // define synth
+  private val f = LFSaw.kr(0.4).madd(24, LFSaw.kr(Seq(8, 7.23)).madd(3, 80)).midicps
+  val testSynth = CombN.ar(SinOsc.ar(f) * 0.04, 0.2, 0.2, 4)
+  var testNode : Synth = null
 
 
   //init server
-  //Server.boot
+
+
+  /*
 
   def playTest(): Unit ={
     Server.run(cfg) { s =>
@@ -32,7 +41,13 @@ class SimpleScalaColliderClient extends SupercolliderClient {
     }
   }
 
-  def close(): Unit ={
-    print() // added empty print so the IDE stops marking error
+  */
+
+  override def playTest(): Unit = {
+    testNode = play{testSynth}
+  }
+
+  override def close(): Unit ={
+    testNode.free()
   }
 }

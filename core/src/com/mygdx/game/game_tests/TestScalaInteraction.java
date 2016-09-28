@@ -2,6 +2,7 @@ package com.mygdx.game.game_tests;
 
 
 import com.mygdx.game.game_tests.ScalaClassForTestingPurposes;
+import com.mygdx.game.supercollider.SimpleScalaColliderClient;
 
 import org.junit.Test;
 
