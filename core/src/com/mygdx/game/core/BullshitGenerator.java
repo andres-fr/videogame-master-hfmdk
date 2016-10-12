@@ -268,6 +268,7 @@ public abstract class BullshitGenerator {
             "inform|informs|informing",
             "integrate|integrates|integrating",
             "interpret|interprets|interpreting",
+            "jeopardise|jeopardises|jeopardising",
             "juxtapose|juxtaposes|juxtaposing",
             "mix|mixes|mixing",
             "oppose|opposes|opposing",
@@ -276,6 +277,7 @@ public abstract class BullshitGenerator {
             "regard|regards|regarding",
             "superimpose|superimposes|superimposing",
             "tackle|tackles|tackling",
+            "thematize|thematizes|thematizing",
             "transform|transforms|transforming",
             "undermine|undermines|undermining",
             "write|writes|writing"

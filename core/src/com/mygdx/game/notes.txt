@@ -1,25 +1,32 @@
 TODO:
 
 
--> Revise the docs for server:
+// SCALA PART:
+// read this paper!
+http://quod.lib.umich.edu/cgi/p/pod/dod-idx/sound-processes-a-new-computer-music-framework.pdf?c=icmc;idno=bbp2372.2014.245
+// scalacollider github wiki:
+https://github.com/Sciss/ScalaCollider/wiki
+// scalacollider API
+http://sciss.github.io/ScalaCollider/latest/api/#de.sciss.synth.package
+// other files
 https://github.com/Sciss/ScalaCollider/blob/master/src/main/scala/de/sciss/synth/Server.scala
 
--> Learn enough scala to FINISH A GOOD IMPLEMENTATION OF SupercolliderClient.
 
--> Player speed and final position should adapt to resizing (they are buggy).
-
--> use PathFinder of gdxAI to implement optimal pathfinding
-
--> add dorm Walkzone
-
+// CORE:
+-> Make backpack menu and head menu as a part of the Player class?
 -> make the Player listener ignore the click if it was on an alpha pixel (so objects that are close to the head can be
 clicked anyway)
-
 -> also important to learn how the player passes the click to other actors, in case he wants to ignore it.
-
 -> in GameActions, screentransitions: background.clearListeners() is restored? if not, how does it still work???
 
+// SCENE-CONTENTS:
+-> add dorm Walkzone
+
+// NON-URGENT:
 -> complete bs-generator with more examples
+-> Player speed and final position should adapt to resizing (they are buggy).
+-> use PathFinder of gdxAI to implement optimal pathfinding
+
 
 DIRTY HACKS:
 
