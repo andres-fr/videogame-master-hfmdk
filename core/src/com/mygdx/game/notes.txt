@@ -1,5 +1,14 @@
 TODO:
 
+// Hanns questions:
+
+1) what ist the best design practice for own synths? simply a class? or should it extend some ScalaCollider class? or object+factoryFn?
+return the "ugen.out" or the synth directly? how to control them at runtime: with methods or directly?
+
+2) relationshipbetween SynthDef and UGenSource?
+
+3) how instantiate a synth from a synthdef with custom args, without having to x.set?
+
 
 // SCALA PART:
 // read this paper!
