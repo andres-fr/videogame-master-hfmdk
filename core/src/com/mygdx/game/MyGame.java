@@ -21,7 +21,7 @@ import com.mygdx.game.supercollider.SupercolliderClient;
 public class MyGame extends Game {
     public final static int WIDTH = 1280;
     public final static int HEIGHT = 720;
-    public final static boolean DEBUG = true ;
+    public final static boolean DEBUG = false ;
     public final static boolean FULLSCREEN = !DEBUG;
     public final static String VERSION = "0.0";
     public final static float CAM_SPEED_RATIO = 1f/200f; // to be multiplied by player speed

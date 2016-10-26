@@ -2,7 +2,7 @@ package com.mygdx.game.supercollider
 
 import de.sciss.synth._
 import com.mygdx.game.supercollider.synths.TestSynth
-
+import Ops._
 /**
   * Created by afr on 27.09.16.
   */
@@ -15,7 +15,8 @@ class SimpleScalaColliderClient extends SupercolliderClient {
   )
 
   override def playTest(): Unit = {
-    TestSynth()
+    val x = TestSynth()
+    x.set("freq1" -> 0.1)
   }
 
   override def close(): Unit ={
