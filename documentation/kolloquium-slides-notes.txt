@@ -1,3 +1,91 @@
+Mechanisierung von Kreativität
+-----------------------------
+
+1) Was ist kreativität?
+
+DUDEN:
+-Kreativität: schöpferische Kraft, kreatives Vermögen // mit der sprachlichen Kompetenz verbundene Fähigkeit, neue, nie gehörte Sätze zu bilden und zu verstehen
+-Erfindergeist: Fähigkeit, Neues zu schaffen oder [praktische] Probleme auf eine neue Art und Weise zu lösen
+-Originalität: Echtheit (nicht nachgemacht, nicht imitiert; unverfälscht)// auf bestimmten schöpferischen Einfällen, eigenständigen Gedanken oder Ähnliche beruhende Besonderheit; einmalige Note
+-Fantasie: Fähigkeit, Gedächtnisinhalte zu neuen Vorstellungen zu verknüpfen, sich etwas in Gedanken auszumalen.
+
+BLOOM:
+Kreativität: "cognitive process 6": Put elements together to form a coherent whole, reorganize into a new pattern or structure. Passt mit duden?
+
+Auf jeden Fall gibts ein Begriff überall: NEU.3 kategorien: fähigkeit, neue inhalte, oder alte inhalte in neuen zusammenhängen, oder inhaltlich identisch aber neue art und weise.
+Aber es kommt total darauf an, wie man "kategorien" überhaupt bildet. Zum Beispiel, der Begriff Komplementär: 1.es gibt ein Paradigma 2.wird verneint 3.Beide bilden eine "gesamtheit" zusammen.
+
+kreativität ist auch eine "fähigkeit, kraft"... wer/was hat sie? Entspricht natur kreativität? brauchen wir einen schöpfer?
+
+Komplexes thema!! Herzliche Einladung an Michaels Seminar.
+
+-------------------------------------------------------------------------------------------
+
+
+2) Was ist mechanisierung?
+
+DUDEN, MECHANISMUS:
+- Kopplung von Bauelementen (einer Maschine, einer technischen Vorrichtung, eines technischen Geräts, Instruments o. Ä.), die so konstruiert ist, dass jede Bewegung eines Elements eine Bewegung anderer Elemente bewirkt
+- In sich selbsttätig, zwangsläufig funktionierendes System // <- Ablauf eines solchen Systemes
+- Richtung der Naturphilosophie, die Natur[geschehen], Leben und Verhalten rein mechanisch bzw. kausal erklärt
+
+DUDEN, MECHANISCH:
+- (Physik) der Mechanik entsprechend, nach ihren Gesetzen wirkend
+-  mithilfe von Mechanismen vor sich gehend, funktionierend, arbeitend; maschinell
+- ohne Steuerung durch Willen oder Aufmerksamkeit [vor sich gehend, geschehend]; automatisch
+- gleichförmig und ohne Nach-, Mitdenken, Überlegung vor sich gehend
+
+DUDEN, (EINIGE) SYNONIME ZU MECHANISCH:
+automatisiert, maschinell, blind, gedankenlos, gewohnheitsmäßig, instinktiv, unbeabsichtigt, unbewusst, unwillkürlich, von selbst, einförmig, eintönig, gleichförmig, gleichmäßig, monoton, routinemäßig, stumpfsinnig, uniform, schablonenartig, schablonenhaft, schablonenmäßig, schematisch, stupide...
+
+Aber  Hier sehe ich ein problem: diese korrelation wird angenommen: wille~komplex, mechanisch~einfach was gar nicht stimmt:
+  -einerseits, mechanisch heißt nicht "einfach": beliebig komplexe Systeme, wie zum Beispiel biologische könnten als solches betrachtet werden.
+  -andereseits, das romantische Ideal des individuums wird abgeschafft: die globalisierung hilft uns zu merken, dass wir alle in schubladen passen (hat auch eine Wirkung an uns). Menschen miteinbeziehen starke mechanisierung auch in hoch kreativen prozessen (bild: Kunst aufräumen).
+
+
+DUDEN, WILLE: jemandes Handlungen, Verhaltensweise leitendes Streben, Wollen, besonders als Fähigkeit des Menschen, sich bewusst für oder gegen etwas zu entscheiden; durch bewusste geistige Entscheidung gewonnener Entschluss zu etwas; bestimmte feste Absicht.
+
+DUDEN, BEWUSSTSEIN:
+- Zustand, in dem man sich einer Sache bewusst ist; deutliches Wissen von etwas, Gewissheit
+- Gesamtheit der Überzeugungen eines Menschen, die von ihm bewusst vertreten werden
+- (Psychologie) Gesamtheit aller jener psychischen Vorgänge, durch die sich der Mensch der Außenwelt und seiner selbst bewusst wird
+- Zustand geistiger Klarheit; volle Herrschaft über seine Sinne
+
+
+Auf jeden fall, es gibt 2 traditionelle assoziationen: mechanisch~nicht menschlich, kreativ~menschlich.
+Und das ist der punkt: diese assoziation stimmt nicht, menschen werden mechanischer und maschinen werden organischer: ich glaube dass wir irgendwo KONVERGIEREN WERDEN.
+
+
+Dann, die kann man kreativität mechanisieren? 
+a) inhaltlich identisch aber neue art und weise: stilkopie (bsp. von david cope)
+b) alte inhalte in neuen zusammenhängen: alice in wonderland
+c) neue inhalte:
+
+-------------------------------------------------------------------------------
+
+3. KUNST DAMIT
+
+
+Ist ein computerprogramm ein schöpfer? sind viren lebenswesen?
+Grafik:
+   mensch ----> mensch
+   maschine ----> mensch
+   maschine ----> maschine
+wann hört es auf?
+
+Ich glaube dass diese frage irrelevant ist, weil iwann werden menschen und maschinen zu einem punkt konvergieren, in dem es (von den ergebnissen
+
+
+Auf jeden Fall kreativität darf einfach sein (beispiel kunst aufräumen). Sie darf auch "algorithmisch beschreibar sein".
+
+
+
+
+
+
+
+
+
 Motivacion:
 
 La presente seccion habla del IDEAL. Para discutir si/como se puede implementar, ver APPROACH. La automatizacion, y especialmente la de los procesos creativos, es un tema muy relevante para el ser humano, y "arguably" define parte de nuestra humanidad mismo. Su extension tiene un impacto muy profundo y variado:
@@ -19,6 +107,14 @@ ahora en serio, yo creo que todo elemento percibido por un ser humano tiene impl
 En mi caso, mi interes es precisamente la parte meta, y esta, por definicion, tiene muchas esteticas!! (poner el video de alice in wonderland). Por ello, me preguntaba/preocupaba por que en el plano estetico no hubiera motivacion, pero lo cierto es que para mi DEBE SER ASI: la estetica es una subcategoria de los medios de produccion y recepcion social: si estos tienen la capacidad de cambiar al hombre, como vamos a prever de antemano lo que el hombre percibira? Por ello, PARA MI EL PLANO ESTETICO ESTA FUERA DEL IDEAL, Y PERTENECE AL APARTADO DE APLICACIONES PRACTICAS: en este contexto estoy totalmente abierto a discutir que esteticas, formatos, etc conjugan de manera optima los medios tecnicos a disposicion con los ideales aqui expuestos, y es quiza el principal objetivo de esta presentacion.
 
 
+---> Philipp: empirische angehensweise: aesthetik muss eigentlich ausgangspunkt gehören, weil eine rein empirische angehensweise kann nur mit KRITERIEN bewertet werden, die man schon vorher bestimmen kann.
+-> mögliche kritik (vlt nicht konsequent aber legitim): ich habe gar nicht versucht, mich rein orthodox deduktiv mit der aesthetik zu beschaeftigen. 
+Die bedingung für den aesthetischen filter ist dass er nicht mit dem pragmatischen (damit alles funktioniert) kollidiert, aber sie werden wollen, dass die aesthetik auch eine aesteti. aussage entspricht.
+
+motto: quizas este feedback entre nosotros y nuesta cultura, mi idea es que la cultura NOS cambie y nos vuelva mas hormigas??
+
+
+-> Philipps idee: in wiefern handlung des spielers selbst kann eine aesthetik erfüllen, was im film nicht möglich ist.
 
 
 Yo creo que dicha automatizacion no tiene limitaciones a priori. Asimismo creo que es viable/legitimo abordarla de forma puramente empirica, y que las artes son un medio especialmente adecuado para ello por su capacidad de EMPLEAR, TRANSMITIR, Y CREAR CONCIENCIA sobre ideas complejas de manera efectiva, sin la necesariedad de ese rigor academico. Especialmente la musica, se encuentra actualmente por detras de las artes graficas a este respecto. Y debido a mi formacion personal, y a la posibilidad real de llevar dichas tecnicas a la musica, me interesa personalmente contribuir en dicho campo. Actualmente me encuentro en una (larga) fase de formacion tecnica, pero ya con ganas de intentar cosas serias. Por ejemplo:
@@ -32,7 +128,59 @@ Lo que nos lleva a mi proyecto con Philipp.
 
 
 
------------------------------
+--------------------------------------------------------------------------------
+
+
+in wiefern ein videospiel ist ein legitimer rahmen für sowas?
+
+kurze zusammenfassung der spielinhalte.
+
+interaktive, multimediale kunst abbildung von spielerInput zu [musik, video] output.
+ABER das ist alles noch offen: unabhängig, 1zu1, halb organisch? so wir haben das projekt begrenzt, aber verhindert noch keine der motivationen.
+
+begründung: wenn man mit den medien (lautsprec. beamer) einverstanden ist, diese abbildung erlaubt alle funktionen input=> output. Daher legitim QED.
+            zeigen dass ML alle nicht linearen funktionen darstellt.
+
+aesthetik unter kontrolle?: ich behaupte dass "AoCP" möglich ist,aber dann muss es NICHT SPÜRBAR SEIN. Andererseits will ich dass die leute sich "wundern", aber geht das wenn es total menschlich klingt?
+2 möglichkeiten: 
+      1) komponist im keller (machine, menschliche kunst).
+            kreativität erfordert wille auf ????. Ist natür kunst? wir brauchen einen schöpfer. Ist ein computerprogramm ein schöpfer? viren     
+     
+      2) kunst die nicht unbedingt menschliche aesthetik hat, aber schon spannende BESONDERE Maschinelle eigenschaften gut übermittelt (talking piano ablinger).
+            
+
+
+punto 2 del approach:
+   in wiefern meine sozialen ideale haben ein einfluss auf die genauen entscheidungen
+   nur weil die regeln trivial sind, heisst nicht dass es kreativität ist.
+
+
+problem bei alice in wonderland maessig: http://www.genekogan.com/works/style-transfer.html
+die einfüssse sind nur 2. Menschen machen es komplexer. Wirklich? kunst aufräumen
+
+http://images.google.de/imgres?imgurl=http%3A%2F%2Fwww.funphotovideo.com%2Fwp-content%2Fuploads%2F2013%2F03%2Fordered%2Fordered_03.jpg&imgrefurl=http%3A%2F%2Fwww.funphotovideo.com%2Forder-or-disorder-ordered-art%2F&h=412&w=500&tbnid=riiLXvIcHALKaM%3A&docid=4am483RMLvEC5M&ei=8DEWWISFHcuVsAGTlJnwCw&tbm=isch&client=ubuntu&iact=rc&uact=3&dur=1016&page=0&start=0&ndsp=19&ved=0ahUKEwiEvY7cioPQAhXLCiwKHRNKBr4QMwgfKAEwAQ&bih=644&biw=1366
+
+
+hablar del state of the art tecnico.
+
+
+-> was ist das was alle ausgangsobjekte verbindet?
+
+
+
+
+19 30
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
 
 
 Discusion:

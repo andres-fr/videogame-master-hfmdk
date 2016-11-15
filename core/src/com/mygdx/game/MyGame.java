@@ -62,9 +62,6 @@ public class MyGame extends Game {
         setScreenINSECURE(currentScreen, "imSureOfWhatImDoing");
 
 
-
-
-
         /*
         if (!DEBUG) {
             actions.gotoNewScreen(PresentationScreen.class, new Object[]{this}, 0, 0);

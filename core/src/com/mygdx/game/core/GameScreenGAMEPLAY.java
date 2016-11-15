@@ -34,7 +34,6 @@ public class GameScreenGAMEPLAY extends GameScreenUI {
     public GameScreenGAMEPLAY(MyGame g, AssetsManager.PREPARE prepareAsset, float downSize, float upSize, double tensor, String bgrnd) {
         super(g, prepareAsset, bgrnd);
         addGameplayFunctionality(downSize, upSize, tensor);
-
     }
 
     public GameScreenGAMEPLAY(MyGame g, AssetsManager.PREPARE prepareAsset, float downSize, float upSize, double tensor, String bgrnd, String shdw, String lghts) {
